@@ -1,0 +1,582 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BARON — Barbershop & Gentlemen's Lounge | Chișinău</title>
+<meta name="description" content="Barbershop premium în Chișinău: tunsori, barbă, ritual complet. Programare online în 30 de secunde.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0e0d0b;
+    --bg-2:#161411;
+    --bg-3:#1e1b17;
+    --line:#2b2721;
+    --gold:#c9a227;
+    --gold-soft:#e0c05e;
+    --text:#eae6de;
+    --muted:#9b948a;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);line-height:1.65;overflow-x:hidden}
+  img{max-width:100%;display:block}
+  a{color:inherit;text-decoration:none}
+  h1,h2,h3{font-family:'Oswald',sans-serif;text-transform:uppercase;letter-spacing:.06em;line-height:1.15;font-weight:600}
+  .gold{color:var(--gold)}
+
+  .reveal{opacity:0;transform:translateY(30px);transition:opacity .8s,transform .8s}
+  .reveal.visible{opacity:1;transform:none}
+  .reveal.d1{transition-delay:.12s}.reveal.d2{transition-delay:.24s}.reveal.d3{transition-delay:.36s}
+
+  /* Header */
+  header{position:fixed;inset:0 0 auto 0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:16px 5%;transition:.35s}
+  header.scrolled{background:rgba(14,13,11,.93);backdrop-filter:blur(12px);border-bottom:1px solid var(--line)}
+  .logo{font-family:'Oswald',sans-serif;font-size:1.6rem;font-weight:700;letter-spacing:.3em}
+  .logo b{color:var(--gold)}
+  nav{display:flex;gap:30px;align-items:center}
+  nav a{font-size:.88rem;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);transition:.25s}
+  nav a:hover{color:var(--gold)}
+  .lang{display:flex;gap:4px;border:1px solid var(--line);border-radius:100px;padding:4px}
+  .lang button{background:none;border:none;color:var(--muted);font-family:'Inter',sans-serif;font-size:.8rem;font-weight:600;padding:5px 11px;border-radius:100px;cursor:pointer;transition:.25s}
+  .lang button.active{background:var(--gold);color:#14120e}
+  .btn{display:inline-block;background:var(--gold);color:#14120e;padding:14px 34px;font-family:'Oswald',sans-serif;text-transform:uppercase;letter-spacing:.14em;font-size:.92rem;font-weight:600;border:none;cursor:pointer;transition:.3s;clip-path:polygon(10px 0,100% 0,calc(100% - 10px) 100%,0 100%)}
+  .btn:hover{background:var(--gold-soft);transform:translateY(-2px)}
+  .btn-line{display:inline-block;padding:13px 32px;border:1px solid var(--gold);color:var(--gold);font-family:'Oswald',sans-serif;text-transform:uppercase;letter-spacing:.14em;font-size:.92rem;transition:.3s}
+  .btn-line:hover{background:var(--gold);color:#14120e}
+  .burger{display:none;flex-direction:column;gap:5px;background:none;border:none;cursor:pointer;z-index:120}
+  .burger span{width:26px;height:2px;background:var(--text)}
+
+  /* Hero */
+  .hero{min-height:100vh;display:flex;align-items:center;position:relative;
+    background:linear-gradient(100deg,rgba(14,13,11,.96) 30%,rgba(14,13,11,.55)),url('https://images.unsplash.com/photo-1585747860715-2ba37e788b70?w=1920&q=80') center/cover}
+  .hero-inner{max-width:1200px;margin:0 auto;padding:120px 5% 60px;width:100%}
+  .hero .kicker{display:flex;align-items:center;gap:14px;color:var(--gold);letter-spacing:.4em;text-transform:uppercase;font-size:.8rem;font-weight:600;margin-bottom:24px}
+  .hero .kicker::before{content:'';width:46px;height:1px;background:var(--gold)}
+  .hero h1{font-size:clamp(2.8rem,7vw,5.4rem);margin-bottom:26px}
+  .hero p{max-width:520px;color:var(--muted);font-size:1.1rem;font-weight:300;margin-bottom:40px}
+  .hero-cta{display:flex;gap:18px;flex-wrap:wrap}
+
+  /* Strip */
+  .strip{border-top:1px solid var(--line);border-bottom:1px solid var(--line);background:var(--bg-2);display:grid;grid-template-columns:repeat(4,1fr);text-align:center;padding:36px 5%}
+  .strip h3{font-size:2rem;color:var(--gold)}
+  .strip p{font-size:.82rem;letter-spacing:.16em;text-transform:uppercase;color:var(--muted)}
+
+  section{padding:110px 5%}
+  .wrap{max-width:1200px;margin:0 auto}
+  .head{margin-bottom:60px}
+  .head .kicker{display:flex;align-items:center;gap:14px;color:var(--gold);letter-spacing:.4em;text-transform:uppercase;font-size:.78rem;font-weight:600;margin-bottom:14px}
+  .head .kicker::before{content:'';width:40px;height:1px;background:var(--gold)}
+  .head h2{font-size:clamp(2rem,4.5vw,3.2rem)}
+  .head.center{text-align:center}
+  .head.center .kicker{justify-content:center}
+  .head.center .kicker::after{content:'';width:40px;height:1px;background:var(--gold)}
+
+  /* About */
+  .about-grid{display:grid;grid-template-columns:1.1fr 1fr;gap:70px;align-items:center}
+  .about-img{position:relative}
+  .about-img img{border:1px solid var(--line)}
+  .about-img::after{content:'';position:absolute;inset:22px -22px -22px 22px;border:1px solid var(--gold);z-index:-1}
+  .about-grid p{color:var(--muted);margin-bottom:18px;font-weight:300}
+  .about-list{margin:26px 0 34px;display:grid;gap:12px}
+  .about-list li{list-style:none;display:flex;gap:12px;align-items:baseline;color:var(--text)}
+  .about-list li::before{content:'—';color:var(--gold);font-weight:700}
+
+  /* Services */
+  .services{background:var(--bg-2);border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+  .srv-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:22px}
+  .srv{background:var(--bg-3);border:1px solid var(--line);padding:36px 30px;position:relative;transition:.35s;overflow:hidden}
+  .srv:hover{transform:translateY(-6px);border-color:var(--gold)}
+  .srv .num{position:absolute;top:14px;right:20px;font-family:'Oswald',sans-serif;font-size:2.6rem;color:rgba(201,162,39,.14);font-weight:700}
+  .srv h3{font-size:1.25rem;margin-bottom:12px}
+  .srv p{color:var(--muted);font-size:.95rem;font-weight:300;margin-bottom:20px;min-height:72px}
+  .srv .price{font-family:'Oswald',sans-serif;color:var(--gold);font-size:1.25rem;letter-spacing:.06em}
+  .srv .dur{color:var(--muted);font-size:.85rem;margin-left:8px}
+
+  /* Team */
+  .team-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:26px}
+  .member{position:relative;overflow:hidden;border:1px solid var(--line)}
+  .member img{height:380px;width:100%;object-fit:cover;filter:grayscale(35%);transition:.5s}
+  .member:hover img{filter:none;transform:scale(1.05)}
+  .member .info{position:absolute;inset:auto 0 0 0;background:linear-gradient(transparent,rgba(14,13,11,.95) 55%);padding:70px 24px 22px}
+  .member h3{font-size:1.2rem}
+  .member p{color:var(--gold);font-size:.85rem;letter-spacing:.14em;text-transform:uppercase}
+
+  /* Gallery */
+  .gal{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px}
+  .gal figure{overflow:hidden;border:1px solid var(--line);aspect-ratio:1}
+  .gal img{width:100%;height:100%;object-fit:cover;transition:.6s}
+  .gal figure:hover img{transform:scale(1.1)}
+
+  /* Booking wizard */
+  .booking{background:var(--bg-2);border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+  .wizard{max-width:760px;margin:0 auto;background:var(--bg-3);border:1px solid var(--line);padding:46px}
+  .steps-bar{display:flex;gap:8px;margin-bottom:38px}
+  .steps-bar div{flex:1;height:3px;background:var(--line);transition:.4s}
+  .steps-bar div.on{background:var(--gold)}
+  .step{display:none}
+  .step.on{display:block;animation:fade .45s}
+  @keyframes fade{from{opacity:0;transform:translateX(20px)}to{opacity:1;transform:none}}
+  .step h3{font-size:1.5rem;margin-bottom:24px}
+  .step h3 small{display:block;font-family:'Inter',sans-serif;text-transform:none;letter-spacing:0;color:var(--muted);font-weight:300;font-size:.95rem;margin-top:6px}
+  .opt-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:12px}
+  .opt{background:var(--bg-2);border:1px solid var(--line);padding:18px 14px;text-align:center;cursor:pointer;transition:.25s;font-size:.95rem}
+  .opt small{display:block;color:var(--gold);margin-top:5px;font-family:'Oswald',sans-serif;letter-spacing:.05em}
+  .opt:hover{border-color:var(--gold)}
+  .opt.sel{background:var(--gold);color:#14120e;border-color:var(--gold)}
+  .opt.sel small{color:#14120e}
+  .field{margin-bottom:18px}
+  .field label{display:block;font-size:.8rem;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin-bottom:8px}
+  .field input{width:100%;background:var(--bg-2);border:1px solid var(--line);padding:14px 16px;color:var(--text);font-family:inherit;font-size:1rem;transition:.25s}
+  .field input:focus{outline:none;border-color:var(--gold)}
+  .wiz-nav{display:flex;justify-content:space-between;margin-top:34px;gap:14px}
+  .wiz-back{background:none;border:1px solid var(--line);color:var(--muted);padding:13px 28px;font-family:'Oswald',sans-serif;text-transform:uppercase;letter-spacing:.12em;cursor:pointer;transition:.25s}
+  .wiz-back:hover{border-color:var(--muted);color:var(--text)}
+  .summary{background:var(--bg-2);border:1px solid var(--gold);padding:22px;margin-bottom:8px}
+  .summary div{display:flex;justify-content:space-between;padding:7px 0;border-bottom:1px dashed var(--line);font-size:.97rem}
+  .summary div:last-child{border:none}
+  .summary span{color:var(--muted)}
+  .summary b{color:var(--gold)}
+
+  /* Reviews */
+  .rev-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:22px}
+  .rev{background:var(--bg-3);border:1px solid var(--line);padding:32px}
+  .rev .stars{color:var(--gold);letter-spacing:4px;margin-bottom:14px}
+  .rev p{color:var(--muted);font-weight:300;font-style:italic;margin-bottom:18px}
+  .rev b{font-family:'Oswald',sans-serif;letter-spacing:.08em}
+
+  /* Contact */
+  .contact-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:20px;text-align:center}
+  .c-card{background:var(--bg-3);border:1px solid var(--line);padding:36px 22px}
+  .c-card .ic{font-size:1.7rem;margin-bottom:12px}
+  .c-card h3{font-size:1.05rem;margin-bottom:8px;color:var(--gold)}
+  .c-card p{color:var(--muted);font-size:.95rem}
+
+  footer{border-top:1px solid var(--line);text-align:center;padding:32px 5%;color:var(--muted);font-size:.88rem}
+  footer .logo{font-size:1.2rem;margin-bottom:6px}
+
+  .wa-float{position:fixed;right:22px;bottom:22px;width:56px;height:56px;border-radius:50%;background:#25d366;display:flex;align-items:center;justify-content:center;box-shadow:0 8px 26px rgba(37,211,102,.4);z-index:90;transition:.3s}
+  .wa-float:hover{transform:scale(1.1)}
+  .wa-float svg{width:28px;height:28px;fill:#fff}
+
+  @media(max-width:920px){
+    .about-grid{grid-template-columns:1fr;gap:46px}
+    .strip{grid-template-columns:repeat(2,1fr);gap:26px 0}
+    .wizard{padding:30px 22px}
+  }
+  @media(max-width:760px){
+    nav{position:fixed;inset:0;background:rgba(14,13,11,.98);flex-direction:column;justify-content:center;gap:28px;transform:translateX(100%);transition:.4s}
+    nav.open{transform:none}
+    nav a{font-size:1.15rem}
+    .burger{display:flex}
+    section{padding:80px 5%}
+  }
+</style>
+</head>
+<body>
+
+<header id="header">
+  <a href="#" class="logo">BA<b>RON</b></a>
+  <button class="burger" id="burger" aria-label="Menu"><span></span><span></span><span></span></button>
+  <nav id="nav">
+    <a href="#despre" data-i18n="nav_about"></a>
+    <a href="#servicii" data-i18n="nav_services"></a>
+    <a href="#echipa" data-i18n="nav_team"></a>
+    <a href="#contact" data-i18n="nav_contact"></a>
+    <div class="lang" id="langSwitch">
+      <button data-lang="ro">RO</button><button data-lang="ru">RU</button><button data-lang="en">EN</button>
+    </div>
+    <a href="#programare" class="btn" data-i18n="nav_book"></a>
+  </nav>
+</header>
+
+<section class="hero">
+  <div class="hero-inner">
+    <p class="kicker reveal visible" data-i18n="hero_kicker"></p>
+    <h1 class="reveal visible d1" data-i18n-html="hero_title"></h1>
+    <p class="reveal visible d2" data-i18n="hero_sub"></p>
+    <div class="hero-cta reveal visible d3">
+      <a href="#programare" class="btn" data-i18n="hero_cta1"></a>
+      <a href="#servicii" class="btn-line" data-i18n="hero_cta2"></a>
+    </div>
+  </div>
+</section>
+
+<div class="strip">
+  <div class="reveal"><h3>7+</h3><p data-i18n="stat1"></p></div>
+  <div class="reveal d1"><h3>5000+</h3><p data-i18n="stat2"></p></div>
+  <div class="reveal d2"><h3>4.9★</h3><p data-i18n="stat3"></p></div>
+  <div class="reveal d3"><h3>4</h3><p data-i18n="stat4"></p></div>
+</div>
+
+<section id="despre">
+  <div class="wrap about-grid">
+    <div class="about-img reveal">
+      <img src="https://images.unsplash.com/photo-1503951914875-452162b0f3f1?w=900&q=80" alt="Barbershop">
+    </div>
+    <div>
+      <div class="head reveal">
+        <p class="kicker" data-i18n="about_kicker"></p>
+        <h2 data-i18n="about_title"></h2>
+      </div>
+      <p class="reveal d1" data-i18n="about_p1"></p>
+      <ul class="about-list reveal d2">
+        <li data-i18n="about_l1"></li>
+        <li data-i18n="about_l2"></li>
+        <li data-i18n="about_l3"></li>
+        <li data-i18n="about_l4"></li>
+      </ul>
+      <a href="#programare" class="btn reveal d3" data-i18n="about_cta"></a>
+    </div>
+  </div>
+</section>
+
+<section class="services" id="servicii">
+  <div class="wrap">
+    <div class="head center reveal">
+      <p class="kicker" data-i18n="srv_kicker"></p>
+      <h2 data-i18n="srv_title"></h2>
+    </div>
+    <div class="srv-grid">
+      <div class="srv reveal"><span class="num">01</span><h3 data-i18n="srv1_t"></h3><p data-i18n="srv1_d"></p><span class="price">250 lei</span><span class="dur">· 45 min</span></div>
+      <div class="srv reveal d1"><span class="num">02</span><h3 data-i18n="srv2_t"></h3><p data-i18n="srv2_d"></p><span class="price">180 lei</span><span class="dur">· 30 min</span></div>
+      <div class="srv reveal d2"><span class="num">03</span><h3 data-i18n="srv3_t"></h3><p data-i18n="srv3_d"></p><span class="price">380 lei</span><span class="dur">· 75 min</span></div>
+      <div class="srv reveal"><span class="num">04</span><h3 data-i18n="srv4_t"></h3><p data-i18n="srv4_d"></p><span class="price">150 lei</span><span class="dur">· 30 min</span></div>
+      <div class="srv reveal d1"><span class="num">05</span><h3 data-i18n="srv5_t"></h3><p data-i18n="srv5_d"></p><span class="price">500 lei</span><span class="dur">· 100 min</span></div>
+      <div class="srv reveal d2"><span class="num">06</span><h3 data-i18n="srv6_t"></h3><p data-i18n="srv6_d"></p><span class="price">200 lei</span><span class="dur">· 40 min</span></div>
+    </div>
+  </div>
+</section>
+
+<section id="echipa">
+  <div class="wrap">
+    <div class="head center reveal">
+      <p class="kicker" data-i18n="team_kicker"></p>
+      <h2 data-i18n="team_title"></h2>
+    </div>
+    <div class="team-grid">
+      <div class="member reveal"><img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=600&q=75" alt="Barber"><div class="info"><h3>Andrei</h3><p data-i18n="team_senior"></p></div></div>
+      <div class="member reveal d1"><img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=600&q=75" alt="Barber"><div class="info"><h3>Vlad</h3><p data-i18n="team_master"></p></div></div>
+      <div class="member reveal d2"><img src="https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=600&q=75" alt="Barber"><div class="info"><h3>Maxim</h3><p data-i18n="team_master"></p></div></div>
+      <div class="member reveal d3"><img src="https://images.unsplash.com/photo-1519345182560-3f2917c472ef?w=600&q=75" alt="Barber"><div class="info"><h3>Dan</h3><p data-i18n="team_junior"></p></div></div>
+    </div>
+  </div>
+</section>
+
+<section style="padding-top:0">
+  <div class="wrap">
+    <div class="gal">
+      <figure class="reveal"><img src="https://images.unsplash.com/photo-1621605815971-fbc98d665033?w=600&q=75" alt="" loading="lazy"></figure>
+      <figure class="reveal d1"><img src="https://images.unsplash.com/photo-1622286342621-4bd786c2447c?w=600&q=75" alt="" loading="lazy"></figure>
+      <figure class="reveal d2"><img src="https://images.unsplash.com/photo-1599351431202-1e0f0137899a?w=600&q=75" alt="" loading="lazy"></figure>
+      <figure class="reveal d3"><img src="https://images.unsplash.com/photo-1605497788044-5a32c7078486?w=600&q=75" alt="" loading="lazy"></figure>
+    </div>
+  </div>
+</section>
+
+<section class="booking" id="programare">
+  <div class="wrap">
+    <div class="head center reveal">
+      <p class="kicker" data-i18n="book_kicker"></p>
+      <h2 data-i18n="book_title"></h2>
+    </div>
+    <div class="wizard reveal">
+      <div class="steps-bar"><div class="on"></div><div></div><div></div><div></div></div>
+
+      <div class="step on" data-step="1">
+        <h3><span data-i18n="w1_t"></span><small data-i18n="w1_s"></small></h3>
+        <div class="opt-grid" id="srvOpts"></div>
+      </div>
+
+      <div class="step" data-step="2">
+        <h3><span data-i18n="w2_t"></span><small data-i18n="w2_s"></small></h3>
+        <div class="field"><label data-i18n="w2_date"></label><input type="date" id="wDate"></div>
+        <div class="opt-grid" id="timeOpts"></div>
+      </div>
+
+      <div class="step" data-step="3">
+        <h3><span data-i18n="w3_t"></span><small data-i18n="w3_s"></small></h3>
+        <div class="opt-grid" id="barberOpts"></div>
+      </div>
+
+      <div class="step" data-step="4">
+        <h3><span data-i18n="w4_t"></span><small data-i18n="w4_s"></small></h3>
+        <div class="summary" id="sum"></div>
+        <div class="field"><label data-i18n="w4_name"></label><input type="text" id="wName" placeholder="Ion Popescu"></div>
+        <div class="field"><label data-i18n="w4_phone"></label><input type="tel" id="wPhone" placeholder="+373 60 000 000"></div>
+      </div>
+
+      <div class="wiz-nav">
+        <button class="wiz-back" id="wBack" style="visibility:hidden" data-i18n="w_back"></button>
+        <button class="btn" id="wNext" data-i18n="w_next"></button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="head center reveal">
+      <p class="kicker" data-i18n="rev_kicker"></p>
+      <h2 data-i18n="rev_title"></h2>
+    </div>
+    <div class="rev-grid">
+      <div class="rev reveal"><div class="stars">★★★★★</div><p data-i18n="rev1"></p><b>Sergiu M.</b></div>
+      <div class="rev reveal d1"><div class="stars">★★★★★</div><p data-i18n="rev2"></p><b>Alexandr K.</b></div>
+      <div class="rev reveal d2"><div class="stars">★★★★★</div><p data-i18n="rev3"></p><b>Mihai T.</b></div>
+    </div>
+  </div>
+</section>
+
+<section id="contact" style="padding-top:0">
+  <div class="wrap">
+    <div class="head center reveal">
+      <p class="kicker">Contact</p>
+      <h2 data-i18n="con_title"></h2>
+    </div>
+    <div class="contact-grid">
+      <div class="c-card reveal"><div class="ic">📍</div><h3 data-i18n="con_addr"></h3><p>str. București 45, Chișinău</p></div>
+      <div class="c-card reveal d1"><div class="ic">🕐</div><h3 data-i18n="con_hours"></h3><p data-i18n="con_hours_v"></p></div>
+      <div class="c-card reveal d2"><div class="ic">📞</div><h3 data-i18n="con_phone"></h3><p>+373 60 123 456</p></div>
+      <div class="c-card reveal d3"><div class="ic">📷</div><h3>Instagram</h3><p>@baron.barbershop</p></div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="logo">BA<b class="gold">RON</b></div>
+  <p data-i18n="footer"></p>
+</footer>
+
+<a class="wa-float" href="https://wa.me/37360123456" target="_blank" aria-label="WhatsApp">
+  <svg viewBox="0 0 32 32"><path d="M16 3C9.4 3 4 8.4 4 15c0 2.1.6 4.2 1.6 6L4 29l8.2-1.5c1.7.9 3.7 1.5 5.8 1.5 6.6 0 12-5.4 12-12S22.6 3 16 3zm0 22c-1.8 0-3.6-.5-5.1-1.4l-.4-.2-4.9.9.9-4.7-.2-.4C5.5 17.7 5 16.4 5 15 5 9 9.9 4 16 4s11 5 11 11-4.9 10-11 10zm5.5-7.4c-.3-.2-1.8-.9-2-1-.3-.1-.5-.2-.7.2s-.8 1-1 1.2c-.2.2-.4.2-.7.1-.3-.2-1.3-.5-2.4-1.5-.9-.8-1.5-1.8-1.7-2.1-.2-.3 0-.5.1-.6l.5-.6c.2-.2.2-.3.3-.6.1-.2 0-.4 0-.6-.1-.2-.7-1.7-1-2.3-.2-.6-.5-.5-.7-.5h-.6c-.2 0-.6.1-.9.4-.3.3-1.1 1.1-1.1 2.7s1.2 3.1 1.3 3.3c.2.2 2.3 3.5 5.6 4.9.8.3 1.4.5 1.9.7.8.2 1.5.2 2.1.1.6-.1 1.8-.7 2-1.4.3-.7.3-1.3.2-1.4-.1-.2-.3-.2-.6-.4z"/></svg>
+</a>
+
+<script>
+/* ── Translations ─────────────────────── */
+const T = {
+  ro: {
+    nav_about:"Despre", nav_services:"Servicii", nav_team:"Echipa", nav_contact:"Contact", nav_book:"Programează-te",
+    hero_kicker:"Barbershop & Gentlemen's Lounge · Chișinău",
+    hero_title:"Mai mult decât o tunsoare.<br><span class='gold'>O experiență.</span>",
+    hero_sub:"Tunsori impecabile, ritualuri de bărbierit clasic și o atmosferă în care timpul e doar al tău.",
+    hero_cta1:"Programează-te", hero_cta2:"Vezi serviciile",
+    stat1:"ani de meserie", stat2:"clienți fideli", stat3:"rating Google", stat4:"maeștri barberi",
+    about_kicker:"Despre noi", about_title:"Un club pentru domnii care se respectă",
+    about_p1:"BARON nu e o frizerie obișnuită. E locul unde vii să te deconectezi: muzică bună, cafea proaspătă, un pahar de whisky din partea casei și un barber care își cunoaște meseria la milimetru.",
+    about_l1:"Produse premium: American Crew, Proraso, Reuzel",
+    about_l2:"Cafea sau whisky din partea casei",
+    about_l3:"Sterilizare completă după fiecare client",
+    about_l4:"Zonă de așteptare cu PlayStation",
+    about_cta:"Rezervă-ți locul",
+    srv_kicker:"Servicii & Prețuri", srv_title:"Meseria noastră, la prețuri corecte",
+    srv1_t:"Tunsoare clasică", srv1_d:"Consultație, tunsoare foarfecă + mașină, spălat, styling. Totul la milimetru.",
+    srv2_t:"Aranjat barbă", srv2_d:"Conturare cu brici, prosop fierbinte, ulei de barbă. Barbă ca la carte.",
+    srv3_t:"Ritual complet", srv3_d:"Tunsoare + barbă + prosop fierbinte + masaj facial. Pachetul de domn.",
+    srv4_t:"Tunsoare copii", srv4_d:"Pentru domnii mici, sub 12 ani. Cu răbdare și desene animate.",
+    srv5_t:"Pachet VIP", srv5_d:"Ritual complet + camuflaj fire albe + băutură premium. Experiența maximă.",
+    srv6_t:"Bărbierit clasic", srv6_d:"Bărbierit tradițional cu brici, spumă caldă și prosop fierbinte.",
+    team_kicker:"Echipa", team_title:"Maeștrii tăi",
+    team_senior:"Senior Barber", team_master:"Master Barber", team_junior:"Barber",
+    book_kicker:"Programare online", book_title:"Rezervă în 30 de secunde",
+    w1_t:"Alege serviciul", w1_s:"Pasul 1 din 4",
+    w2_t:"Alege data și ora", w2_s:"Pasul 2 din 4", w2_date:"Data",
+    w3_t:"Alege maestrul", w3_s:"Pasul 3 din 4",
+    w4_t:"Datele tale", w4_s:"Pasul 4 din 4 — aproape gata", w4_name:"Numele", w4_phone:"Telefon",
+    w_back:"Înapoi", w_next:"Continuă", w_send:"Trimite pe WhatsApp →",
+    sum_srv:"Serviciu", sum_date:"Data", sum_time:"Ora", sum_barber:"Maestru", sum_price:"Preț",
+    any_barber:"Oricare disponibil",
+    rev_kicker:"Recenzii", rev_title:"Ce spun clienții",
+    rev1:"„Cel mai bun barbershop din oraș. Atmosferă de club, nu de frizerie. Andrei e maestru adevărat.”",
+    rev2:"„Vin în fiecare lună de 2 ani. Niciodată dezamăgit. Whisky-ul din partea casei — respect.”",
+    rev3:"„Ritualul complet e altă lume. Prosopul fierbinte și masajul facial te resetează total.”",
+    con_title:"Ne găsești aici",
+    con_addr:"Adresa", con_hours:"Program", con_hours_v:"Luni – Duminică: 9:00 – 21:00", con_phone:"Telefon",
+    footer:"© 2026 BARON Barbershop · Chișinău · Toate drepturile rezervate",
+    wa_msg:(s,d,t,b,n,p)=>`Bună! Sunt ${n} (${p}). Vreau să mă programez: ${s}, pe ${d} la ${t}, la maestrul ${b}. Mulțumesc!`,
+    alert_fill:"Completează numele și telefonul, te rog."
+  },
+  ru: {
+    nav_about:"О нас", nav_services:"Услуги", nav_team:"Команда", nav_contact:"Контакты", nav_book:"Записаться",
+    hero_kicker:"Barbershop & Gentlemen's Lounge · Кишинёв",
+    hero_title:"Больше, чем стрижка.<br><span class='gold'>Настоящий опыт.</span>",
+    hero_sub:"Безупречные стрижки, классическое бритьё и атмосфера, где время принадлежит только тебе.",
+    hero_cta1:"Записаться", hero_cta2:"Смотреть услуги",
+    stat1:"лет мастерства", stat2:"постоянных клиентов", stat3:"рейтинг Google", stat4:"мастера-барбера",
+    about_kicker:"О нас", about_title:"Клуб для мужчин, которые себя уважают",
+    about_p1:"BARON — это не обычная парикмахерская. Это место, куда приходят отключиться: хорошая музыка, свежий кофе, бокал виски за счёт заведения и барбер, знающий своё дело до миллиметра.",
+    about_l1:"Премиум-продукты: American Crew, Proraso, Reuzel",
+    about_l2:"Кофе или виски за счёт заведения",
+    about_l3:"Полная стерилизация после каждого клиента",
+    about_l4:"Зона ожидания с PlayStation",
+    about_cta:"Забронировать место",
+    srv_kicker:"Услуги и цены", srv_title:"Наше мастерство по честным ценам",
+    srv1_t:"Классическая стрижка", srv1_d:"Консультация, стрижка ножницами + машинкой, мытьё, укладка. Всё до миллиметра.",
+    srv2_t:"Оформление бороды", srv2_d:"Контур опасной бритвой, горячее полотенце, масло для бороды.",
+    srv3_t:"Полный ритуал", srv3_d:"Стрижка + борода + горячее полотенце + массаж лица. Пакет джентльмена.",
+    srv4_t:"Детская стрижка", srv4_d:"Для маленьких джентльменов до 12 лет. С терпением и мультиками.",
+    srv5_t:"VIP-пакет", srv5_d:"Полный ритуал + камуфляж седины + премиум-напиток. Максимум удовольствия.",
+    srv6_t:"Классическое бритьё", srv6_d:"Традиционное бритьё опасной бритвой, тёплая пена и горячее полотенце.",
+    team_kicker:"Команда", team_title:"Твои мастера",
+    team_senior:"Старший барбер", team_master:"Мастер-барбер", team_junior:"Барбер",
+    book_kicker:"Онлайн-запись", book_title:"Запишись за 30 секунд",
+    w1_t:"Выбери услугу", w1_s:"Шаг 1 из 4",
+    w2_t:"Выбери дату и время", w2_s:"Шаг 2 из 4", w2_date:"Дата",
+    w3_t:"Выбери мастера", w3_s:"Шаг 3 из 4",
+    w4_t:"Твои данные", w4_s:"Шаг 4 из 4 — почти готово", w4_name:"Имя", w4_phone:"Телефон",
+    w_back:"Назад", w_next:"Далее", w_send:"Отправить в WhatsApp →",
+    sum_srv:"Услуга", sum_date:"Дата", sum_time:"Время", sum_barber:"Мастер", sum_price:"Цена",
+    any_barber:"Любой свободный",
+    rev_kicker:"Отзывы", rev_title:"Что говорят клиенты",
+    rev1:"«Лучший барбершоп в городе. Атмосфера клуба, а не парикмахерской. Андрей — настоящий мастер.»",
+    rev2:"«Хожу каждый месяц уже 2 года. Ни разу не разочаровался. Виски за счёт заведения — уважение.»",
+    rev3:"«Полный ритуал — это другой мир. Горячее полотенце и массаж лица полностью перезагружают.»",
+    con_title:"Мы находимся здесь",
+    con_addr:"Адрес", con_hours:"График", con_hours_v:"Пн – Вс: 9:00 – 21:00", con_phone:"Телефон",
+    footer:"© 2026 BARON Barbershop · Кишинёв · Все права защищены",
+    wa_msg:(s,d,t,b,n,p)=>`Здравствуйте! Я ${n} (${p}). Хочу записаться: ${s}, ${d} в ${t}, к мастеру ${b}. Спасибо!`,
+    alert_fill:"Заполни имя и телефон, пожалуйста."
+  },
+  en: {
+    nav_about:"About", nav_services:"Services", nav_team:"Team", nav_contact:"Contact", nav_book:"Book now",
+    hero_kicker:"Barbershop & Gentlemen's Lounge · Chișinău",
+    hero_title:"More than a haircut.<br><span class='gold'>An experience.</span>",
+    hero_sub:"Impeccable cuts, classic shaving rituals and an atmosphere where time belongs to you alone.",
+    hero_cta1:"Book now", hero_cta2:"View services",
+    stat1:"years of craft", stat2:"loyal clients", stat3:"Google rating", stat4:"master barbers",
+    about_kicker:"About us", about_title:"A club for gentlemen who respect themselves",
+    about_p1:"BARON is not an ordinary barbershop. It's where you come to switch off: good music, fresh coffee, a complimentary glass of whisky and a barber who knows his craft to the millimeter.",
+    about_l1:"Premium products: American Crew, Proraso, Reuzel",
+    about_l2:"Complimentary coffee or whisky",
+    about_l3:"Full sterilization after every client",
+    about_l4:"Waiting lounge with PlayStation",
+    about_cta:"Reserve your spot",
+    srv_kicker:"Services & Prices", srv_title:"Our craft, at fair prices",
+    srv1_t:"Classic haircut", srv1_d:"Consultation, scissor + clipper cut, wash, styling. Precise to the millimeter.",
+    srv2_t:"Beard trim", srv2_d:"Razor contouring, hot towel, beard oil. A beard done properly.",
+    srv3_t:"Full ritual", srv3_d:"Haircut + beard + hot towel + facial massage. The gentleman's package.",
+    srv4_t:"Kids haircut", srv4_d:"For little gentlemen under 12. With patience and cartoons.",
+    srv5_t:"VIP package", srv5_d:"Full ritual + grey camouflage + premium drink. The maximum experience.",
+    srv6_t:"Classic shave", srv6_d:"Traditional straight razor shave, warm foam and hot towel.",
+    team_kicker:"The Team", team_title:"Your masters",
+    team_senior:"Senior Barber", team_master:"Master Barber", team_junior:"Barber",
+    book_kicker:"Online booking", book_title:"Book in 30 seconds",
+    w1_t:"Choose a service", w1_s:"Step 1 of 4",
+    w2_t:"Pick date & time", w2_s:"Step 2 of 4", w2_date:"Date",
+    w3_t:"Choose your barber", w3_s:"Step 3 of 4",
+    w4_t:"Your details", w4_s:"Step 4 of 4 — almost done", w4_name:"Name", w4_phone:"Phone",
+    w_back:"Back", w_next:"Continue", w_send:"Send via WhatsApp →",
+    sum_srv:"Service", sum_date:"Date", sum_time:"Time", sum_barber:"Barber", sum_price:"Price",
+    any_barber:"Any available",
+    rev_kicker:"Reviews", rev_title:"What clients say",
+    rev1:"“Best barbershop in town. Club atmosphere, not a hair salon. Andrei is a true master.”",
+    rev2:"“Coming monthly for 2 years. Never disappointed. The complimentary whisky — respect.”",
+    rev3:"“The full ritual is another world. Hot towel and facial massage reset you completely.”",
+    con_title:"Find us here",
+    con_addr:"Address", con_hours:"Hours", con_hours_v:"Mon – Sun: 9:00 – 21:00", con_phone:"Phone",
+    footer:"© 2026 BARON Barbershop · Chișinău · All rights reserved",
+    wa_msg:(s,d,t,b,n,p)=>`Hello! I'm ${n} (${p}). I'd like to book: ${s}, on ${d} at ${t}, with ${b}. Thank you!`,
+    alert_fill:"Please fill in your name and phone."
+  }
+};
+
+const SERVICES = [
+  {key:"srv1_t", price:"250 lei"},
+  {key:"srv2_t", price:"180 lei"},
+  {key:"srv3_t", price:"380 lei"},
+  {key:"srv4_t", price:"150 lei"},
+  {key:"srv5_t", price:"500 lei"},
+  {key:"srv6_t", price:"200 lei"},
+];
+const BARBERS = ["Andrei","Vlad","Maxim","Dan"];
+const TIMES = ["10:00","11:00","12:00","13:00","14:00","15:00","16:00","17:00","18:00","19:00","20:00"];
+
+let lang = localStorage.getItem('baron-lang') || 'ro';
+let pick = { service:null, price:null, date:null, time:null, barber:null };
+let step = 1;
+
+const $ = s => document.querySelector(s);
+const $$ = s => [...document.querySelectorAll(s)];
+
+function applyLang(){
+  const d = T[lang];
+  $$('[data-i18n]').forEach(el => { const v = d[el.dataset.i18n]; if (typeof v === 'string') el.textContent = v; });
+  $$('[data-i18n-html]').forEach(el => { const v = d[el.dataset.i18nHtml]; if (v) el.innerHTML = v; });
+  $$('#langSwitch button').forEach(b => b.classList.toggle('active', b.dataset.lang === lang));
+  document.documentElement.lang = lang;
+  buildServiceOpts(); buildBarberOpts(); renderNextBtn(); if (step === 4) renderSummary();
+}
+
+function buildServiceOpts(){
+  $('#srvOpts').innerHTML = SERVICES.map((s,i) =>
+    `<div class="opt ${pick.service===i?'sel':''}" data-i="${i}">${T[lang][s.key]}<small>${s.price}</small></div>`).join('');
+  $$('#srvOpts .opt').forEach(o => o.onclick = () => { pick.service = +o.dataset.i; pick.price = SERVICES[pick.service].price; buildServiceOpts(); });
+}
+function buildTimeOpts(){
+  $('#timeOpts').innerHTML = TIMES.map(t =>
+    `<div class="opt ${pick.time===t?'sel':''}" data-t="${t}">${t}</div>`).join('');
+  $$('#timeOpts .opt').forEach(o => o.onclick = () => { pick.time = o.dataset.t; buildTimeOpts(); });
+}
+function buildBarberOpts(){
+  const list = [...BARBERS, T[lang].any_barber];
+  $('#barberOpts').innerHTML = list.map(b =>
+    `<div class="opt ${pick.barber===b?'sel':''}" data-b="${b}">${b}</div>`).join('');
+  $$('#barberOpts .opt').forEach(o => o.onclick = () => { pick.barber = o.dataset.b; buildBarberOpts(); });
+}
+function renderSummary(){
+  const d = T[lang];
+  $('#sum').innerHTML = `
+    <div><span>${d.sum_srv}</span><b>${T[lang][SERVICES[pick.service].key]}</b></div>
+    <div><span>${d.sum_date}</span><b>${pick.date}</b></div>
+    <div><span>${d.sum_time}</span><b>${pick.time}</b></div>
+    <div><span>${d.sum_barber}</span><b>${pick.barber}</b></div>
+    <div><span>${d.sum_price}</span><b>${pick.price}</b></div>`;
+}
+function renderNextBtn(){ $('#wNext').textContent = step === 4 ? T[lang].w_send : T[lang].w_next; }
+
+function goStep(n){
+  step = n;
+  $$('.step').forEach(s => s.classList.toggle('on', +s.dataset.step === n));
+  $$('.steps-bar div').forEach((b,i) => b.classList.toggle('on', i < n));
+  $('#wBack').style.visibility = n === 1 ? 'hidden' : 'visible';
+  if (n === 2) buildTimeOpts();
+  if (n === 4) renderSummary();
+  renderNextBtn();
+}
+
+$('#wNext').onclick = () => {
+  if (step === 1 && pick.service === null) return shake('#srvOpts');
+  if (step === 2){ pick.date = $('#wDate').value; if (!pick.date || !pick.time) return shake('#timeOpts'); }
+  if (step === 3 && !pick.barber) return shake('#barberOpts');
+  if (step < 4) return goStep(step + 1);
+  const n = $('#wName').value.trim(), p = $('#wPhone').value.trim();
+  if (!n || !p) { alert(T[lang].alert_fill); return; }
+  const msg = T[lang].wa_msg(T[lang][SERVICES[pick.service].key], pick.date, pick.time, pick.barber, n, p);
+  open(`https://wa.me/37360123456?text=${encodeURIComponent(msg)}`, '_blank');
+};
+$('#wBack').onclick = () => step > 1 && goStep(step - 1);
+function shake(sel){ const el = $(sel); el.animate([{transform:'translateX(0)'},{transform:'translateX(-7px)'},{transform:'translateX(7px)'},{transform:'translateX(0)'}],{duration:280}); }
+
+// date min = today
+const today = new Date(); const iso = today.toISOString().split('T')[0];
+$('#wDate').min = iso; $('#wDate').value = iso;
+
+// lang switch
+$$('#langSwitch button').forEach(b => b.onclick = () => { lang = b.dataset.lang; localStorage.setItem('baron-lang', lang); applyLang(); });
+
+// header + menu + reveal
+const header = $('#header');
+addEventListener('scroll', () => header.classList.toggle('scrolled', scrollY > 60));
+const nav = $('#nav');
+$('#burger').onclick = () => nav.classList.toggle('open');
+$$('#nav a').forEach(a => a.onclick = () => nav.classList.remove('open'));
+const io = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting){ e.target.classList.add('visible'); io.unobserve(e.target);} }), {threshold:.13});
+$$('.reveal:not(.visible)').forEach(el => io.observe(el));
+
+applyLang();
+goStep(1);
+</script>
+</body>
+</html>

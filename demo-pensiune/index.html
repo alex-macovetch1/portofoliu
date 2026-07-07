@@ -1,0 +1,570 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Valea Verde — Pensiune & Cabane la munte</title>
+<meta name="description" content="Pensiune cu cabane din lemn, ciubăr cu apă caldă și natură cât vezi cu ochii. Rezervă direct, fără comisioane.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,400;0,500;0,600;1,400&family=Karla:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#f7f4ee;
+    --bg-2:#efe9df;
+    --green:#3f5d45;
+    --green-dark:#2e4634;
+    --wood:#b07d4f;
+    --ink:#2c2a25;
+    --muted:#6f6a5e;
+    --white:#fff;
+    --shadow:0 18px 50px rgba(46,70,52,.14);
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{font-family:'Karla',sans-serif;background:var(--bg);color:var(--ink);line-height:1.65;overflow-x:hidden}
+  img{max-width:100%;display:block}
+  a{color:inherit;text-decoration:none}
+  h1,h2,h3{font-family:'Fraunces',serif;font-weight:500;line-height:1.15}
+
+  .reveal{opacity:0;transform:translateY(30px);transition:opacity .8s,transform .8s}
+  .reveal.visible{opacity:1;transform:none}
+  .reveal.d1{transition-delay:.12s}.reveal.d2{transition-delay:.24s}.reveal.d3{transition-delay:.36s}
+
+  /* Header */
+  header{position:fixed;inset:0 0 auto 0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:16px 5%;transition:.35s}
+  header.scrolled{background:rgba(247,244,238,.94);backdrop-filter:blur(12px);box-shadow:0 3px 24px rgba(46,70,52,.1);padding:11px 5%}
+  .logo{font-family:'Fraunces',serif;font-size:1.45rem;font-weight:600;color:#fff;display:flex;align-items:center;gap:9px;transition:.3s}
+  .logo svg{width:30px;height:30px;fill:none;stroke:currentColor;stroke-width:1.6}
+  header.scrolled .logo{color:var(--green-dark)}
+  nav{display:flex;gap:28px;align-items:center}
+  nav a{font-size:.93rem;font-weight:600;letter-spacing:.04em;color:rgba(255,255,255,.9);transition:.25s}
+  header.scrolled nav a{color:var(--muted)}
+  nav a:hover{color:var(--wood)}
+  .lang{display:flex;gap:3px;border:1px solid rgba(255,255,255,.4);border-radius:100px;padding:3px;transition:.3s}
+  header.scrolled .lang{border-color:#d8d0c2}
+  .lang button{background:none;border:none;color:rgba(255,255,255,.85);font-family:inherit;font-size:.78rem;font-weight:700;padding:5px 10px;border-radius:100px;cursor:pointer;transition:.25s}
+  header.scrolled .lang button{color:var(--muted)}
+  .lang button.active{background:var(--wood);color:#fff !important}
+  .btn{display:inline-block;background:var(--green);color:#fff !important;padding:13px 30px;border-radius:100px;font-weight:700;font-size:.95rem;letter-spacing:.03em;border:none;cursor:pointer;transition:.3s}
+  .btn:hover{background:var(--green-dark);transform:translateY(-2px);box-shadow:0 10px 24px rgba(46,70,52,.35)}
+  .btn.wood{background:var(--wood)}
+  .btn.wood:hover{background:#96683f}
+  .burger{display:none;flex-direction:column;gap:5px;background:none;border:none;cursor:pointer;z-index:120}
+  .burger span{width:26px;height:2px;background:#fff;transition:.3s}
+  header.scrolled .burger span{background:var(--ink)}
+
+  /* Hero */
+  .hero{min-height:100vh;display:flex;align-items:center;justify-content:center;text-align:center;position:relative;
+    background:linear-gradient(rgba(28,42,32,.45),rgba(28,42,32,.55)),url('https://images.unsplash.com/photo-1470770841072-f978cf4d019e?w=1920&q=80') center/cover}
+  .hero-inner{max-width:800px;padding:0 24px;color:#fff}
+  .hero .kicker{letter-spacing:.4em;text-transform:uppercase;font-size:.82rem;font-weight:700;color:#e9d9a8;margin-bottom:20px}
+  .hero h1{font-size:clamp(2.7rem,6.5vw,4.8rem);color:#fff;margin-bottom:22px}
+  .hero h1 em{font-style:italic;color:#e9d9a8}
+  .hero p{font-size:1.15rem;color:rgba(255,255,255,.88);font-weight:300;max-width:540px;margin:0 auto 36px}
+  .hero-cta{display:flex;gap:16px;justify-content:center;flex-wrap:wrap}
+  .btn-ghost{display:inline-block;padding:12px 28px;border-radius:100px;border:1.5px solid rgba(255,255,255,.65);color:#fff;font-weight:700;font-size:.95rem;transition:.3s}
+  .btn-ghost:hover{background:#fff;color:var(--green-dark);border-color:#fff}
+
+  /* Quick facts */
+  .facts{background:var(--green-dark);color:#fff;display:grid;grid-template-columns:repeat(4,1fr);text-align:center;padding:40px 5%}
+  .facts h3{font-size:1.9rem;color:#e9d9a8;margin-bottom:2px}
+  .facts p{font-size:.85rem;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,.7)}
+
+  section{padding:105px 5%}
+  .wrap{max-width:1180px;margin:0 auto}
+  .head{text-align:center;max-width:620px;margin:0 auto 64px}
+  .head .kicker{letter-spacing:.38em;text-transform:uppercase;font-size:.78rem;color:var(--wood);font-weight:700;display:block;margin-bottom:12px}
+  .head h2{font-size:clamp(2rem,4vw,2.9rem);color:var(--green-dark)}
+  .head p{color:var(--muted);margin-top:14px}
+
+  /* About */
+  .about-grid{display:grid;grid-template-columns:1fr 1fr;gap:64px;align-items:center;max-width:1180px;margin:0 auto}
+  .about-imgs{position:relative;padding-bottom:70px}
+  .about-imgs img:first-child{border-radius:18px;width:82%}
+  .about-imgs img:last-child{position:absolute;right:0;bottom:0;width:52%;border-radius:18px;border:6px solid var(--bg);box-shadow:var(--shadow)}
+  .about-grid h2{font-size:clamp(1.9rem,3.5vw,2.7rem);color:var(--green-dark);margin-bottom:20px}
+  .about-grid .kicker{letter-spacing:.38em;text-transform:uppercase;font-size:.78rem;color:var(--wood);font-weight:700;display:block;margin-bottom:12px}
+  .about-grid p{color:var(--muted);margin-bottom:16px}
+
+  /* Cabins */
+  .cabins{background:var(--bg-2)}
+  .cabin-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(310px,1fr));gap:26px}
+  .cabin{background:var(--white);border-radius:20px;overflow:hidden;box-shadow:0 8px 30px rgba(46,70,52,.08);transition:.35s}
+  .cabin:hover{transform:translateY(-8px);box-shadow:var(--shadow)}
+  .cabin img{height:230px;width:100%;object-fit:cover}
+  .cabin .body{padding:26px}
+  .cabin h3{font-size:1.4rem;color:var(--green-dark);margin-bottom:6px}
+  .cabin .cap{color:var(--wood);font-size:.9rem;font-weight:700;letter-spacing:.05em;margin-bottom:12px}
+  .cabin p{color:var(--muted);font-size:.95rem;margin-bottom:16px}
+  .cabin .foot{display:flex;justify-content:space-between;align-items:center;border-top:1px solid #eee7da;padding-top:16px}
+  .cabin .price{font-family:'Fraunces',serif;font-size:1.35rem;color:var(--green-dark)}
+  .cabin .price small{font-family:'Karla',sans-serif;font-size:.82rem;color:var(--muted)}
+  .cabin .foot a{color:var(--wood);font-weight:700;font-size:.92rem}
+
+  /* Facilities */
+  .fac-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:18px}
+  .fac{background:var(--white);border-radius:16px;padding:30px 22px;text-align:center;box-shadow:0 5px 20px rgba(46,70,52,.06);transition:.3s}
+  .fac:hover{transform:translateY(-5px)}
+  .fac .ic{font-size:2rem;margin-bottom:12px}
+  .fac h3{font-size:1.05rem;color:var(--green-dark);margin-bottom:6px;font-family:'Karla',sans-serif;font-weight:700}
+  .fac p{color:var(--muted);font-size:.88rem}
+
+  /* Gallery */
+  .gal{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px}
+  .gal figure{overflow:hidden;border-radius:16px;aspect-ratio:4/3}
+  .gal img{width:100%;height:100%;object-fit:cover;transition:.6s}
+  .gal figure:hover img{transform:scale(1.09)}
+
+  /* Booking */
+  .booking{background:linear-gradient(rgba(28,42,32,.82),rgba(28,42,32,.88)),url('https://images.unsplash.com/photo-1441974231531-c6227db76b6e?w=1600&q=70') center/cover}
+  .booking .head h2,.booking .head .kicker{color:#fff}
+  .booking .head .kicker{color:#e9d9a8}
+  .booking .head p{color:rgba(255,255,255,.75)}
+  .book-card{max-width:680px;margin:0 auto;background:var(--white);border-radius:22px;padding:42px;box-shadow:0 30px 80px rgba(0,0,0,.35)}
+  .row2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+  .field{margin-bottom:16px}
+  .field label{display:block;font-size:.8rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);font-weight:700;margin-bottom:7px}
+  .field input,.field select{width:100%;padding:13px 15px;border:1.5px solid #e2dccd;border-radius:12px;font-family:inherit;font-size:1rem;background:var(--bg);color:var(--ink);transition:.25s}
+  .field input:focus,.field select:focus{outline:none;border-color:var(--green)}
+  .calc{background:var(--bg-2);border-radius:14px;padding:18px 20px;margin:6px 0 18px;display:none}
+  .calc.on{display:block}
+  .calc div{display:flex;justify-content:space-between;padding:5px 0;font-size:.97rem}
+  .calc div span{color:var(--muted)}
+  .calc div.total{border-top:1.5px solid #ddd3c0;margin-top:8px;padding-top:10px;font-weight:700}
+  .calc div.total b{color:var(--green-dark);font-size:1.15rem}
+  .book-card .btn{width:100%;padding:15px;font-size:1.02rem}
+  .book-card .alt{text-align:center;margin-top:14px;font-size:.92rem;color:var(--muted)}
+  .book-card .alt a{color:var(--wood);font-weight:700}
+
+  /* Reviews */
+  .rev-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:24px}
+  .rev{background:var(--white);border-radius:18px;padding:32px;box-shadow:0 6px 24px rgba(46,70,52,.07)}
+  .rev .stars{color:#e0a83a;letter-spacing:4px;margin-bottom:14px}
+  .rev p{color:var(--muted);font-style:italic;margin-bottom:18px}
+  .rev b{color:var(--green-dark)}
+  .rev small{display:block;color:var(--muted)}
+
+  /* Contact */
+  .contact-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:20px;text-align:center}
+  .c-card{background:var(--white);border-radius:18px;padding:34px 22px;box-shadow:0 6px 24px rgba(46,70,52,.06)}
+  .c-card .ic{font-size:1.8rem;margin-bottom:12px}
+  .c-card h3{font-size:1.05rem;color:var(--green-dark);margin-bottom:6px;font-family:'Karla',sans-serif;font-weight:700}
+  .c-card p{color:var(--muted);font-size:.95rem}
+
+  footer{background:var(--green-dark);color:rgba(255,255,255,.65);text-align:center;padding:32px 5%;font-size:.9rem}
+  footer .logo{color:#fff;justify-content:center;margin-bottom:6px}
+
+  .wa-float{position:fixed;right:22px;bottom:22px;width:56px;height:56px;border-radius:50%;background:#25d366;display:flex;align-items:center;justify-content:center;box-shadow:0 8px 26px rgba(37,211,102,.4);z-index:90;transition:.3s}
+  .wa-float:hover{transform:scale(1.1)}
+  .wa-float svg{width:28px;height:28px;fill:#fff}
+
+  @media(max-width:900px){
+    .about-grid{grid-template-columns:1fr;gap:50px}
+    .facts{grid-template-columns:repeat(2,1fr);gap:26px 0}
+    .row2{grid-template-columns:1fr}
+    .book-card{padding:30px 22px}
+  }
+  @media(max-width:760px){
+    nav{position:fixed;inset:0;background:rgba(28,42,32,.97);flex-direction:column;justify-content:center;gap:26px;transform:translateX(100%);transition:.4s}
+    nav.open{transform:none}
+    nav a{color:#fff !important;font-size:1.2rem}
+    .burger{display:flex}
+    section{padding:78px 5%}
+  }
+</style>
+</head>
+<body>
+
+<header id="header">
+  <a href="#" class="logo">
+    <svg viewBox="0 0 24 24"><path d="M12 3 4 13h3v7h10v-7h3L12 3z"/><path d="M9 20v-5h6v5"/></svg>
+    Valea Verde
+  </a>
+  <button class="burger" id="burger" aria-label="Menu"><span></span><span></span><span></span></button>
+  <nav id="nav">
+    <a href="#cabane" data-i18n="nav_cabins"></a>
+    <a href="#facilitati" data-i18n="nav_fac"></a>
+    <a href="#galerie" data-i18n="nav_gallery"></a>
+    <a href="#contact" data-i18n="nav_contact"></a>
+    <div class="lang" id="langSwitch">
+      <button data-lang="ro">RO</button><button data-lang="ru">RU</button><button data-lang="en">EN</button>
+    </div>
+    <a href="#rezervare" class="btn wood" data-i18n="nav_book"></a>
+  </nav>
+</header>
+
+<section class="hero">
+  <div class="hero-inner">
+    <p class="kicker reveal visible" data-i18n="hero_kicker"></p>
+    <h1 class="reveal visible d1" data-i18n-html="hero_title"></h1>
+    <p class="reveal visible d2" data-i18n="hero_sub"></p>
+    <div class="hero-cta reveal visible d3">
+      <a href="#rezervare" class="btn wood" data-i18n="hero_cta1"></a>
+      <a href="#cabane" class="btn-ghost" data-i18n="hero_cta2"></a>
+    </div>
+  </div>
+</section>
+
+<div class="facts">
+  <div class="reveal"><h3>3</h3><p data-i18n="fact1"></p></div>
+  <div class="reveal d1"><h3>90 min</h3><p data-i18n="fact2"></p></div>
+  <div class="reveal d2"><h3>4.9★</h3><p data-i18n="fact3"></p></div>
+  <div class="reveal d3"><h3>0%</h3><p data-i18n="fact4"></p></div>
+</div>
+
+<section>
+  <div class="about-grid">
+    <div class="about-imgs reveal">
+      <img src="https://images.unsplash.com/photo-1449158743715-0a90ebb6d2d8?w=800&q=75" alt="Cabana">
+      <img src="https://images.unsplash.com/photo-1542718610-a1d656d1884c?w=500&q=75" alt="Cabana seara">
+    </div>
+    <div>
+      <span class="kicker reveal" data-i18n="about_kicker"></span>
+      <h2 class="reveal d1" data-i18n="about_title"></h2>
+      <p class="reveal d2" data-i18n="about_p1"></p>
+      <p class="reveal d2" data-i18n="about_p2"></p>
+      <a href="#rezervare" class="btn reveal d3" data-i18n="about_cta" style="margin-top:10px"></a>
+    </div>
+  </div>
+</section>
+
+<section class="cabins" id="cabane">
+  <div class="wrap">
+    <div class="head reveal">
+      <span class="kicker" data-i18n="cab_kicker"></span>
+      <h2 data-i18n="cab_title"></h2>
+      <p data-i18n="cab_sub"></p>
+    </div>
+    <div class="cabin-grid">
+      <div class="cabin reveal">
+        <img src="https://images.unsplash.com/photo-1568605114967-8130f3a36994?w=700&q=75" alt="Cabana Bradul">
+        <div class="body">
+          <h3 data-i18n="cab1_t"></h3><div class="cap" data-i18n="cab1_cap"></div>
+          <p data-i18n="cab1_d"></p>
+          <div class="foot"><span class="price">900 lei <small data-i18n="per_night"></small></span><a href="#rezervare" data-i18n="cab_book"></a></div>
+        </div>
+      </div>
+      <div class="cabin reveal d1">
+        <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=700&q=75" alt="Cabana Stejarul">
+        <div class="body">
+          <h3 data-i18n="cab2_t"></h3><div class="cap" data-i18n="cab2_cap"></div>
+          <p data-i18n="cab2_d"></p>
+          <div class="foot"><span class="price">1400 lei <small data-i18n="per_night"></small></span><a href="#rezervare" data-i18n="cab_book"></a></div>
+        </div>
+      </div>
+      <div class="cabin reveal d2">
+        <img src="https://images.unsplash.com/photo-1523217582562-09d0def993a6?w=700&q=75" alt="Casa Mare">
+        <div class="body">
+          <h3 data-i18n="cab3_t"></h3><div class="cap" data-i18n="cab3_cap"></div>
+          <p data-i18n="cab3_d"></p>
+          <div class="foot"><span class="price">2200 lei <small data-i18n="per_night"></small></span><a href="#rezervare" data-i18n="cab_book"></a></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="facilitati">
+  <div class="wrap">
+    <div class="head reveal">
+      <span class="kicker" data-i18n="fac_kicker"></span>
+      <h2 data-i18n="fac_title"></h2>
+    </div>
+    <div class="fac-grid">
+      <div class="fac reveal"><div class="ic">🛁</div><h3 data-i18n="f1_t"></h3><p data-i18n="f1_d"></p></div>
+      <div class="fac reveal d1"><div class="ic">🔥</div><h3 data-i18n="f2_t"></h3><p data-i18n="f2_d"></p></div>
+      <div class="fac reveal d2"><div class="ic">🥾</div><h3 data-i18n="f3_t"></h3><p data-i18n="f3_d"></p></div>
+      <div class="fac reveal d3"><div class="ic">🎣</div><h3 data-i18n="f4_t"></h3><p data-i18n="f4_d"></p></div>
+      <div class="fac reveal"><div class="ic">🍳</div><h3 data-i18n="f5_t"></h3><p data-i18n="f5_d"></p></div>
+      <div class="fac reveal d1"><div class="ic">📶</div><h3 data-i18n="f6_t"></h3><p data-i18n="f6_d"></p></div>
+    </div>
+  </div>
+</section>
+
+<section id="galerie" style="padding-top:0">
+  <div class="wrap">
+    <div class="head reveal">
+      <span class="kicker" data-i18n="gal_kicker"></span>
+      <h2 data-i18n="gal_title"></h2>
+    </div>
+    <div class="gal">
+      <figure class="reveal"><img src="https://images.unsplash.com/photo-1470770841072-f978cf4d019e?w=600&q=75" alt="" loading="lazy"></figure>
+      <figure class="reveal d1"><img src="https://images.unsplash.com/photo-1505693416388-ac5ce068fe85?w=600&q=75" alt="" loading="lazy"></figure>
+      <figure class="reveal d2"><img src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=600&q=75" alt="" loading="lazy"></figure>
+      <figure class="reveal d3"><img src="https://images.unsplash.com/photo-1476514525535-07fb3b4ae5f1?w=600&q=75" alt="" loading="lazy"></figure>
+      <figure class="reveal"><img src="https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=600&q=75" alt="" loading="lazy"></figure>
+      <figure class="reveal d1"><img src="https://images.unsplash.com/photo-1533089860892-a7c6f0a88666?w=600&q=75" alt="" loading="lazy"></figure>
+      <figure class="reveal d2"><img src="https://images.unsplash.com/photo-1555939594-58d7cb561ad1?w=600&q=75" alt="" loading="lazy"></figure>
+      <figure class="reveal d3"><img src="https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?w=600&q=75" alt="" loading="lazy"></figure>
+    </div>
+  </div>
+</section>
+
+<section class="booking" id="rezervare">
+  <div class="wrap">
+    <div class="head reveal">
+      <span class="kicker" data-i18n="book_kicker"></span>
+      <h2 data-i18n="book_title"></h2>
+      <p data-i18n="book_sub"></p>
+    </div>
+    <div class="book-card reveal">
+      <div class="row2">
+        <div class="field"><label data-i18n="b_in"></label><input type="date" id="bIn"></div>
+        <div class="field"><label data-i18n="b_out"></label><input type="date" id="bOut"></div>
+      </div>
+      <div class="row2">
+        <div class="field"><label data-i18n="b_cabin"></label>
+          <select id="bCabin">
+            <option value="0"></option><option value="1"></option><option value="2"></option>
+          </select>
+        </div>
+        <div class="field"><label data-i18n="b_guests"></label><input type="number" id="bGuests" min="1" max="12" value="2"></div>
+      </div>
+      <div class="calc" id="calc">
+        <div><span data-i18n="c_nights"></span><b id="cNights">—</b></div>
+        <div><span data-i18n="c_cabin"></span><b id="cCabin">—</b></div>
+        <div class="total"><span data-i18n="c_total"></span><b id="cTotal">—</b></div>
+      </div>
+      <div class="field"><label data-i18n="b_name"></label><input type="text" id="bName" placeholder="Ion Popescu"></div>
+      <button class="btn" id="bSend" data-i18n="b_send"></button>
+      <p class="alt"><span data-i18n="b_alt"></span> <a href="tel:+37360123456">+373 60 123 456</a></p>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="head reveal">
+      <span class="kicker" data-i18n="rev_kicker"></span>
+      <h2 data-i18n="rev_title"></h2>
+    </div>
+    <div class="rev-grid">
+      <div class="rev reveal"><div class="stars">★★★★★</div><p data-i18n="rev1"></p><b>Cristina & Andrei</b><small data-i18n="rev1_w"></small></div>
+      <div class="rev reveal d1"><div class="stars">★★★★★</div><p data-i18n="rev2"></p><b>Familia Rusu</b><small data-i18n="rev2_w"></small></div>
+      <div class="rev reveal d2"><div class="stars">★★★★★</div><p data-i18n="rev3"></p><b>Olga M.</b><small data-i18n="rev3_w"></small></div>
+    </div>
+  </div>
+</section>
+
+<section id="contact" style="padding-top:0">
+  <div class="wrap">
+    <div class="head reveal">
+      <span class="kicker">Contact</span>
+      <h2 data-i18n="con_title"></h2>
+    </div>
+    <div class="contact-grid">
+      <div class="c-card reveal"><div class="ic">📍</div><h3 data-i18n="con_addr"></h3><p data-i18n="con_addr_v"></p></div>
+      <div class="c-card reveal d1"><div class="ic">🚗</div><h3 data-i18n="con_road"></h3><p data-i18n="con_road_v"></p></div>
+      <div class="c-card reveal d2"><div class="ic">📞</div><h3 data-i18n="con_phone"></h3><p>+373 60 123 456</p></div>
+      <div class="c-card reveal d3"><div class="ic">📷</div><h3>Instagram</h3><p>@valea.verde.md</p></div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="logo" style="display:flex;align-items:center">
+    <svg viewBox="0 0 24 24" style="width:24px;height:24px;fill:none;stroke:currentColor;stroke-width:1.6;margin-right:8px"><path d="M12 3 4 13h3v7h10v-7h3L12 3z"/></svg>
+    Valea Verde
+  </div>
+  <p data-i18n="footer"></p>
+</footer>
+
+<a class="wa-float" href="https://wa.me/37360123456" target="_blank" aria-label="WhatsApp">
+  <svg viewBox="0 0 32 32"><path d="M16 3C9.4 3 4 8.4 4 15c0 2.1.6 4.2 1.6 6L4 29l8.2-1.5c1.7.9 3.7 1.5 5.8 1.5 6.6 0 12-5.4 12-12S22.6 3 16 3zm0 22c-1.8 0-3.6-.5-5.1-1.4l-.4-.2-4.9.9.9-4.7-.2-.4C5.5 17.7 5 16.4 5 15 5 9 9.9 4 16 4s11 5 11 11-4.9 10-11 10zm5.5-7.4c-.3-.2-1.8-.9-2-1-.3-.1-.5-.2-.7.2s-.8 1-1 1.2c-.2.2-.4.2-.7.1-.3-.2-1.3-.5-2.4-1.5-.9-.8-1.5-1.8-1.7-2.1-.2-.3 0-.5.1-.6l.5-.6c.2-.2.2-.3.3-.6.1-.2 0-.4 0-.6-.1-.2-.7-1.7-1-2.3-.2-.6-.5-.5-.7-.5h-.6c-.2 0-.6.1-.9.4-.3.3-1.1 1.1-1.1 2.7s1.2 3.1 1.3 3.3c.2.2 2.3 3.5 5.6 4.9.8.3 1.4.5 1.9.7.8.2 1.5.2 2.1.1.6-.1 1.8-.7 2-1.4.3-.7.3-1.3.2-1.4-.1-.2-.3-.2-.6-.4z"/></svg>
+</a>
+
+<script>
+const T = {
+  ro: {
+    nav_cabins:"Cabane", nav_fac:"Facilități", nav_gallery:"Galerie", nav_contact:"Contact", nav_book:"Rezervă",
+    hero_kicker:"Pensiune & cabane · în inima naturii",
+    hero_title:"Locul unde timpul<br><em>încetinește</em>",
+    hero_sub:"Cabane din lemn, ciubăr sub cerul liber și liniște cât cuprinde. La doar 90 de minute de oraș.",
+    hero_cta1:"Rezervă acum", hero_cta2:"Vezi cabanele",
+    fact1:"cabane din lemn", fact2:"de Chișinău", fact3:"nota oaspeților", fact4:"comision · rezervare directă",
+    about_kicker:"Bine ai venit",
+    about_title:"Evadarea ta de la agitația orașului",
+    about_p1:"Valea Verde e o pensiune de familie, construită din lemn și piatră, înconjurată de pădure. Aici dimineața miroase a cafea și brad, iar seara se termină cu foc de tabără și cer plin de stele.",
+    about_p2:"Fără recepție aglomerată, fără formalități — doar tu, ai tăi și natura. Copiii au loc de joacă, adulții au ciubărul și grătarul.",
+    about_cta:"Alege-ți cabana",
+    cab_kicker:"Cabanele noastre", cab_title:"Alege-ți refugiul", cab_sub:"Fiecare cabană are baie proprie, terasă și tot ce trebuie ca să te simți acasă.",
+    cab1_t:"Cabana Bradul", cab1_cap:"2-3 persoane · 1 dormitor", cab1_d:"Perfectă pentru cupluri. Pat matrimonial, sobă pe lemne, terasă cu vedere la pădure.",
+    cab2_t:"Cabana Stejarul", cab2_cap:"4-5 persoane · 2 dormitoare", cab2_d:"Ideală pentru familii. Bucătărie completă, șemineu, leagăn pentru copii pe terasă.",
+    cab3_t:"Casa Mare", cab3_cap:"8-10 persoane · 4 dormitoare", cab3_d:"Pentru grupuri și sărbători în familie. Salon mare, masă de 12 persoane, grătar propriu.",
+    per_night:"/ noapte", cab_book:"Rezervă →",
+    fac_kicker:"Facilități", fac_title:"Tot ce ai nevoie pentru deconectare",
+    f1_t:"Ciubăr cu apă caldă", f1_d:"Sub cerul liber, încălzit pe lemne, disponibil tot anul.",
+    f2_t:"Foc de tabără & grătar", f2_d:"Vetre amenajate, lemne incluse, grătare la fiecare cabană.",
+    f3_t:"Trasee prin pădure", f3_d:"3 trasee marcate, de la plimbare ușoară la drumeție de o zi.",
+    f4_t:"Pescuit la iaz", f4_d:"Iaz propriu cu crap și caras, undițe la dispoziție.",
+    f5_t:"Mic dejun de casă", f5_d:"Produse de la gospodăria noastră: brânză, ouă, dulceață, plăcinte.",
+    f6_t:"Wi-Fi & parcare", f6_d:"Internet în toate cabanele, parcare privată gratuită.",
+    gal_kicker:"Galerie", gal_title:"Un colț de rai, în imagini",
+    book_kicker:"Rezervare directă", book_title:"Rezervă fără comisioane",
+    book_sub:"Rezervi direct la noi — fără Booking, fără taxe ascunse. Confirmarea vine pe WhatsApp în câteva minute.",
+    b_in:"Sosire", b_out:"Plecare", b_cabin:"Cabana", b_guests:"Oaspeți", b_name:"Numele tău",
+    b_send:"Trimite cererea pe WhatsApp →", b_alt:"sau sună direct:",
+    c_nights:"Nopți", c_cabin:"Cabana", c_total:"Total estimat",
+    cab_names:["Cabana Bradul (900 lei/noapte)","Cabana Stejarul (1400 lei/noapte)","Casa Mare (2200 lei/noapte)"],
+    rev_kicker:"Oaspeții noștri", rev_title:"Ce spun cei care au fost aici",
+    rev1:"„Am venit pentru un weekend și am rămas 5 zile. Ciubărul seara, sub stele — de neuitat.”", rev1_w:"weekend romantic",
+    rev2:"„Copiii n-au mai vrut să plece. Locuri de joacă, animale, pescuit — vacanța perfectă în familie.”", rev2_w:"vacanță cu copiii",
+    rev3:"„Micul dejun cu plăcinte calde și brânză de casă face cât tot sejurul. Ne întoarcem sigur.”", rev3_w:"sejur de relaxare",
+    con_title:"Cum ne găsești",
+    con_addr:"Adresa", con_addr_v:"s. Valea Verde, raionul Strășeni", con_road:"Drumul", con_road_v:"90 min de Chișinău, drum asfaltat până la poartă", con_phone:"Telefon",
+    footer:"© 2026 Pensiunea Valea Verde · Toate drepturile rezervate",
+    wa_msg:(inD,outD,cab,g,n,nights,total)=>`Bună! Sunt ${n}. Vreau să rezerv ${cab}, de pe ${inD} până pe ${outD} (${nights} nopți), pentru ${g} persoane. Total estimat: ${total} lei. Mulțumesc!`,
+    alert_dates:"Alege datele de sosire și plecare, te rog.", alert_name:"Scrie numele tău, te rog."
+  },
+  ru: {
+    nav_cabins:"Домики", nav_fac:"Удобства", nav_gallery:"Галерея", nav_contact:"Контакты", nav_book:"Бронировать",
+    hero_kicker:"Пансион и домики · в сердце природы",
+    hero_title:"Место, где время<br><em>замедляется</em>",
+    hero_sub:"Деревянные домики, чан с горячей водой под открытым небом и тишина. Всего в 90 минутах от города.",
+    hero_cta1:"Забронировать", hero_cta2:"Смотреть домики",
+    fact1:"деревянных домика", fact2:"от Кишинёва", fact3:"оценка гостей", fact4:"комиссия · прямое бронирование",
+    about_kicker:"Добро пожаловать",
+    about_title:"Твой побег от городской суеты",
+    about_p1:"Valea Verde — семейный пансион из дерева и камня, окружённый лесом. Утро здесь пахнет кофе и хвоей, а вечер заканчивается костром и небом, полным звёзд.",
+    about_p2:"Без шумной стойки регистрации и формальностей — только ты, твои близкие и природа. Детям — площадка, взрослым — чан и мангал.",
+    about_cta:"Выбрать домик",
+    cab_kicker:"Наши домики", cab_title:"Выбери своё убежище", cab_sub:"В каждом домике — своя ванная, терраса и всё, чтобы чувствовать себя как дома.",
+    cab1_t:"Домик «Ель»", cab1_cap:"2-3 гостя · 1 спальня", cab1_d:"Идеален для пар. Двуспальная кровать, дровяная печь, терраса с видом на лес.",
+    cab2_t:"Домик «Дуб»", cab2_cap:"4-5 гостей · 2 спальни", cab2_d:"Для семей. Полная кухня, камин, детские качели на террасе.",
+    cab3_t:"Большой дом", cab3_cap:"8-10 гостей · 4 спальни", cab3_d:"Для компаний и семейных праздников. Большая гостиная, стол на 12 персон, свой мангал.",
+    per_night:"/ ночь", cab_book:"Бронировать →",
+    fac_kicker:"Удобства", fac_title:"Всё для полной перезагрузки",
+    f1_t:"Чан с горячей водой", f1_d:"Под открытым небом, на дровах, круглый год.",
+    f2_t:"Костёр и мангал", f2_d:"Оборудованные места, дрова включены, мангал у каждого домика.",
+    f3_t:"Лесные тропы", f3_d:"3 маркированных маршрута — от прогулки до похода на день.",
+    f4_t:"Рыбалка на пруду", f4_d:"Свой пруд с карпом и карасём, удочки дадим.",
+    f5_t:"Домашний завтрак", f5_d:"Продукты с нашего хозяйства: сыр, яйца, варенье, плацинды.",
+    f6_t:"Wi-Fi и парковка", f6_d:"Интернет во всех домиках, бесплатная частная парковка.",
+    gal_kicker:"Галерея", gal_title:"Уголок рая в фотографиях",
+    book_kicker:"Прямое бронирование", book_title:"Бронируй без комиссий",
+    book_sub:"Бронируешь напрямую у нас — без Booking и скрытых сборов. Подтверждение в WhatsApp за пару минут.",
+    b_in:"Заезд", b_out:"Выезд", b_cabin:"Домик", b_guests:"Гостей", b_name:"Твоё имя",
+    b_send:"Отправить запрос в WhatsApp →", b_alt:"или звони:",
+    c_nights:"Ночей", c_cabin:"Домик", c_total:"Итого (примерно)",
+    cab_names:["Домик «Ель» (900 лей/ночь)","Домик «Дуб» (1400 лей/ночь)","Большой дом (2200 лей/ночь)"],
+    rev_kicker:"Наши гости", rev_title:"Что говорят те, кто здесь был",
+    rev1:"«Приехали на выходные, остались на 5 дней. Чан вечером под звёздами — незабываемо.»", rev1_w:"романтический уикенд",
+    rev2:"«Дети не хотели уезжать. Площадка, животные, рыбалка — идеальный семейный отдых.»", rev2_w:"отдых с детьми",
+    rev3:"«Завтрак с горячими плациндами и домашним сыром стоит всей поездки. Обязательно вернёмся.»", rev3_w:"спокойный отдых",
+    con_title:"Как нас найти",
+    con_addr:"Адрес", con_addr_v:"с. Валя-Верде, район Стрэшень", con_road:"Дорога", con_road_v:"90 мин от Кишинёва, асфальт до самых ворот", con_phone:"Телефон",
+    footer:"© 2026 Пансион Valea Verde · Все права защищены",
+    wa_msg:(inD,outD,cab,g,n,nights,total)=>`Здравствуйте! Я ${n}. Хочу забронировать ${cab}, с ${inD} по ${outD} (${nights} ночей), на ${g} гостей. Примерная сумма: ${total} лей. Спасибо!`,
+    alert_dates:"Выбери даты заезда и выезда, пожалуйста.", alert_name:"Напиши своё имя, пожалуйста."
+  },
+  en: {
+    nav_cabins:"Cabins", nav_fac:"Amenities", nav_gallery:"Gallery", nav_contact:"Contact", nav_book:"Book now",
+    hero_kicker:"Guesthouse & cabins · in the heart of nature",
+    hero_title:"Where time<br><em>slows down</em>",
+    hero_sub:"Wooden cabins, an open-air hot tub and silence as far as the eye can see. Just 90 minutes from the city.",
+    hero_cta1:"Book now", hero_cta2:"See the cabins",
+    fact1:"wooden cabins", fact2:"from Chișinău", fact3:"guest rating", fact4:"commission · direct booking",
+    about_kicker:"Welcome",
+    about_title:"Your escape from the city rush",
+    about_p1:"Valea Verde is a family guesthouse built of wood and stone, surrounded by forest. Mornings smell of coffee and pine; evenings end with a campfire under a sky full of stars.",
+    about_p2:"No crowded reception, no formalities — just you, your people and nature. Kids get a playground; adults get the hot tub and the barbecue.",
+    about_cta:"Choose your cabin",
+    cab_kicker:"Our cabins", cab_title:"Pick your hideaway", cab_sub:"Every cabin has a private bathroom, a terrace and everything you need to feel at home.",
+    cab1_t:"Spruce Cabin", cab1_cap:"2-3 guests · 1 bedroom", cab1_d:"Perfect for couples. Double bed, wood stove, terrace with forest view.",
+    cab2_t:"Oak Cabin", cab2_cap:"4-5 guests · 2 bedrooms", cab2_d:"Great for families. Full kitchen, fireplace, kids' swing on the terrace.",
+    cab3_t:"The Big House", cab3_cap:"8-10 guests · 4 bedrooms", cab3_d:"For groups and family celebrations. Large lounge, table for 12, private barbecue.",
+    per_night:"/ night", cab_book:"Book →",
+    fac_kicker:"Amenities", fac_title:"Everything you need to disconnect",
+    f1_t:"Wood-fired hot tub", f1_d:"Open-air, wood-heated, available all year round.",
+    f2_t:"Campfire & BBQ", f2_d:"Fire pits with firewood included, barbecue at every cabin.",
+    f3_t:"Forest trails", f3_d:"3 marked routes, from an easy walk to a full-day hike.",
+    f4_t:"Pond fishing", f4_d:"Our own pond with carp and crucian, rods provided.",
+    f5_t:"Homemade breakfast", f5_d:"From our own farm: cheese, eggs, jam, warm pastries.",
+    f6_t:"Wi-Fi & parking", f6_d:"Internet in every cabin, free private parking.",
+    gal_kicker:"Gallery", gal_title:"A piece of heaven, in pictures",
+    book_kicker:"Direct booking", book_title:"Book with zero commission",
+    book_sub:"Book directly with us — no Booking.com, no hidden fees. Confirmation via WhatsApp within minutes.",
+    b_in:"Check-in", b_out:"Check-out", b_cabin:"Cabin", b_guests:"Guests", b_name:"Your name",
+    b_send:"Send request via WhatsApp →", b_alt:"or call us:",
+    c_nights:"Nights", c_cabin:"Cabin", c_total:"Estimated total",
+    cab_names:["Spruce Cabin (900 MDL/night)","Oak Cabin (1400 MDL/night)","The Big House (2200 MDL/night)"],
+    rev_kicker:"Our guests", rev_title:"What visitors say",
+    rev1:"“We came for a weekend and stayed 5 days. The hot tub under the stars — unforgettable.”", rev1_w:"romantic getaway",
+    rev2:"“The kids didn't want to leave. Playground, animals, fishing — the perfect family holiday.”", rev2_w:"family holiday",
+    rev3:"“Breakfast with warm pastries and homemade cheese is worth the whole trip. We'll be back.”", rev3_w:"relaxing stay",
+    con_title:"How to find us",
+    con_addr:"Address", con_addr_v:"Valea Verde village, Strășeni district", con_road:"The road", con_road_v:"90 min from Chișinău, paved road to the gate", con_phone:"Phone",
+    footer:"© 2026 Valea Verde Guesthouse · All rights reserved",
+    wa_msg:(inD,outD,cab,g,n,nights,total)=>`Hello! I'm ${n}. I'd like to book the ${cab}, from ${inD} to ${outD} (${nights} nights), for ${g} guests. Estimated total: ${total} MDL. Thank you!`,
+    alert_dates:"Please choose check-in and check-out dates.", alert_name:"Please write your name."
+  }
+};
+
+const PRICES = [900, 1400, 2200];
+let lang = localStorage.getItem('vv-lang') || 'ro';
+
+const $ = s => document.querySelector(s);
+const $$ = s => [...document.querySelectorAll(s)];
+
+function applyLang(){
+  const d = T[lang];
+  $$('[data-i18n]').forEach(el => { const v = d[el.dataset.i18n]; if (typeof v === 'string') el.textContent = v; });
+  $$('[data-i18n-html]').forEach(el => { const v = d[el.dataset.i18nHtml]; if (v) el.innerHTML = v; });
+  $$('#langSwitch button').forEach(b => b.classList.toggle('active', b.dataset.lang === lang));
+  $$('#bCabin option').forEach((o,i) => o.textContent = d.cab_names[i]);
+  document.documentElement.lang = lang;
+  calc();
+}
+
+function nightsBetween(a, b){
+  const ms = new Date(b) - new Date(a);
+  return Math.round(ms / 86400000);
+}
+function calc(){
+  const inD = $('#bIn').value, outD = $('#bOut').value;
+  const box = $('#calc');
+  const n = (inD && outD) ? nightsBetween(inD, outD) : 0;
+  if (n > 0){
+    const i = +$('#bCabin').value;
+    box.classList.add('on');
+    $('#cNights').textContent = n;
+    $('#cCabin').textContent = T[lang].cab_names[i];
+    $('#cTotal').textContent = (n * PRICES[i]).toLocaleString('ro-RO') + ' lei';
+  } else box.classList.remove('on');
+}
+['bIn','bOut','bCabin'].forEach(id => $('#'+id).addEventListener('change', calc));
+
+$('#bSend').onclick = () => {
+  const d = T[lang];
+  const inD = $('#bIn').value, outD = $('#bOut').value;
+  const n = (inD && outD) ? nightsBetween(inD, outD) : 0;
+  if (n < 1) { alert(d.alert_dates); return; }
+  const name = $('#bName').value.trim();
+  if (!name) { alert(d.alert_name); return; }
+  const i = +$('#bCabin').value;
+  const msg = d.wa_msg(inD, outD, d.cab_names[i], $('#bGuests').value, name, n, (n * PRICES[i]).toLocaleString('ro-RO'));
+  open(`https://wa.me/37360123456?text=${encodeURIComponent(msg)}`, '_blank');
+};
+
+// date defaults: today + tomorrow
+const t0 = new Date(), t1 = new Date(Date.now() + 86400000);
+const iso = d => d.toISOString().split('T')[0];
+$('#bIn').min = iso(t0); $('#bOut').min = iso(t1);
+
+// lang switch
+$$('#langSwitch button').forEach(b => b.onclick = () => { lang = b.dataset.lang; localStorage.setItem('vv-lang', lang); applyLang(); });
+
+// header + menu + reveal
+const header = $('#header');
+addEventListener('scroll', () => header.classList.toggle('scrolled', scrollY > 60));
+const nav = $('#nav');
+$('#burger').onclick = () => nav.classList.toggle('open');
+$$('#nav a').forEach(a => a.onclick = () => nav.classList.remove('open'));
+const io = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting){ e.target.classList.add('visible'); io.unobserve(e.target);} }), {threshold:.13});
+$$('.reveal:not(.visible)').forEach(el => io.observe(el));
+
+applyLang();
+</script>
+</body>
+</html>

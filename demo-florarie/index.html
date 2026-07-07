@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FLORIS — Florărie online | Livrare în aceeași zi, Chișinău</title>
+<meta name="description" content="Buchete proaspete, cutii cu flori și plante. Comanzi online în 1 minut, livrăm în aceeași zi în Chișinău.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500&family=Karla:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#fdfbf9;
+    --bg-2:#f7f1ec;
+    --rose:#b3536b;
+    --rose-dark:#96415a;
+    --green:#33544a;
+    --ink:#2e2a28;
+    --muted:#7c736e;
+    --line:#eee4dc;
+    --shadow:0 16px 46px rgba(46,42,40,.12);
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{font-family:'Karla',sans-serif;background:var(--bg);color:var(--ink);line-height:1.6;overflow-x:hidden}
+  img{max-width:100%;display:block}
+  a{color:inherit;text-decoration:none}
+  h1,h2,h3{font-family:'Cormorant Garamond',serif;font-weight:600;line-height:1.12}
+  button{font-family:inherit;cursor:pointer}
+
+  .reveal{opacity:0;transform:translateY(28px);transition:opacity .7s,transform .7s}
+  .reveal.visible{opacity:1;transform:none}
+  .reveal.d1{transition-delay:.1s}.reveal.d2{transition-delay:.2s}.reveal.d3{transition-delay:.3s}
+
+  header{position:fixed;inset:0 0 auto 0;z-index:100;display:flex;align-items:center;justify-content:space-between;gap:14px;padding:14px 5%;background:rgba(253,251,249,.94);backdrop-filter:blur(12px);border-bottom:1px solid transparent;transition:.3s}
+  header.scrolled{border-color:var(--line);box-shadow:0 3px 20px rgba(46,42,40,.06)}
+  .logo{font-family:'Cormorant Garamond',serif;font-size:1.75rem;font-weight:700;letter-spacing:.22em;color:var(--green)}
+  .logo span{color:var(--rose)}
+  nav{display:flex;gap:26px;align-items:center}
+  nav a{font-size:.94rem;font-weight:600;color:var(--muted);transition:.25s}
+  nav a:hover{color:var(--rose)}
+  .lang{display:flex;gap:3px;border:1px solid var(--line);border-radius:100px;padding:3px}
+  .lang button{background:none;border:none;color:var(--muted);font-size:.78rem;font-weight:700;padding:5px 10px;border-radius:100px;transition:.25s}
+  .lang button.active{background:var(--green);color:#fff}
+  .hright{display:flex;align-items:center;gap:14px}
+  .cart-btn{position:relative;background:var(--green);border:none;color:#fff;border-radius:100px;padding:10px 22px;font-weight:700;font-size:.93rem;display:flex;align-items:center;gap:9px;transition:.3s}
+  .cart-btn:hover{background:#264138;transform:translateY(-1px)}
+  .cart-btn svg{width:18px;height:18px;fill:none;stroke:#fff;stroke-width:2}
+  .badge{position:absolute;top:-7px;right:-7px;background:var(--rose);color:#fff;font-size:.72rem;font-weight:700;min-width:21px;height:21px;border-radius:100px;display:flex;align-items:center;justify-content:center;padding:0 5px;transform:scale(0);transition:.25s}
+  .badge.on{transform:scale(1)}
+  .burger{display:none;flex-direction:column;gap:5px;background:none;border:none}
+  .burger span{width:24px;height:2px;background:var(--ink)}
+
+  .hero{display:grid;grid-template-columns:1fr 1fr;min-height:88vh;padding-top:66px}
+  .hero-txt{display:flex;flex-direction:column;justify-content:center;padding:60px 6% 60px 5%}
+  .hero .kicker{letter-spacing:.35em;text-transform:uppercase;font-size:.8rem;font-weight:700;color:var(--rose);margin-bottom:18px}
+  .hero h1{font-size:clamp(2.6rem,5.2vw,4.3rem);color:var(--green);margin-bottom:20px}
+  .hero h1 em{font-style:italic;color:var(--rose)}
+  .hero p{color:var(--muted);font-size:1.12rem;max-width:460px;margin-bottom:34px}
+  .hero-cta{display:flex;gap:14px;flex-wrap:wrap}
+  .btn{display:inline-block;background:var(--rose);color:#fff;padding:14px 32px;border-radius:100px;font-weight:700;font-size:.98rem;border:none;transition:.3s}
+  .btn:hover{background:var(--rose-dark);transform:translateY(-2px);box-shadow:0 10px 26px rgba(179,83,107,.35)}
+  .btn-line{display:inline-block;padding:13px 30px;border-radius:100px;border:1.5px solid var(--green);color:var(--green);font-weight:700;font-size:.98rem;transition:.3s}
+  .btn-line:hover{background:var(--green);color:#fff}
+  .hero-img{background:url('https://images.unsplash.com/photo-1490750967868-88aa4486c946?w=1100&q=80') center/cover;border-radius:0 0 0 90px}
+
+  .usp{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;padding:34px 5%;background:var(--bg-2)}
+  .usp div{display:flex;align-items:center;gap:14px;justify-content:center;text-align:left}
+  .usp .ic{font-size:1.6rem}
+  .usp b{display:block;color:var(--green);font-size:.98rem}
+  .usp small{color:var(--muted);font-size:.86rem}
+
+  section{padding:95px 5%}
+  .wrap{max-width:1200px;margin:0 auto}
+  .head{text-align:center;max-width:600px;margin:0 auto 48px}
+  .head .kicker{letter-spacing:.35em;text-transform:uppercase;font-size:.78rem;color:var(--rose);font-weight:700;display:block;margin-bottom:10px}
+  .head h2{font-size:clamp(2rem,4vw,2.9rem);color:var(--green)}
+
+  .filters{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-bottom:44px}
+  .chip{background:none;border:1.5px solid var(--line);border-radius:100px;padding:9px 22px;font-size:.93rem;font-weight:600;color:var(--muted);transition:.25s}
+  .chip:hover{border-color:var(--rose);color:var(--rose)}
+  .chip.on{background:var(--green);border-color:var(--green);color:#fff}
+
+  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(255px,1fr));gap:26px}
+  .card{background:#fff;border-radius:20px;overflow:hidden;box-shadow:0 6px 24px rgba(46,42,40,.07);transition:.35s;display:flex;flex-direction:column}
+  .card:hover{transform:translateY(-7px);box-shadow:var(--shadow)}
+  .card .imgbox{position:relative;overflow:hidden;aspect-ratio:1}
+  .card img{width:100%;height:100%;object-fit:cover;transition:.5s}
+  .card:hover img{transform:scale(1.06)}
+  .card .tag{position:absolute;top:12px;left:12px;background:rgba(255,255,255,.92);color:var(--green);font-size:.75rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:5px 12px;border-radius:100px}
+  .card .body{padding:20px 20px 22px;display:flex;flex-direction:column;flex:1}
+  .card h3{font-size:1.35rem;color:var(--ink);margin-bottom:4px}
+  .card .desc{color:var(--muted);font-size:.88rem;margin-bottom:14px;flex:1}
+  .card .row{display:flex;align-items:center;justify-content:space-between;gap:10px}
+  .card .price{font-family:'Cormorant Garamond',serif;font-size:1.45rem;font-weight:700;color:var(--green)}
+  .add{background:var(--rose);border:none;color:#fff;border-radius:100px;padding:10px 18px;font-weight:700;font-size:.88rem;transition:.3s;display:flex;align-items:center;gap:7px}
+  .add:hover{background:var(--rose-dark);transform:scale(1.04)}
+  .add svg{width:15px;height:15px;fill:none;stroke:#fff;stroke-width:2.4}
+
+  .deliver{background:linear-gradient(rgba(51,84,74,.88),rgba(51,84,74,.92)),url('https://images.unsplash.com/photo-1469259943454-aa100abba749?w=1600&q=70') center/cover;text-align:center;color:#fff;border-radius:26px;max-width:1200px;margin:0 auto;padding:70px 8%}
+  .deliver h2{font-size:clamp(1.9rem,3.6vw,2.7rem);color:#fff;margin-bottom:14px}
+  .deliver h2 em{font-style:italic;color:#efc3ce}
+  .deliver p{color:rgba(255,255,255,.85);max-width:560px;margin:0 auto 28px}
+
+  footer{background:var(--bg-2);border-top:1px solid var(--line);padding:50px 5% 34px;text-align:center}
+  footer .logo{font-size:1.5rem;margin-bottom:10px;display:inline-block}
+  footer p{color:var(--muted);font-size:.93rem;margin-bottom:4px}
+  footer .fine{margin-top:18px;font-size:.85rem;color:#a99f98}
+
+  .overlay{position:fixed;inset:0;background:rgba(30,25,22,.45);opacity:0;pointer-events:none;transition:.35s;z-index:200}
+  .overlay.on{opacity:1;pointer-events:auto}
+  .drawer{position:fixed;top:0;right:0;bottom:0;width:min(430px,100vw);background:#fff;z-index:210;transform:translateX(105%);transition:transform .4s cubic-bezier(.22,1,.3,1);display:flex;flex-direction:column;box-shadow:-20px 0 60px rgba(0,0,0,.18)}
+  .drawer.on{transform:none}
+  .d-head{display:flex;align-items:center;justify-content:space-between;padding:22px 26px;border-bottom:1px solid var(--line)}
+  .d-head h3{font-size:1.5rem;color:var(--green)}
+  .d-close{background:none;border:none;font-size:1.5rem;color:var(--muted);line-height:1}
+  .d-items{flex:1;overflow-y:auto;padding:10px 26px}
+  .d-empty{text-align:center;color:var(--muted);padding:60px 20px}
+  .d-empty .ic{font-size:2.6rem;margin-bottom:10px}
+  .d-item{display:grid;grid-template-columns:64px 1fr auto;gap:14px;align-items:center;padding:16px 0;border-bottom:1px solid var(--line)}
+  .d-item img{width:64px;height:64px;object-fit:cover;border-radius:12px}
+  .d-item h4{font-size:.98rem;font-weight:700}
+  .d-item .p{color:var(--muted);font-size:.88rem}
+  .qty{display:flex;align-items:center;gap:10px;margin-top:6px}
+  .qty button{width:24px;height:24px;border-radius:100px;border:1.5px solid var(--line);background:none;font-weight:700;color:var(--green);line-height:1}
+  .qty button:hover{border-color:var(--rose);color:var(--rose)}
+  .d-item .rm{background:none;border:none;color:#c5b8b0;font-size:1.1rem}
+  .d-item .rm:hover{color:var(--rose)}
+  .d-item .sum{font-weight:700;color:var(--green);white-space:nowrap}
+  .d-foot{border-top:1px solid var(--line);padding:20px 26px 26px;background:var(--bg)}
+  .d-total{display:flex;justify-content:space-between;font-size:1.15rem;font-weight:700;margin-bottom:16px}
+  .d-total b{color:var(--green);font-size:1.3rem}
+  .d-foot input{width:100%;padding:12px 15px;border:1.5px solid var(--line);border-radius:12px;font-family:inherit;font-size:.97rem;background:#fff;margin-bottom:10px}
+  .d-foot input:focus{outline:none;border-color:var(--rose)}
+  .d-foot .btn{width:100%;padding:14px;font-size:1rem}
+  .d-note{text-align:center;font-size:.82rem;color:var(--muted);margin-top:10px}
+
+  .toast{position:fixed;bottom:26px;left:50%;transform:translate(-50%,80px);background:var(--green);color:#fff;padding:13px 26px;border-radius:100px;font-weight:600;font-size:.95rem;z-index:300;transition:.4s;opacity:0}
+  .toast.on{transform:translate(-50%,0);opacity:1}
+
+  @media(max-width:860px){
+    .hero{grid-template-columns:1fr}
+    .hero-img{min-height:320px;border-radius:0}
+    .usp{grid-template-columns:1fr;gap:18px}
+    nav{position:fixed;inset:0;background:rgba(253,251,249,.98);flex-direction:column;justify-content:center;gap:26px;transform:translateX(100%);transition:.4s;z-index:105}
+    nav.open{transform:none}
+    nav a{font-size:1.2rem}
+    .burger{display:flex;z-index:110}
+    section{padding:70px 5%}
+  }
+</style>
+</head>
+<body>
+
+<header id="header">
+  <a href="#" class="logo">FLO<span>RIS</span></a>
+  <nav id="nav">
+    <a href="#magazin" data-i18n="nav_shop"></a>
+    <a href="#livrare" data-i18n="nav_delivery"></a>
+    <a href="#contact" data-i18n="nav_contact"></a>
+    <div class="lang" id="langSwitch">
+      <button data-lang="ro">RO</button><button data-lang="ru">RU</button><button data-lang="en">EN</button>
+    </div>
+  </nav>
+  <div class="hright">
+    <button class="burger" id="burger" aria-label="Meniu"><span></span><span></span><span></span></button>
+    <button class="cart-btn" id="cartBtn">
+      <svg viewBox="0 0 24 24"><path d="M6 6h15l-1.5 9h-12L5 3H2"/><circle cx="9" cy="20" r="1.6"/><circle cx="18" cy="20" r="1.6"/></svg>
+      <span data-i18n="cart_btn"></span>
+      <span class="badge" id="badge">0</span>
+    </button>
+  </div>
+</header>
+
+<section class="hero" style="padding-left:0;padding-right:0;padding-bottom:0">
+  <div class="hero-txt">
+    <p class="kicker reveal visible" data-i18n="hero_kicker"></p>
+    <h1 class="reveal visible d1" data-i18n-html="hero_title"></h1>
+    <p class="reveal visible d2" data-i18n="hero_sub"></p>
+    <div class="hero-cta reveal visible d3">
+      <a href="#magazin" class="btn" data-i18n="hero_cta1"></a>
+      <a href="#livrare" class="btn-line" data-i18n="hero_cta2"></a>
+    </div>
+  </div>
+  <div class="hero-img"></div>
+</section>
+
+<div class="usp">
+  <div class="reveal"><span class="ic">🚚</span><div><b data-i18n="usp1_t"></b><small data-i18n="usp1_d"></small></div></div>
+  <div class="reveal d1"><span class="ic">🌷</span><div><b data-i18n="usp2_t"></b><small data-i18n="usp2_d"></small></div></div>
+  <div class="reveal d2"><span class="ic">💌</span><div><b data-i18n="usp3_t"></b><small data-i18n="usp3_d"></small></div></div>
+</div>
+
+<section id="magazin">
+  <div class="wrap">
+    <div class="head reveal">
+      <span class="kicker" data-i18n="shop_kicker"></span>
+      <h2 data-i18n="shop_title"></h2>
+    </div>
+    <div class="filters reveal" id="filters">
+      <button class="chip on" data-f="all" data-i18n="f_all"></button>
+      <button class="chip" data-f="buchet" data-i18n="f_bouquet"></button>
+      <button class="chip" data-f="cutie" data-i18n="f_box"></button>
+      <button class="chip" data-f="planta" data-i18n="f_plant"></button>
+    </div>
+    <div class="grid" id="grid"></div>
+  </div>
+</section>
+
+<section id="livrare" style="padding-top:20px">
+  <div class="deliver reveal">
+    <h2 data-i18n-html="del_title"></h2>
+    <p data-i18n="del_sub"></p>
+    <a href="#magazin" class="btn" data-i18n="del_cta"></a>
+  </div>
+</section>
+
+<footer id="contact">
+  <div class="logo">FLO<span style="color:var(--rose)">RIS</span></div>
+  <p data-i18n="foot_addr"></p>
+  <p>+373 60 123 456 · @floris.md</p>
+  <p class="fine" data-i18n="foot_fine"></p>
+</footer>
+
+<div class="overlay" id="overlay"></div>
+<aside class="drawer" id="drawer">
+  <div class="d-head">
+    <h3 data-i18n="d_title"></h3>
+    <button class="d-close" id="dClose">✕</button>
+  </div>
+  <div class="d-items" id="dItems"></div>
+  <div class="d-foot" id="dFoot">
+    <div class="d-total"><span>Total</span><b id="dTotal">0 lei</b></div>
+    <input type="text" id="cName">
+    <input type="tel" id="cPhone" placeholder="+373...">
+    <input type="text" id="cAddr">
+    <button class="btn" id="dSend" data-i18n="d_send"></button>
+    <p class="d-note" data-i18n="d_note"></p>
+  </div>
+</aside>
+<div class="toast" id="toast"></div>
+
+<script>
+const PRODUCTS = [
+  {id:1, name:"Rozalia",        cat:"buchet", price:650, img:"photo-1520763185298-1b434c919102",
+   desc:{ro:"25 trandafiri roz, verdeață eucalipt", ru:"25 розовых роз, эвкалипт", en:"25 pink roses with eucalyptus"}},
+  {id:2, name:"Alba",           cat:"buchet", price:550, img:"photo-1561181286-d3fee7d55364",
+   desc:{ro:"Delicat, în tonuri albe și crem", ru:"Нежный, в белых и кремовых тонах", en:"Delicate, in white and cream tones"}},
+  {id:3, name:"Bujori de Mai",  cat:"buchet", price:750, img:"photo-1591886960571-74d43a9d4166",
+   desc:{ro:"15 bujori parfumați, sezonieri", ru:"15 ароматных сезонных пионов", en:"15 fragrant seasonal peonies"}},
+  {id:4, name:"Cutia Amour",    cat:"cutie",  price:890, img:"photo-1526047932273-341f2a7631f9",
+   desc:{ro:"Trandafiri roșii în cutie neagră elegantă", ru:"Красные розы в элегантной чёрной коробке", en:"Red roses in an elegant black box"}},
+  {id:5, name:"Pastel",         cat:"buchet", price:480, img:"photo-1494972308805-463bc619d34e",
+   desc:{ro:"Mix pastel: ranunculus, frezii, mattiola", ru:"Пастельный микс: ранункулюсы, фрезии, маттиола", en:"Pastel mix: ranunculus, freesia, matthiola"}},
+  {id:6, name:"Lalele Vesele",  cat:"buchet", price:350, img:"photo-1453904300235-0f2f60b15b5d",
+   desc:{ro:"21 lalele olandeze, ambalaj kraft", ru:"21 голландский тюльпан, крафт-упаковка", en:"21 Dutch tulips in kraft wrap"}},
+  {id:7, name:"Câmpie",         cat:"buchet", price:420, img:"photo-1508610048659-a06b669e3321",
+   desc:{ro:"Flori de câmp și spice, stil rustic", ru:"Полевые цветы и колосья, рустик-стиль", en:"Wildflowers and wheat, rustic style"}},
+  {id:8, name:"Monstera",       cat:"planta", price:380, img:"photo-1485955900006-10f4d324d411",
+   desc:{ro:"Plantă de interior în ghiveci ceramic", ru:"Комнатное растение в керамическом горшке", en:"Indoor plant in a ceramic pot"}},
+  {id:9, name:"Ficus Lyrata",   cat:"planta", price:450, img:"photo-1463320726281-696a485928c7",
+   desc:{ro:"Copăcelul perfect pentru living", ru:"Идеальное деревце для гостиной", en:"The perfect little tree for your living room"}},
+];
+
+const T = {
+  ro: {
+    nav_shop:"Magazin", nav_delivery:"Livrare", nav_contact:"Contact", cart_btn:"Coșul meu",
+    hero_kicker:"Florărie online · Chișinău",
+    hero_title:"Flori proaspete,<br><em>emoții adevărate</em>",
+    hero_sub:"Buchete legate în ziua comenzii, livrate la ușă în aceeași zi, oriunde în Chișinău. Comanzi în 1 minut.",
+    hero_cta1:"Vezi buchetele", hero_cta2:"Cum livrăm",
+    usp1_t:"Livrare în aceeași zi", usp1_d:"comanzi până la 17:00 — ajunge azi",
+    usp2_t:"Flori proaspete zilnic", usp2_d:"marfă nouă în fiecare dimineață",
+    usp3_t:"Felicitare cadou", usp3_d:"scriem mesajul tău, gratuit",
+    shop_kicker:"Catalogul nostru", shop_title:"Alege ce vorbește inima",
+    f_all:"Toate", f_bouquet:"Buchete", f_box:"Cutii cu flori", f_plant:"Plante",
+    cat:{buchet:"Buchet", cutie:"Cutie", planta:"Plantă"},
+    add:"În coș", toast:"Adăugat în coș ✓",
+    del_title:"Livrăm <em>emoția</em> la ușă",
+    del_sub:"Comanzi până la 17:00 → livrăm în aceeași zi, oriunde în Chișinău (50 lei, gratuit peste 800 lei). Pentru suburbii și alte orașe, ne înțelegem pe WhatsApp.",
+    del_cta:"Comandă acum",
+    foot_addr:"str. Alba Iulia 89, Chișinău · zilnic 8:00 – 20:00",
+    foot_fine:"© 2026 FLORIS · Toate drepturile rezervate",
+    d_title:"Coșul tău", d_send:"Trimite comanda pe WhatsApp →", d_note:"Plata: numerar sau card la livrare",
+    d_empty:"Coșul e gol deocamdată.<br>Alege un buchet care îți place!",
+    ph_name:"Numele tău", ph_addr:"Adresa de livrare",
+    alert:"Completează numele, telefonul și adresa, te rog.",
+    wa_head:"Bună! Vreau să comand:", wa_name:"Nume", wa_phone:"Telefon", wa_addr:"Adresa"
+  },
+  ru: {
+    nav_shop:"Магазин", nav_delivery:"Доставка", nav_contact:"Контакты", cart_btn:"Корзина",
+    hero_kicker:"Цветочный онлайн-магазин · Кишинёв",
+    hero_title:"Свежие цветы,<br><em>настоящие эмоции</em>",
+    hero_sub:"Букеты собираем в день заказа и доставляем к двери в тот же день, по всему Кишинёву. Заказ за 1 минуту.",
+    hero_cta1:"Смотреть букеты", hero_cta2:"Как доставляем",
+    usp1_t:"Доставка в тот же день", usp1_d:"закажи до 17:00 — привезём сегодня",
+    usp2_t:"Свежие цветы каждый день", usp2_d:"новый товар каждое утро",
+    usp3_t:"Открытка в подарок", usp3_d:"напишем твоё послание бесплатно",
+    shop_kicker:"Наш каталог", shop_title:"Выбери то, что говорит сердцу",
+    f_all:"Все", f_bouquet:"Букеты", f_box:"Цветы в коробке", f_plant:"Растения",
+    cat:{buchet:"Букет", cutie:"Коробка", planta:"Растение"},
+    add:"В корзину", toast:"Добавлено в корзину ✓",
+    del_title:"Доставляем <em>эмоции</em> к двери",
+    del_sub:"Закажи до 17:00 → доставим в тот же день по всему Кишинёву (50 лей, бесплатно от 800 лей). Пригороды и другие города — договоримся в WhatsApp.",
+    del_cta:"Заказать сейчас",
+    foot_addr:"ул. Алба-Юлия 89, Кишинёв · ежедневно 8:00 – 20:00",
+    foot_fine:"© 2026 FLORIS · Все права защищены",
+    d_title:"Твоя корзина", d_send:"Отправить заказ в WhatsApp →", d_note:"Оплата: наличные или карта при доставке",
+    d_empty:"Корзина пока пуста.<br>Выбери букет, который нравится!",
+    ph_name:"Твоё имя", ph_addr:"Адрес доставки",
+    alert:"Заполни имя, телефон и адрес, пожалуйста.",
+    wa_head:"Здравствуйте! Хочу заказать:", wa_name:"Имя", wa_phone:"Телефон", wa_addr:"Адрес"
+  },
+  en: {
+    nav_shop:"Shop", nav_delivery:"Delivery", nav_contact:"Contact", cart_btn:"My cart",
+    hero_kicker:"Online flower shop · Chișinău",
+    hero_title:"Fresh flowers,<br><em>real emotions</em>",
+    hero_sub:"Bouquets arranged on the day of your order, delivered to the door the same day, anywhere in Chișinău. Order in 1 minute.",
+    hero_cta1:"See the bouquets", hero_cta2:"How we deliver",
+    usp1_t:"Same-day delivery", usp1_d:"order by 5 PM — it arrives today",
+    usp2_t:"Fresh flowers daily", usp2_d:"new stock every morning",
+    usp3_t:"Free gift card", usp3_d:"we write your message, free",
+    shop_kicker:"Our catalogue", shop_title:"Choose what speaks to the heart",
+    f_all:"All", f_bouquet:"Bouquets", f_box:"Flower boxes", f_plant:"Plants",
+    cat:{buchet:"Bouquet", cutie:"Box", planta:"Plant"},
+    add:"Add to cart", toast:"Added to cart ✓",
+    del_title:"We deliver <em>emotion</em> to the door",
+    del_sub:"Order by 5 PM → same-day delivery anywhere in Chișinău (50 lei, free over 800 lei). Suburbs and other cities — let's arrange on WhatsApp.",
+    del_cta:"Order now",
+    foot_addr:"89 Alba Iulia St, Chișinău · daily 8:00 – 20:00",
+    foot_fine:"© 2026 FLORIS · All rights reserved",
+    d_title:"Your cart", d_send:"Send order via WhatsApp →", d_note:"Payment: cash or card on delivery",
+    d_empty:"Your cart is empty for now.<br>Pick a bouquet you love!",
+    ph_name:"Your name", ph_addr:"Delivery address",
+    alert:"Please fill in your name, phone and address.",
+    wa_head:"Hello! I'd like to order:", wa_name:"Name", wa_phone:"Phone", wa_addr:"Address"
+  }
+};
+
+const WA_PHONE = "37360123456";
+let cart = JSON.parse(localStorage.getItem('floris-cart') || '{}');
+let filter = 'all';
+let lang = localStorage.getItem('floris-lang') || 'ro';
+
+const $ = s => document.querySelector(s);
+const $$ = s => [...document.querySelectorAll(s)];
+const money = n => n.toLocaleString('ro-RO') + ' lei';
+const imgUrl = (p,w) => `https://images.unsplash.com/${p.img}?w=${w}&q=75`;
+
+function applyLang(){
+  const d = T[lang];
+  $$('[data-i18n]').forEach(el => { const v = d[el.dataset.i18n]; if (typeof v === 'string') el.textContent = v; });
+  $$('[data-i18n-html]').forEach(el => { const v = d[el.dataset.i18nHtml]; if (v) el.innerHTML = v; });
+  $$('#langSwitch button').forEach(b => b.classList.toggle('active', b.dataset.lang === lang));
+  $('#cName').placeholder = d.ph_name;
+  $('#cAddr').placeholder = d.ph_addr;
+  document.documentElement.lang = lang;
+  renderGrid(); renderCart();
+}
+
+function renderGrid(){
+  const d = T[lang];
+  $('#grid').innerHTML = PRODUCTS.filter(p => filter==='all' || p.cat===filter).map(p => `
+    <div class="card reveal visible">
+      <div class="imgbox"><img src="${imgUrl(p,600)}" alt="${p.name}" loading="lazy"><span class="tag">${d.cat[p.cat]}</span></div>
+      <div class="body">
+        <h3>${p.name}</h3>
+        <p class="desc">${p.desc[lang]}</p>
+        <div class="row">
+          <span class="price">${money(p.price)}</span>
+          <button class="add" data-id="${p.id}">
+            <svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg> ${d.add}
+          </button>
+        </div>
+      </div>
+    </div>`).join('');
+  $$('.add').forEach(b => b.onclick = () => addToCart(+b.dataset.id));
+}
+$$('#filters .chip').forEach(c => c.onclick = () => {
+  filter = c.dataset.f;
+  $$('#filters .chip').forEach(x => x.classList.toggle('on', x === c));
+  renderGrid();
+});
+
+function saveCart(){ localStorage.setItem('floris-cart', JSON.stringify(cart)); }
+function count(){ return Object.values(cart).reduce((a,b)=>a+b,0); }
+function total(){ return Object.entries(cart).reduce((a,[id,q]) => a + PRODUCTS.find(p=>p.id==id).price*q, 0); }
+
+function addToCart(id){
+  cart[id] = (cart[id]||0) + 1;
+  saveCart(); renderCart();
+  const t = $('#toast'); t.textContent = T[lang].toast; t.classList.add('on');
+  clearTimeout(t._h); t._h = setTimeout(()=>t.classList.remove('on'), 1600);
+}
+function setQty(id, q){
+  if (q <= 0) delete cart[id]; else cart[id] = q;
+  saveCart(); renderCart();
+}
+
+function renderCart(){
+  const d = T[lang];
+  const n = count();
+  $('#badge').textContent = n;
+  $('#badge').classList.toggle('on', n > 0);
+  const box = $('#dItems');
+  if (!n){
+    box.innerHTML = `<div class="d-empty"><div class="ic">🌸</div>${d.d_empty}</div>`;
+    $('#dFoot').style.display = 'none';
+    return;
+  }
+  $('#dFoot').style.display = 'block';
+  box.innerHTML = Object.entries(cart).map(([id,q]) => {
+    const p = PRODUCTS.find(x => x.id == id);
+    return `<div class="d-item">
+      <img src="${imgUrl(p,200)}" alt="${p.name}">
+      <div>
+        <h4>${p.name}</h4>
+        <div class="p">${money(p.price)}</div>
+        <div class="qty">
+          <button data-a="-" data-id="${id}">−</button><span>${q}</span><button data-a="+" data-id="${id}">+</button>
+        </div>
+      </div>
+      <div style="text-align:right">
+        <button class="rm" data-id="${id}" title="✕">🗑</button>
+        <div class="sum">${money(p.price*q)}</div>
+      </div>
+    </div>`;
+  }).join('');
+  $('#dTotal').textContent = money(total());
+  $$('.qty button').forEach(b => b.onclick = () => setQty(+b.dataset.id, cart[b.dataset.id] + (b.dataset.a==='+'?1:-1)));
+  $$('.rm').forEach(b => b.onclick = () => setQty(+b.dataset.id, 0));
+}
+
+const drawer = $('#drawer'), overlay = $('#overlay');
+function openCart(){ drawer.classList.add('on'); overlay.classList.add('on'); }
+function closeCart(){ drawer.classList.remove('on'); overlay.classList.remove('on'); }
+$('#cartBtn').onclick = openCart;
+$('#dClose').onclick = closeCart;
+overlay.onclick = closeCart;
+
+$('#dSend').onclick = () => {
+  const d = T[lang];
+  const name = $('#cName').value.trim(), phone = $('#cPhone').value.trim(), addr = $('#cAddr').value.trim();
+  if (!name || !phone || !addr){ alert(d.alert); return; }
+  const lines = Object.entries(cart).map(([id,q]) => {
+    const p = PRODUCTS.find(x => x.id == id);
+    return `• ${q}× ${p.name} — ${money(p.price*q)}`;
+  }).join('\n');
+  const msg = `${d.wa_head}\n${lines}\n\nTotal: ${money(total())}\n\n${d.wa_name}: ${name}\n${d.wa_phone}: ${phone}\n${d.wa_addr}: ${addr}`;
+  open(`https://wa.me/${WA_PHONE}?text=${encodeURIComponent(msg)}`, '_blank');
+};
+
+$$('#langSwitch button').forEach(b => b.onclick = () => { lang = b.dataset.lang; localStorage.setItem('floris-lang', lang); applyLang(); });
+
+const header = $('#header');
+addEventListener('scroll', () => header.classList.toggle('scrolled', scrollY > 40));
+const nav = $('#nav');
+$('#burger').onclick = () => nav.classList.toggle('open');
+$$('#nav a').forEach(a => a.onclick = () => nav.classList.remove('open'));
+const io = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting){ e.target.classList.add('visible'); io.unobserve(e.target);} }), {threshold:.12});
+$$('.reveal:not(.visible)').forEach(el => io.observe(el));
+
+applyLang();
+</script>
+</body>
+</html>
