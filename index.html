@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Alex Web Design — Site-uri care vând</title>
 <meta name="description" content="Site-uri moderne pentru afaceri mici: saloane, barbershop-uri, pensiuni, magazine online. Gata în 3-5 zile.">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='24' fill='%230f1117'/><text x='50' y='70' font-size='62' font-family='Arial,sans-serif' font-weight='bold' fill='%236c8cff' text-anchor='middle'>A</text></svg>">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700;800&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
@@ -68,6 +69,9 @@
   .feats span{background:rgba(108,140,255,.1);border:1px solid rgba(108,140,255,.25);color:#aebfff;font-size:.76rem;font-weight:600;padding:4px 12px;border-radius:100px}
   .work .open{display:flex;align-items:center;justify-content:center;gap:8px;border:1.5px solid var(--accent);color:var(--accent);border-radius:100px;padding:11px;font-weight:700;font-size:.94rem;transition:.3s}
   .work .open:hover{background:var(--accent);color:#0f1117}
+  .work.featured{border:1.5px solid transparent;background:linear-gradient(var(--bg-2),var(--bg-2)) padding-box,linear-gradient(120deg,var(--accent),var(--accent-2)) border-box}
+  .work .flag{position:absolute;top:14px;right:14px;background:linear-gradient(90deg,var(--accent),var(--accent-2));color:#0f1117;font-size:.72rem;font-weight:800;letter-spacing:.04em;text-transform:uppercase;padding:6px 12px;border-radius:100px}
+  .feats span.tech{background:rgba(159,124,255,.12);border-color:rgba(159,124,255,.3);color:#c9b6ff}
 
   .why{background:var(--bg-2);border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
   .why-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:20px}
@@ -110,8 +114,17 @@
       <p data-i18n="works_s"></p>
     </div>
     <div class="works">
+      <a class="work featured reveal" href="https://wasd-dun.vercel.app" target="_blank">
+        <div class="thumb"><img src="assets/wasd.jpeg" alt="WASD — magazin de tastaturi mecanice" loading="lazy"><span class="type" data-i18n="w5_type"></span><span class="flag" data-i18n="featured"></span></div>
+        <div class="body">
+          <h3>WASD — Tastaturi Mecanice</h3>
+          <p data-i18n="w5_d"></p>
+          <div class="feats"><span class="tech">Next.js</span><span class="tech">React</span><span data-i18n="ft_products"></span><span data-i18n="ft_checkout"></span></div>
+          <span class="open" data-i18n="open"></span>
+        </div>
+      </a>
       <a class="work reveal" href="demo-salon/" target="_blank">
-        <div class="thumb"><img src="https://images.unsplash.com/photo-1560066984-138dadb4c035?w=700&q=70" alt="AURA" loading="lazy"><span class="type" data-i18n="w1_type"></span></div>
+        <div class="thumb"><img src="assets/salon.jpg" alt="AURA" loading="lazy"><span class="type" data-i18n="w1_type"></span></div>
         <div class="body">
           <h3>AURA — Atelier de Frumusețe</h3>
           <p data-i18n="w1_d"></p>
@@ -120,7 +133,7 @@
         </div>
       </a>
       <a class="work reveal d1" href="demo-barbershop/" target="_blank">
-        <div class="thumb"><img src="https://images.unsplash.com/photo-1585747860715-2ba37e788b70?w=700&q=70" alt="BARON" loading="lazy"><span class="type" data-i18n="w2_type"></span></div>
+        <div class="thumb"><img src="assets/barbershop.jpg" alt="BARON" loading="lazy"><span class="type" data-i18n="w2_type"></span></div>
         <div class="body">
           <h3>BARON — Barbershop & Lounge</h3>
           <p data-i18n="w2_d"></p>
@@ -129,7 +142,7 @@
         </div>
       </a>
       <a class="work reveal d2" href="demo-pensiune/" target="_blank">
-        <div class="thumb"><img src="https://images.unsplash.com/photo-1470770841072-f978cf4d019e?w=700&q=70" alt="Valea Verde" loading="lazy"><span class="type" data-i18n="w3_type"></span></div>
+        <div class="thumb"><img src="assets/pensiune.jpg" alt="Valea Verde" loading="lazy"><span class="type" data-i18n="w3_type"></span></div>
         <div class="body">
           <h3>Valea Verde — Pensiune & Cabane</h3>
           <p data-i18n="w3_d"></p>
@@ -138,7 +151,7 @@
         </div>
       </a>
       <a class="work reveal d3" href="demo-florarie/" target="_blank">
-        <div class="thumb"><img src="https://images.unsplash.com/photo-1490750967868-88aa4486c946?w=700&q=70" alt="FLORIS" loading="lazy"><span class="type" data-i18n="w4_type"></span></div>
+        <div class="thumb"><img src="assets/florarie.jpg" alt="FLORIS" loading="lazy"><span class="type" data-i18n="w4_type"></span></div>
         <div class="body">
           <h3>FLORIS — Florărie Online</h3>
           <p data-i18n="w4_d"></p>
@@ -184,13 +197,16 @@ const T = {
     title:"Site-uri care aduc <span>clienți</span>, nu doar arată bine",
     sub:"Creez ORICE tip de site, pentru orice afacere — site de prezentare, programări online, magazin cu coș de cumpărături, rezervări. Tu spui ce vrei, eu îl fac. Gata în 3-5 zile.",
     cta_hero:"Vezi lucrările ↓",
-    works_t:"Lucrări recente", works_s:"Apasă pe oricare — toate sunt live, funcționale, în 3 limbi.",
+    works_t:"Lucrări recente", works_s:"Apasă pe oricare — toate sunt live și funcționale.",
+    featured:"★ Proiect principal",
+    w5_type:"Aplicație web", w5_d:"Magazin online complet, construit de la zero în Next.js și React: 800+ produse, filtre, coș de cumpărături, checkout și panou de administrare. O aplicație web reală, nu un template.",
     w1_type:"Salon de frumusețe", w1_d:"Site elegant cu programare online: clienta alege serviciul și data, cererea vine pe WhatsApp.",
     w2_type:"Barbershop", w2_d:"Stil premium dark. Programare în 4 pași: serviciu → dată și oră → maestru → confirmare.",
     w3_type:"Pensiune / Turism", w3_d:"Rezervare directă fără comision Booking: calculator de nopți și preț, cerere pe WhatsApp.",
     w4_type:"Magazin online", w4_d:"Catalog cu filtre și coș de cumpărături real — comanda completă vine pe WhatsApp-ul afacerii.",
     ft_book:"programare online", ft_wa:"WhatsApp", ft_3l:"3 limbi", ft_wizard:"programare în 4 pași", ft_dark:"design premium",
     ft_calc:"calculator rezervare", ft_direct:"0% comision", ft_cart:"coș de cumpărături", ft_order:"comenzi WhatsApp",
+    ft_products:"800+ produse", ft_checkout:"coș + checkout",
     open:"Deschide site-ul →",
     why_t:"De ce cu mine?",
     why1_t:"Rapid", why1_d:"Site-ul tău e gata în 3-5 zile, nu în luni.",
@@ -207,13 +223,16 @@ const T = {
     title:"Сайты, которые приводят <span>клиентов</span>, а не просто красивые",
     sub:"Создаю ЛЮБОЙ тип сайта, для любого бизнеса — сайт-визитку, онлайн-запись, интернет-магазин с корзиной, бронирование. Ты говоришь, что нужно — я делаю. Готово за 3-5 дней.",
     cta_hero:"Смотреть работы ↓",
-    works_t:"Последние работы", works_s:"Нажми на любую — все сайты живые, рабочие, на 3 языках.",
+    works_t:"Последние работы", works_s:"Нажми на любую — все сайты живые и рабочие.",
+    featured:"★ Главный проект",
+    w5_type:"Веб-приложение", w5_d:"Полноценный интернет-магазин, созданный с нуля на Next.js и React: 800+ товаров, фильтры, корзина, оформление заказа и админ-панель. Настоящее веб-приложение, а не шаблон.",
     w1_type:"Салон красоты", w1_d:"Элегантный сайт с онлайн-записью: клиентка выбирает услугу и дату, заявка приходит в WhatsApp.",
     w2_type:"Барбершоп", w2_d:"Премиальный тёмный стиль. Запись в 4 шага: услуга → дата и время → мастер → подтверждение.",
     w3_type:"Пансион / Туризм", w3_d:"Прямое бронирование без комиссии Booking: калькулятор ночей и цены, заявка в WhatsApp.",
     w4_type:"Интернет-магазин", w4_d:"Каталог с фильтрами и настоящей корзиной — полный заказ приходит в WhatsApp бизнеса.",
     ft_book:"онлайн-запись", ft_wa:"WhatsApp", ft_3l:"3 языка", ft_wizard:"запись в 4 шага", ft_dark:"премиум-дизайн",
     ft_calc:"калькулятор брони", ft_direct:"0% комиссии", ft_cart:"корзина", ft_order:"заказы в WhatsApp",
+    ft_products:"800+ товаров", ft_checkout:"корзина + оформление",
     open:"Открыть сайт →",
     why_t:"Почему со мной?",
     why1_t:"Быстро", why1_d:"Твой сайт готов за 3-5 дней, а не за месяцы.",
@@ -230,13 +249,16 @@ const T = {
     title:"Websites that bring <span>customers</span>, not just good looks",
     sub:"I build ANY type of website, for any business — presentation sites, online booking, e-commerce with a shopping cart, reservations. You tell me what you need, I build it. Ready in 3-5 days.",
     cta_hero:"See my work ↓",
-    works_t:"Recent work", works_s:"Click any of them — all live, fully functional, in 3 languages.",
+    works_t:"Recent work", works_s:"Click any of them — all live and fully functional.",
+    featured:"★ Featured project",
+    w5_type:"Web app", w5_d:"A complete e-commerce store built from scratch in Next.js and React: 800+ products, filters, a real shopping cart, checkout and an admin panel. A real web app, not a template.",
     w1_type:"Beauty salon", w1_d:"Elegant site with online booking: the client picks a service and date, the request lands on WhatsApp.",
     w2_type:"Barbershop", w2_d:"Premium dark style. 4-step booking: service → date & time → barber → confirmation.",
     w3_type:"Guesthouse / Tourism", w3_d:"Direct booking with no Booking.com commission: nights & price calculator, request via WhatsApp.",
     w4_type:"Online shop", w4_d:"Catalogue with filters and a real shopping cart — the full order arrives on the business's WhatsApp.",
     ft_book:"online booking", ft_wa:"WhatsApp", ft_3l:"3 languages", ft_wizard:"4-step booking", ft_dark:"premium design",
     ft_calc:"booking calculator", ft_direct:"0% commission", ft_cart:"shopping cart", ft_order:"WhatsApp orders",
+    ft_products:"800+ products", ft_checkout:"cart + checkout",
     open:"Open website →",
     why_t:"Why work with me?",
     why1_t:"Fast", why1_d:"Your website is ready in 3-5 days, not months.",
