@@ -72,6 +72,12 @@
   .work.featured{border:1.5px solid transparent;background:linear-gradient(var(--bg-2),var(--bg-2)) padding-box,linear-gradient(120deg,var(--accent),var(--accent-2)) border-box}
   .work .flag{position:absolute;top:14px;right:14px;background:linear-gradient(90deg,var(--accent),var(--accent-2));color:#0f1117;font-size:.72rem;font-weight:800;letter-spacing:.04em;text-transform:uppercase;padding:6px 12px;border-radius:100px}
   .feats span.tech{background:rgba(159,124,255,.12);border-color:rgba(159,124,255,.3);color:#c9b6ff}
+  .work .actions{display:flex;gap:8px;margin-top:auto}
+  .work .actions .open{flex:1}
+  .work .code{display:inline-flex;align-items:center;gap:6px;border:1.5px solid var(--line);color:var(--muted);border-radius:100px;padding:11px 16px;font-weight:700;font-size:.9rem;transition:.3s;white-space:nowrap}
+  .work .code:hover{border-color:var(--muted);color:var(--text)}
+  .work .code svg{width:15px;height:15px}
+  .work .thumb-link{display:block}
 
   .why{background:var(--bg-2);border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
   .why-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:20px}
@@ -114,24 +120,34 @@
       <p data-i18n="works_s"></p>
     </div>
     <div class="works">
-      <a class="work featured reveal" href="https://wasd-dun.vercel.app" target="_blank">
-        <div class="thumb"><img src="assets/wasd.jpeg" alt="WASD — magazin de tastaturi mecanice" loading="lazy"><span class="type" data-i18n="w5_type"></span><span class="flag" data-i18n="featured"></span></div>
+      <div class="work featured reveal">
+        <a class="thumb-link" href="https://wasd-dun.vercel.app" target="_blank" aria-label="WASD live">
+          <div class="thumb"><img src="assets/wasd.jpeg" alt="WASD — magazin de tastaturi mecanice" loading="lazy"><span class="type" data-i18n="w5_type"></span><span class="flag" data-i18n="featured"></span></div>
+        </a>
         <div class="body">
           <h3>WASD — Tastaturi Mecanice</h3>
           <p data-i18n="w5_d"></p>
           <div class="feats"><span class="tech">Next.js</span><span class="tech">React</span><span data-i18n="ft_products"></span><span data-i18n="ft_checkout"></span></div>
-          <span class="open" data-i18n="open"></span>
+          <div class="actions">
+            <a class="open" href="https://wasd-dun.vercel.app" target="_blank" data-i18n="open"></a>
+            <a class="code" href="https://github.com/alex-macovetch1/wasd" target="_blank"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 .5C5.65.5.5 5.65.5 12c0 5.08 3.29 9.39 7.86 10.91.58.11.79-.25.79-.56 0-.28-.01-1.02-.02-2-3.2.7-3.88-1.54-3.88-1.54-.52-1.33-1.28-1.68-1.28-1.68-1.05-.72.08-.7.08-.7 1.16.08 1.77 1.19 1.77 1.19 1.03 1.77 2.7 1.26 3.36.96.1-.75.4-1.26.73-1.55-2.55-.29-5.24-1.28-5.24-5.69 0-1.26.45-2.29 1.19-3.09-.12-.29-.52-1.46.11-3.05 0 0 .97-.31 3.18 1.18a11.1 11.1 0 0 1 5.8 0c2.2-1.49 3.17-1.18 3.17-1.18.63 1.59.23 2.76.11 3.05.74.8 1.19 1.83 1.19 3.09 0 4.42-2.69 5.4-5.25 5.68.41.36.78 1.05.78 2.12 0 1.53-.01 2.77-.01 3.14 0 .31.21.68.8.56A11.51 11.51 0 0 0 23.5 12C23.5 5.65 18.35.5 12 .5z"/></svg><span data-i18n="code"></span></a>
+          </div>
         </div>
-      </a>
-      <a class="work featured reveal" href="https://playdex-omega.vercel.app" target="_blank">
-        <div class="thumb"><img src="assets/playdex.jpeg" alt="Playdex — dashboard de jocuri" loading="lazy"><span class="type" data-i18n="w6_type"></span><span class="flag" data-i18n="featured_live"></span></div>
+      </div>
+      <div class="work featured reveal">
+        <a class="thumb-link" href="https://playdex-omega.vercel.app" target="_blank" aria-label="Playdex live">
+          <div class="thumb"><img src="assets/playdex.jpeg" alt="Playdex — dashboard de jocuri" loading="lazy"><span class="type" data-i18n="w6_type"></span><span class="flag" data-i18n="featured_live"></span></div>
+        </a>
         <div class="body">
           <h3>Playdex — Dashboard de Jocuri</h3>
           <p data-i18n="w6_d"></p>
           <div class="feats"><span class="tech">Next.js</span><span class="tech">API live</span><span data-i18n="ft_charts"></span><span data-i18n="ft_realdata"></span></div>
-          <span class="open" data-i18n="open"></span>
+          <div class="actions">
+            <a class="open" href="https://playdex-omega.vercel.app" target="_blank" data-i18n="open"></a>
+            <a class="code" href="https://github.com/alex-macovetch1/playdex" target="_blank"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 .5C5.65.5.5 5.65.5 12c0 5.08 3.29 9.39 7.86 10.91.58.11.79-.25.79-.56 0-.28-.01-1.02-.02-2-3.2.7-3.88-1.54-3.88-1.54-.52-1.33-1.28-1.68-1.28-1.68-1.05-.72.08-.7.08-.7 1.16.08 1.77 1.19 1.77 1.19 1.03 1.77 2.7 1.26 3.36.96.1-.75.4-1.26.73-1.55-2.55-.29-5.24-1.28-5.24-5.69 0-1.26.45-2.29 1.19-3.09-.12-.29-.52-1.46.11-3.05 0 0 .97-.31 3.18 1.18a11.1 11.1 0 0 1 5.8 0c2.2-1.49 3.17-1.18 3.17-1.18.63 1.59.23 2.76.11 3.05.74.8 1.19 1.83 1.19 3.09 0 4.42-2.69 5.4-5.25 5.68.41.36.78 1.05.78 2.12 0 1.53-.01 2.77-.01 3.14 0 .31.21.68.8.56A11.51 11.51 0 0 0 23.5 12C23.5 5.65 18.35.5 12 .5z"/></svg><span data-i18n="code"></span></a>
+          </div>
         </div>
-      </a>
+      </div>
       <a class="work reveal d1" href="demo-barbershop/" target="_blank">
         <div class="thumb"><img src="assets/barbershop.jpg" alt="BARON" loading="lazy"><span class="type" data-i18n="w2_type"></span></div>
         <div class="body">
@@ -201,7 +217,7 @@ const T = {
     ft_book:"programare online", ft_wa:"WhatsApp", ft_3l:"3 limbi", ft_wizard:"programare în 4 pași", ft_dark:"design premium",
     ft_calc:"calculator rezervare", ft_direct:"0% comision", ft_cart:"coș de cumpărături", ft_order:"comenzi WhatsApp",
     ft_products:"800+ produse", ft_checkout:"coș + checkout",
-    open:"Deschide site-ul →",
+    open:"Deschide site-ul →", code:"Cod",
     why_t:"De ce cu mine?",
     why1_t:"Rapid", why1_d:"Site-ul tău e gata în 3-5 zile, nu în luni.",
     why2_t:"Perfect pe telefon", why2_d:"Peste 80% din clienți intră de pe mobil — totul e gândit întâi pentru ei.",
@@ -230,7 +246,7 @@ const T = {
     ft_book:"онлайн-запись", ft_wa:"WhatsApp", ft_3l:"3 языка", ft_wizard:"запись в 4 шага", ft_dark:"премиум-дизайн",
     ft_calc:"калькулятор брони", ft_direct:"0% комиссии", ft_cart:"корзина", ft_order:"заказы в WhatsApp",
     ft_products:"800+ товаров", ft_checkout:"корзина + оформление",
-    open:"Открыть сайт →",
+    open:"Открыть сайт →", code:"Код",
     why_t:"Почему со мной?",
     why1_t:"Быстро", why1_d:"Твой сайт готов за 3-5 дней, а не за месяцы.",
     why2_t:"Идеально на телефоне", why2_d:"Более 80% клиентов заходят с мобильного — всё продумано в первую очередь для них.",
@@ -259,7 +275,7 @@ const T = {
     ft_book:"online booking", ft_wa:"WhatsApp", ft_3l:"3 languages", ft_wizard:"4-step booking", ft_dark:"premium design",
     ft_calc:"booking calculator", ft_direct:"0% commission", ft_cart:"shopping cart", ft_order:"WhatsApp orders",
     ft_products:"800+ products", ft_checkout:"cart + checkout",
-    open:"Open website →",
+    open:"Open website →", code:"Code",
     why_t:"Why work with me?",
     why1_t:"Fast", why1_d:"Your website is ready in 3-5 days, not months.",
     why2_t:"Perfect on mobile", why2_d:"Over 80% of customers browse on their phone — everything is designed mobile-first.",
