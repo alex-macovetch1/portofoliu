@@ -288,7 +288,15 @@ const T = {
   }
 };
 
-let lang = localStorage.getItem('aw-lang') || 'ro';
+function detectLang(){
+  const saved = localStorage.getItem('aw-lang');
+  if (saved && T[saved]) return saved;
+  const nav = (navigator.language || 'ro').slice(0,2).toLowerCase();
+  if (nav === 'ru') return 'ru';
+  if (nav === 'en') return 'en';
+  return 'ro';
+}
+let lang = detectLang();
 const $ = s => document.querySelector(s);
 const $$ = s => [...document.querySelectorAll(s)];
 
