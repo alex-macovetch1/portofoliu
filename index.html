@@ -182,6 +182,20 @@
           </div>
         </div>
       </div>
+      <div class="work featured reveal">
+        <a class="thumb-link" href="https://senkai-app.vercel.app" target="_blank" aria-label="Senkai live">
+          <div class="thumb"><img src="assets/senkai.jpeg" alt="Senkai — hub media pentru anime, filme și seriale" loading="lazy"><span class="type" data-i18n="w9_type"></span><span class="flag" data-i18n="featured_fullstack"></span></div>
+        </a>
+        <div class="body">
+          <h3>Senkai — Hub Media</h3>
+          <p data-i18n="w9_d"></p>
+          <div class="feats"><span class="tech">Next.js</span><span class="tech">Supabase</span><span data-i18n="ft_auth"></span><span data-i18n="ft_api"></span></div>
+          <div class="actions">
+            <a class="open" href="https://senkai-app.vercel.app" target="_blank" data-i18n="open"></a>
+            <a class="code" href="https://github.com/alex-macovetch1/senkai" target="_blank"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 .5C5.65.5.5 5.65.5 12c0 5.08 3.29 9.39 7.86 10.91.58.11.79-.25.79-.56 0-.28-.01-1.02-.02-2-3.2.7-3.88-1.54-3.88-1.54-.52-1.33-1.28-1.68-1.28-1.68-1.05-.72.08-.7.08-.7 1.16.08 1.77 1.19 1.77 1.19 1.03 1.77 2.7 1.26 3.36.96.1-.75.4-1.26.73-1.55-2.55-.29-5.24-1.28-5.24-5.69 0-1.26.45-2.29 1.19-3.09-.12-.29-.52-1.46.11-3.05 0 0 .97-.31 3.18 1.18a11.1 11.1 0 0 1 5.8 0c2.2-1.49 3.17-1.18 3.17-1.18.63 1.59.23 2.76.11 3.05.74.8 1.19 1.83 1.19 3.09 0 4.42-2.69 5.4-5.25 5.68.41.36.78 1.05.78 2.12 0 1.53-.01 2.77-.01 3.14 0 .31.21.68.8.56A11.51 11.51 0 0 0 23.5 12C23.5 5.65 18.35.5 12 .5z"/></svg><span data-i18n="code"></span></a>
+          </div>
+        </div>
+      </div>
       <a class="work reveal d1" href="demo-barbershop/" target="_blank">
         <div class="thumb"><img src="assets/barbershop.jpg" alt="BARON" loading="lazy"><span class="type" data-i18n="w2_type"></span></div>
         <div class="body">
@@ -252,6 +266,9 @@ const T = {
     featured_ai:"★ Chatbot AI",
     w8_type:"Chatbot AI · RO/RU", w8_d:"Chatbot AI bilingv (RO/RU) care răspunde, prinde lead-uri 24/7 și chiar caută în oferta afacerii — ex. asistentul imobiliar care întreabă clientul și îi arată apartamentele potrivite. Next.js + Google Gemini, se pune pe orice site cu un singur script, personalizat per afacere.",
     ft_charts:"grafice", ft_realdata:"date reale (API)",
+    featured_fullstack:"★ Fullstack",
+    w9_type:"Aplicație fullstack", w9_d:"Hub media pentru anime, filme, seriale și jocuri: conturi reale cu login, listă personală salvată în baza de date (Supabase), catalog live din API-uri externe și pagini de detaliu cu traileri și distribuție. Are backend propriu, nu doar interfață.",
+    ft_auth:"conturi & login", ft_api:"API extern",
     w5_type:"Aplicație web", w5_d:"Magazin online complet, construit de la zero în Next.js și React: 800+ produse, filtre, coș de cumpărături, checkout și panou de administrare. O aplicație web reală, nu un template.",
     w1_type:"Salon de frumusețe", w1_d:"Site elegant cu programare online: clienta alege serviciul și data, cererea vine pe WhatsApp.",
     w2_type:"Barbershop", w2_d:"Stil premium dark. Programare în 4 pași: serviciu → dată și oră → maestru → confirmare.",
@@ -286,6 +303,9 @@ const T = {
     featured_ai:"★ AI-чат-бот",
     w8_type:"AI-бот · RO/RU", w8_d:"Двуязычный AI-бот (RO/RU): отвечает, собирает лиды 24/7 и ищет по каталогу бизнеса — напр. риелторский ассистент, который расспрашивает клиента и показывает подходящие квартиры. Next.js + Google Gemini, ставится на любой сайт одним скриптом, настраивается под бизнес.",
     ft_charts:"графики", ft_realdata:"реальные данные (API)",
+    featured_fullstack:"★ Fullstack",
+    w9_type:"Fullstack-приложение", w9_d:"Медиа-хаб для аниме, фильмов, сериалов и игр: настоящие аккаунты со входом, личный список в базе данных (Supabase), живой каталог из внешних API и страницы с трейлерами и актёрским составом. Со своим бэкендом, а не только интерфейс.",
+    ft_auth:"аккаунты и вход", ft_api:"внешний API",
     w5_type:"Веб-приложение", w5_d:"Полноценный интернет-магазин, созданный с нуля на Next.js и React: 800+ товаров, фильтры, корзина, оформление заказа и админ-панель. Настоящее веб-приложение, а не шаблон.",
     w1_type:"Салон красоты", w1_d:"Элегантный сайт с онлайн-записью: клиентка выбирает услугу и дату, заявка приходит в WhatsApp.",
     w2_type:"Барбершоп", w2_d:"Премиальный тёмный стиль. Запись в 4 шага: услуга → дата и время → мастер → подтверждение.",
@@ -320,6 +340,9 @@ const T = {
     featured_ai:"★ AI chatbot",
     w8_type:"AI chatbot · RO/RU", w8_d:"A bilingual (RO/RU) AI chatbot that answers, captures leads 24/7 and searches the business's inventory — e.g. the real-estate assistant that qualifies the visitor and shows matching apartments. Next.js + Google Gemini, drops into any site with one script, adapts per business.",
     ft_charts:"charts", ft_realdata:"real data (API)",
+    featured_fullstack:"★ Fullstack",
+    w9_type:"Fullstack web app", w9_d:"A media hub for anime, movies, series and games: real accounts with login, a personal list stored in a database (Supabase), a live catalogue from external APIs, and detail pages with trailers and cast. It has its own backend, not just a UI.",
+    ft_auth:"accounts & login", ft_api:"external API",
     w5_type:"Web app", w5_d:"A complete e-commerce store built from scratch in Next.js and React: 800+ products, filters, a real shopping cart, checkout and an admin panel. A real web app, not a template.",
     w1_type:"Beauty salon", w1_d:"Elegant site with online booking: the client picks a service and date, the request lands on WhatsApp.",
     w2_type:"Barbershop", w2_d:"Premium dark style. 4-step booking: service → date & time → barber → confirmation.",
