@@ -19,10 +19,18 @@ client sites and landing-page demos, in **three languages (RO / RU / EN)**.
 - **Runtime i18n in 3 languages** — every string is a `data-i18n` key resolved
   from an in-page dictionary (RO / RU / EN); switching language re-renders the
   whole page without a reload
-- **Reveal-on-scroll animations** via `IntersectionObserver`
+- **Light / dark theme** — a full token set swapped on `html[data-theme]`,
+  seeded from `prefers-color-scheme` and remembered in `localStorage`
+- **Live-showcase viewport** — a browser-chrome frame in the hero that cycles
+  through the shipped projects, pauses on hover and on tab blur, and links
+  straight to each one
+- **Self-hosted variable fonts** — three families subset to latin / latin-ext /
+  cyrillic (142 KB total), so Romanian diacritics and Russian both render
+  correctly with no third-party font request
+- **Reveal-on-scroll animations** via `IntersectionObserver`; CSS marquee for
+  the tech ticker; `prefers-reduced-motion` respected throughout
 - **Zero dependencies** — no npm, no bundler; the repo is what the browser runs,
   deployed straight to GitHub Pages
-- Responsive layout, lazy-loaded imagery, dark theme
 
 ## What it showcases
 
@@ -40,6 +48,7 @@ client sites and landing-page demos, in **three languages (RO / RU / EN)**.
 ```
 index.html          # the whole site: markup, styles, i18n dictionary, scripts
 assets/             # project imagery
+assets/fonts/       # self-hosted woff2 subsets (latin, latin-ext, cyrillic)
 cv/                 # downloadable CV
 demo-barbershop/    # standalone landing-page demo
 demo-pensiune/      # standalone landing-page demo
