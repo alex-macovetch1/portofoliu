@@ -215,10 +215,12 @@ h3{font-size:1.28rem;font-weight:700;letter-spacing:-.022em;line-height:1.2}
   background:color-mix(in srgb,var(--surface) 80%,transparent);
   border:1px solid var(--line);
   backdrop-filter:blur(22px) saturate(1.7);-webkit-backdrop-filter:blur(22px) saturate(1.7);
-  box-shadow:var(--shadow);
+  box-shadow:var(--shadow), inset 0 1px 0 rgba(255,255,255,.75);
   transition:box-shadow .35s,background-color .4s,border-color .4s;
 }
-.nav.up{box-shadow:var(--shadow-lg)}
+.nav.up{box-shadow:var(--shadow-lg), inset 0 1px 0 rgba(255,255,255,.75)}
+html[data-theme="dark"] .nav{box-shadow:var(--shadow), inset 0 1px 0 rgba(255,255,255,.07)}
+html[data-theme="dark"] .nav.up{box-shadow:var(--shadow-lg), inset 0 1px 0 rgba(255,255,255,.07)}
 .brand{display:flex;align-items:center;gap:9px}
 .brand b{font-family:var(--f-display);font-weight:800;font-size:1.1rem;letter-spacing:-.045em;white-space:nowrap}
 .brand span{color:var(--accent)}
@@ -228,16 +230,30 @@ h3{font-size:1.28rem;font-weight:700;letter-spacing:-.022em;line-height:1.2}
   font-size:.895rem;font-weight:500;color:var(--ink-2);
   padding:9px 15px;border-radius:100px;transition:color .25s,background-color .25s;white-space:nowrap;
 }
-.nav-links a:hover{color:var(--ink);background:var(--surface-2)}
+.nav-links a{position:relative}
+.nav-links a::after{content:'';position:absolute;left:50%;bottom:5px;width:0;height:2px;border-radius:2px;background:var(--accent);transform:translateX(-50%);transition:width .3s cubic-bezier(.16,1,.3,1)}
+.nav-links a:hover{color:var(--ink)}
+.nav-links a:hover::after{width:18px}
 .nav-tools{display:flex;align-items:center;gap:7px;margin-left:auto}
-.lang{display:flex;gap:1px;background:var(--surface-2);border-radius:100px;padding:3px}
-.lang button{
-  font-family:var(--f-mono);font-size:.68rem;font-weight:500;letter-spacing:.05em;
-  color:var(--ink-3);padding:6px 9px;border-radius:100px;transition:.25s;
-}
-.lang button[aria-pressed="true"]{background:var(--surface);color:var(--ink);box-shadow:0 1px 3px rgba(0,0,0,.13)}
+.lang{position:relative}
+.lang-btn{display:inline-flex;align-items:center;gap:7px;background:var(--surface-2);border-radius:100px;padding:6px 10px 6px 7px;transition:background-color .25s}
+.lang-btn:hover{background:color-mix(in srgb,var(--ink) 8%,var(--surface-2))}
+.lang-btn span:not(.fl){font-family:var(--f-mono);font-size:.685rem;font-weight:500;letter-spacing:.06em;color:var(--ink-2)}
+.lang-btn .chev{width:12px;height:12px;color:var(--ink-3);transition:transform .3s cubic-bezier(.16,1,.3,1)}
+.lang-btn[aria-expanded="true"] .chev{transform:rotate(180deg)}
+.fl{display:block;width:18px;height:13px;border-radius:3px;overflow:hidden;flex:none;box-shadow:0 0 0 1px rgba(0,0,0,.14)}
+.fl svg{display:block;width:100%;height:100%}
+.lang-menu{position:absolute;top:calc(100% + 10px);right:0;min-width:172px;padding:6px;border-radius:16px;background:var(--surface);border:1px solid var(--line);box-shadow:var(--shadow-lg);opacity:0;visibility:hidden;transform:translateY(-8px) scale(.97);transform-origin:top right;transition:opacity .24s,transform .28s cubic-bezier(.16,1,.3,1),visibility .24s}
+.lang-menu.on{opacity:1;visibility:visible;transform:none}
+.lang-menu button{display:flex;align-items:center;gap:10px;width:100%;padding:9px 11px;border-radius:11px;font-size:.885rem;font-weight:500;color:var(--ink-2);text-align:left;transition:background-color .2s,color .2s}
+.lang-menu button:hover{background:var(--surface-2);color:var(--ink)}
+.lang-menu button[aria-selected="true"]{color:var(--ink);font-weight:600}
+.lang-menu button .tick{margin-left:auto;width:13px;height:13px;color:var(--accent);opacity:0;transition:opacity .2s}
+.lang-menu button[aria-selected="true"] .tick{opacity:1}
 .theme{width:36px;height:36px;border-radius:50%;background:var(--surface-2);display:grid;place-items:center;transition:.3s;flex:none}
+.theme svg{transition:transform .5s cubic-bezier(.16,1,.3,1)}
 .theme:hover{background:var(--accent-soft);color:var(--accent)}
+.theme:hover svg{transform:rotate(35deg)}
 .theme svg{width:17px;height:17px}
 .theme .moon{display:none}
 html[data-theme="dark"] .theme .sun{display:none}
@@ -327,7 +343,7 @@ html[data-theme="dark"] body::after{opacity:.055}
 .row{display:flex;width:max-content;will-change:transform}
 .row-a{animation:slideL 46s linear infinite}
 .row-b{animation:slideR 58s linear infinite}
-.ticker:hover .row{animation-play-state:paused}
+
 .run{display:flex;align-items:center;flex:none}
 .run span{
   font-family:var(--f-display);font-weight:800;letter-spacing:-.048em;
@@ -574,7 +590,11 @@ footer{border-top:1px solid var(--line);padding-block:clamp(34px,4.5vw,54px) 30p
         <svg class="moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 13.2A9 9 0 1 1 10.8 3a7 7 0 0 0 10.2 10.2z"/></svg>
       </button>
       <div class="lang" id="lang">
-        <button data-lang="ro" aria-pressed="false">RO</button><button data-lang="ru" aria-pressed="false">RU</button><button data-lang="en" aria-pressed="false">EN</button>
+        <button class="lang-btn" id="langBtn" aria-haspopup="listbox" aria-expanded="false">
+          <span class="fl" id="langFlag"></span><span id="langCode">RO</span>
+          <svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg>
+        </button>
+        <div class="lang-menu" id="langMenu" role="listbox"></div>
       </div>
       <a href="#contact" class="btn btn-dark" data-i18n="nav_cta"></a>
     </div>
@@ -965,7 +985,9 @@ let lang = pickLang();
 function applyLang(){
   const d = T[lang] || T.ro;
   $$('[data-i18n]').forEach(el => { const v = d[el.dataset.i18n]; if (typeof v === 'string') el.textContent = v; });
-  $$('#lang button').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.lang === lang)));
+  $('#langFlag').innerHTML = FLAGS[lang];
+  $('#langCode').textContent = lang.toUpperCase();
+  buildLangMenu();
   root.lang = lang;
   drawViewport();
   drawStack();
@@ -1006,7 +1028,32 @@ function countUp(el){
   }
   requestAnimationFrame(step);
 }
-$$('#lang button').forEach(b => b.onclick = () => { lang = b.dataset.lang; localStorage.setItem('aw-lang', lang); applyLang(); });
+/* Steagurile emoji nu se afiseaza pe Windows, deci sunt desenate. */
+const FLAGS = {
+  ro: "<svg viewBox='0 0 3 2'><rect width='1' height='2' fill='#002B7F'/><rect x='1' width='1' height='2' fill='#FCD116'/><rect x='2' width='1' height='2' fill='#CE1126'/></svg>",
+  ru: "<svg viewBox='0 0 3 2'><rect width='3' height='2' fill='#fff'/><rect y='.667' width='3' height='.667' fill='#0039A6'/><rect y='1.333' width='3' height='.667' fill='#D52B1E'/></svg>",
+  en: "<svg viewBox='0 0 60 40'><rect width='60' height='40' fill='#012169'/><path d='M0 0l60 40M60 0L0 40' stroke='#fff' stroke-width='9'/><path d='M0 0l60 40M60 0L0 40' stroke='#C8102E' stroke-width='4'/><path d='M30 0v40M0 20h60' stroke='#fff' stroke-width='14'/><path d='M30 0v40M0 20h60' stroke='#C8102E' stroke-width='8'/></svg>"
+};
+const LANG_NAMES = { ro:'Română', ru:'Русский', en:'English' };
+const TICK = "<svg class='tick' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'><path d='m5 13 4.5 4.5L19 7'/></svg>";
+const langBtn = $('#langBtn'), langMenu = $('#langMenu');
+
+function buildLangMenu(){
+  langMenu.innerHTML = '';
+  Object.keys(LANG_NAMES).forEach(code => {
+    const b = document.createElement('button');
+    b.type = 'button'; b.setAttribute('role','option');
+    b.setAttribute('aria-selected', String(code === lang));
+    b.innerHTML = "<span class='fl'>" + FLAGS[code] + "</span>" + LANG_NAMES[code] + TICK;
+    b.onclick = () => { lang = code; localStorage.setItem('aw-lang', lang); closeLang(); applyLang(); };
+    langMenu.appendChild(b);
+  });
+}
+function openLang(){ langMenu.classList.add('on'); langBtn.setAttribute('aria-expanded','true'); }
+function closeLang(){ langMenu.classList.remove('on'); langBtn.setAttribute('aria-expanded','false'); }
+langBtn.onclick = e => { e.stopPropagation(); langMenu.classList.contains('on') ? closeLang() : openLang(); };
+addEventListener('click', e => { if (!$('#lang').contains(e.target)) closeLang(); });
+addEventListener('keydown', e => { if (e.key === 'Escape') closeLang(); });
 
 /* ── vitrina live ── */
 const screenEl = $('#vpScreen'), vpNav = $('#vpNav');
@@ -1083,19 +1130,15 @@ buildRow($('#rowB'), STACK.rowB);
   ];
   rows.forEach(r => { r.el.style.animation = 'none'; });
 
-  let boost = 0, lastY = scrollY, hover = false;
-  const zone = $('#stack');
-  zone.addEventListener('mouseenter', () => hover = true);
-  zone.addEventListener('mouseleave', () => hover = false);
+  let boost = 0, lastY = scrollY;
   addEventListener('scroll', () => { boost += (scrollY - lastY) * 0.3; lastY = scrollY; }, { passive: true });
 
   function frame(){
     boost *= 0.92;
-    const speed = hover ? 0 : 1;
     for (const r of rows) {
       const half = r.el.firstElementChild.offsetWidth;
       if (half) {
-        r.pos += r.dir * (r.base * speed) + boost * 0.05 * r.dir;
+        r.pos += r.dir * r.base + boost * 0.05 * r.dir;
         if (r.pos <= -half) r.pos += half;
         if (r.pos >= 0) r.pos -= half;
         r.el.style.transform = 'translate3d(' + r.pos + 'px,0,0)';
