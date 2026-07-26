@@ -201,6 +201,7 @@ h3{font-size:1.28rem;font-weight:700;letter-spacing:-.022em;line-height:1.2}
 @keyframes slideL{from{transform:translateX(0)}to{transform:translateX(-50%)}}
 @keyframes slideR{from{transform:translateX(-50%)}to{transform:translateX(0)}}
 @keyframes caret{0%,45%{opacity:1}50%,95%{opacity:0}}
+@keyframes wordup{from{transform:translateY(112%)}to{transform:none}}
 .load{animation:rise 1s cubic-bezier(.16,1,.3,1) both}
 .l1{animation-delay:.07s}.l2{animation-delay:.14s}.l3{animation-delay:.22s}
 .l4{animation-delay:.3s}.l5{animation-delay:.42s}
@@ -270,6 +271,20 @@ html[data-theme="dark"] .theme .moon{display:block}
 .dot::after{content:'';position:absolute;inset:0;border-radius:50%;background:var(--live);animation:ping 2.4s cubic-bezier(0,0,.2,1) infinite}
 .hero h1 em{font-style:normal;color:var(--accent)}
 .hero h1 .thin{font-weight:400;letter-spacing:-.028em}
+/* titlul intră cuvânt cu cuvânt, din spatele unei măști */
+.hero h1 .w{display:inline-block;overflow:hidden;vertical-align:bottom;padding-bottom:.06em;margin-bottom:-.06em}
+.hero h1 .w i{display:inline-block;font-style:inherit;animation:wordup .95s cubic-bezier(.16,1,.3,1) both}
+
+/* granulație — dă textură unui fundal plat */
+body::after{
+  content:'';position:fixed;inset:0;z-index:9998;pointer-events:none;opacity:.038;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+html[data-theme="dark"] body::after{opacity:.055}
+
+/* înclinarea ferestrei live după mouse */
+.viewport{transform-style:preserve-3d;transition:transform .2s cubic-bezier(.16,1,.3,1)}
+.viewport.settle{transition:transform .7s cubic-bezier(.16,1,.3,1)}
 .hero .lede{margin-top:24px}
 .hero-cta{display:flex;flex-wrap:wrap;gap:11px;margin-top:32px}
 
@@ -376,6 +391,19 @@ html[data-theme="dark"] .theme .moon{display:block}
 .card.dark .lnk:hover{background:var(--invert-ink);color:var(--invert);border-color:var(--invert-ink)}
 .card.dark .lnk-a{border-color:var(--accent-on-dark);color:var(--accent-on-dark)}
 .card.dark .lnk-a:hover{background:var(--accent-on-dark);color:#fff;border-color:var(--accent-on-dark)}
+
+/* Pe temă întunecată, cardul evidențiat NU se inversează în alb — ar arăta rupt
+   sub o captură închisă. Rămâne închis, dar se distinge prin suprafață + contur. */
+html[data-theme="dark"] .card.dark{background:var(--surface-2);border-color:color-mix(in srgb,var(--accent) 32%,var(--line))}
+html[data-theme="dark"] .card.dark,html[data-theme="dark"] .card.dark h3{color:var(--ink)}
+html[data-theme="dark"] .card.dark .body p{color:var(--ink-2)}
+html[data-theme="dark"] .card.dark .kind{color:var(--ink-3)}
+html[data-theme="dark"] .card.dark .tags span{color:var(--ink-2);border-color:var(--line)}
+html[data-theme="dark"] .card.dark .flag{background:color-mix(in srgb,var(--surface) 82%,transparent);border-color:var(--line);color:var(--ink)}
+html[data-theme="dark"] .card.dark .lnk{border-color:var(--line);color:var(--ink)}
+html[data-theme="dark"] .card.dark .lnk:hover{background:var(--ink);color:var(--canvas);border-color:var(--ink)}
+html[data-theme="dark"] .card.dark .lnk-a{border-color:var(--accent);color:var(--accent)}
+html[data-theme="dark"] .card.dark .lnk-a:hover{background:var(--accent);color:var(--accent-ink);border-color:var(--accent)}
 
 .c8{grid-column:span 8}.c6{grid-column:span 6}.c4{grid-column:span 4}
 .card .shot{aspect-ratio:16/10}
@@ -514,7 +542,7 @@ footer{border-top:1px solid var(--line);padding-block:clamp(34px,4.5vw,54px) 30p
   <div class="hero-grid">
     <div>
       <span class="badge load"><span class="dot"></span><span data-i18n="hero_badge"></span></span>
-      <h1 class="load l1">
+      <h1>
         <span data-i18n="hero_h1_a"></span>
         <em data-i18n="hero_h1_b"></em>
         <span class="thin" data-i18n="hero_h1_c"></span>
@@ -858,6 +886,42 @@ function applyLang(){
   root.lang = lang;
   drawViewport();
   drawStack();
+  splitTitle();
+}
+
+/* ── titlul: fiecare cuvânt urcă din spatele unei măști ── */
+function splitTitle(){
+  let n = 0;
+  $$('.hero h1 > span, .hero h1 > em').forEach(part => {
+    const words = part.textContent.trim().split(/\s+/).filter(Boolean);
+    if (!words.length) return;
+    part.textContent = '';
+    words.forEach(w => {
+      const mask = document.createElement('span');
+      mask.className = 'w';
+      const inner = document.createElement('i');
+      inner.textContent = w;
+      inner.style.animationDelay = (70 + n++ * 42) + 'ms';
+      mask.appendChild(inner);
+      part.append(mask, document.createTextNode(' '));
+    });
+  });
+}
+
+/* ── cifrele urcă de la zero când intră în ecran ── */
+function countUp(el){
+  const raw = el.dataset.raw || (el.dataset.raw = el.textContent);
+  const m = raw.match(/\d+/);
+  if (!m || still) return;
+  const target = +m[0];
+  let t0 = 0;
+  function step(ts){
+    if (!t0) t0 = ts;
+    const p = Math.min(1, (ts - t0) / 950);
+    el.textContent = raw.replace(/\d+/, String(Math.round(target * (1 - Math.pow(1 - p, 3)))));
+    if (p < 1) requestAnimationFrame(step);
+  }
+  requestAnimationFrame(step);
 }
 $$('#lang button').forEach(b => b.onclick = () => { lang = b.dataset.lang; localStorage.setItem('aw-lang', lang); applyLang(); });
 
@@ -926,6 +990,59 @@ function buildRow(el, items){
 buildRow($('#rowA'), STACK.rowA);
 buildRow($('#rowB'), STACK.rowB);
 
+/* Benzile curg singure, dar se grăbesc cât timp derulezi pagina.
+   CSS-ul rămâne ca rezervă; aici îl luăm noi în mână. */
+(function ticker(){
+  if (still) return;
+  const rows = [
+    { el: $('#rowA'), dir: -1, base: 0.55, pos: 0 },
+    { el: $('#rowB'), dir:  1, base: 0.45, pos: 0 },
+  ];
+  rows.forEach(r => { r.el.style.animation = 'none'; });
+
+  let boost = 0, lastY = scrollY, hover = false;
+  const zone = $('#stack');
+  zone.addEventListener('mouseenter', () => hover = true);
+  zone.addEventListener('mouseleave', () => hover = false);
+  addEventListener('scroll', () => { boost += (scrollY - lastY) * 0.3; lastY = scrollY; }, { passive: true });
+
+  function frame(){
+    boost *= 0.92;
+    const speed = hover ? 0 : 1;
+    for (const r of rows) {
+      const half = r.el.firstElementChild.offsetWidth;
+      if (half) {
+        r.pos += r.dir * (r.base * speed) + boost * 0.05 * r.dir;
+        if (r.pos <= -half) r.pos += half;
+        if (r.pos >= 0) r.pos -= half;
+        r.el.style.transform = 'translate3d(' + r.pos + 'px,0,0)';
+      }
+    }
+    requestAnimationFrame(frame);
+  }
+  requestAnimationFrame(frame);
+})();
+
+/* Fereastra live se înclină ușor după mouse — doar pe desktop. */
+if (!still && matchMedia('(hover:hover) and (pointer:fine)').matches) {
+  const vp = $('#vp'), hero = $('.hero');
+  let raf = 0;
+  setTimeout(() => {
+    hero.addEventListener('mousemove', e => {
+      if (raf) return;
+      raf = requestAnimationFrame(() => {
+        raf = 0;
+        const r = vp.getBoundingClientRect();
+        const dx = (e.clientX - (r.left + r.width / 2)) / r.width;
+        const dy = (e.clientY - (r.top + r.height / 2)) / r.height;
+        vp.classList.remove('settle');
+        vp.style.transform = 'perspective(1300px) rotateY(' + (dx * 3.6).toFixed(2) + 'deg) rotateX(' + (-dy * 3.2).toFixed(2) + 'deg)';
+      });
+    }, { passive: true });
+    hero.addEventListener('mouseleave', () => { vp.classList.add('settle'); vp.style.transform = ''; });
+  }, 1400);
+}
+
 function drawStack(){
   const d = T[lang] || T.ro;
   const grid = $('#stackGrid');
@@ -949,6 +1066,11 @@ const io = new IntersectionObserver(es => es.forEach(e => {
   if (e.isIntersecting){ e.target.classList.add('on'); io.unobserve(e.target); }
 }), { threshold:.1, rootMargin:'0px 0px -8% 0px' });
 $$('.reveal').forEach(el => io.observe(el));
+
+const statsIo = new IntersectionObserver(es => es.forEach(e => {
+  if (e.isIntersecting){ $$('.stat b').forEach(countUp); statsIo.disconnect(); }
+}), { threshold:.4 });
+statsIo.observe($('.stats'));
 
 /* ── acordeon ── */
 $$('.q').forEach(d => d.addEventListener('toggle', () => {
