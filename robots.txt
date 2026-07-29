@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://alex-macovetch1.github.io/portofoliu/sitemap.xml
