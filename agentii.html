@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<html lang="ro" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Subcontractor frontend pentru agenții — React, Next.js | Alexandru Macovetchi</title>
+<meta name="description" content="Preiau partea de frontend pe proiectele agenției voastre. React, Next.js, TypeScript. Sub brandul vostru, fără contact cu clientul final. De la 15 €/oră sau preț fix pe proiect.">
+<!-- noindex intentionat: pagina e pentru linkuri trimise direct agentiilor.
+     Daca ar aparea in Google, un client local ar vedea tariful de 15 EUR/ora
+     si ar strica preturile pe proiect (2900-4900 lei). -->
+<meta name="robots" content="noindex,nofollow">
+<meta property="og:title" content="Subcontractor frontend pentru agenții — React, Next.js">
+<meta property="og:description" content="Capacitate frontend fără angajare. Sub brandul vostru, fără contact cu clientul final.">
+<meta property="og:type" content="website">
+<meta name="theme-color" content="#EDEDE9">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='26' fill='%230B0B0C'/><circle cx='50' cy='50' r='17' fill='%231B36FF'/></svg>">
+<link rel="preload" href="assets/fonts/display-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="assets/fonts/text-latin.woff2" as="font" type="font/woff2" crossorigin>
+
+<style>
+/* ─────────────  fonturi self-hosted, aceleasi ca pe index  ───────────── */
+@font-face{font-family:'AWDisplay';font-style:normal;font-weight:400 800;font-display:swap;
+  src:url('assets/fonts/display-latin.woff2') format('woff2');
+  unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD;}
+@font-face{font-family:'AWDisplay';font-style:normal;font-weight:400 800;font-display:swap;
+  src:url('assets/fonts/display-latin-ext.woff2') format('woff2');
+  unicode-range:U+0100-02BA,U+02BD-02C5,U+02C7-02CC,U+02CE-02D7,U+02DD-02FF,U+0304,U+0308,U+0329,U+1D00-1DBF,U+1E00-1E9F,U+1EF2-1EFF,U+2020,U+20A0-20AB,U+20AD-20C0,U+2113,U+2C60-2C7F,U+A720-A7FF;}
+@font-face{font-family:'AWText';font-style:normal;font-weight:400 700;font-display:swap;
+  src:url('assets/fonts/text-latin.woff2') format('woff2');
+  unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD;}
+@font-face{font-family:'AWText';font-style:normal;font-weight:400 700;font-display:swap;
+  src:url('assets/fonts/text-latin-ext.woff2') format('woff2');
+  unicode-range:U+0100-02BA,U+02BD-02C5,U+02C7-02CC,U+02CE-02D7,U+02DD-02FF,U+0304,U+0308,U+0329,U+1D00-1DBF,U+1E00-1E9F,U+1EF2-1EFF,U+2020,U+20A0-20AB,U+20AD-20C0,U+2113,U+2C60-2C7F,U+A720-A7FF;}
+@font-face{font-family:'AWMono';font-style:normal;font-weight:400 700;font-display:swap;
+  src:url('assets/fonts/mono-latin.woff2') format('woff2');
+  unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD;}
+@font-face{font-family:'AWMono';font-style:normal;font-weight:400 700;font-display:swap;
+  src:url('assets/fonts/mono-latin-ext.woff2') format('woff2');
+  unicode-range:U+0100-02BA,U+02BD-02C5,U+02C7-02CC,U+02CE-02D7,U+02DD-02FF,U+0304,U+0308,U+0329,U+1D00-1DBF,U+1E00-1E9F,U+1EF2-1EFF,U+2020,U+20A0-20AB,U+20AD-20C0,U+2113,U+2C60-2C7F,U+A720-A7FF;}
+
+/* ─────────────  tokeni, preluati din index  ───────────── */
+:root{
+  --canvas:#EDEDE9; --surface:#FFFFFF; --surface-2:#F7F7F4;
+  --ink:#0B0B0C; --ink-2:#5D5D63; --ink-3:#8A8A90; --line:#E1E1DB;
+  --accent:#1B36FF; --accent-ink:#FFFFFF; --accent-soft:rgba(27,54,255,.09);
+  --live:#00A650;
+  --shadow:0 1px 2px rgba(11,11,12,.04), 0 12px 34px -12px rgba(11,11,12,.14);
+  --shadow-lg:0 2px 6px rgba(11,11,12,.05), 0 40px 80px -30px rgba(11,11,12,.30);
+  --r:30px; --r-sm:20px;
+  --f-display:'AWDisplay','Segoe UI',system-ui,-apple-system,sans-serif;
+  --f-text:'AWText','Segoe UI',system-ui,-apple-system,sans-serif;
+  --f-mono:'AWMono',ui-monospace,'Cascadia Mono',Consolas,monospace;
+  --gut:clamp(18px,4.4vw,52px);
+}
+html[data-theme="dark"]{
+  --canvas:#09090A; --surface:#131315; --surface-2:#1A1A1D;
+  --ink:#F3F3EF; --ink-2:#9A9AA1; --ink-3:#78787F; --line:#26262B;
+  --accent:#7B8FFF; --accent-ink:#05051A; --accent-soft:rgba(123,143,255,.14);
+  --live:#2ED473;
+  --shadow:0 1px 2px rgba(0,0,0,.5), 0 12px 34px -12px rgba(0,0,0,.7);
+  --shadow-lg:0 2px 6px rgba(0,0,0,.5), 0 40px 80px -30px rgba(0,0,0,.9);
+}
+
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+body{font-family:var(--f-text);background:var(--canvas);color:var(--ink);
+  line-height:1.6;font-size:1.0325rem;overflow-x:hidden;
+  -webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;
+  transition:background-color .4s ease,color .4s ease;}
+h1,h2,h3{font-family:var(--f-display);font-weight:800;letter-spacing:-.035em;line-height:1.03}
+a{color:inherit;text-decoration:none}
+img{max-width:100%;display:block}
+button{font:inherit;border:0;background:none;cursor:pointer;color:inherit}
+:focus-visible{outline:2.5px solid var(--accent);outline-offset:3px;border-radius:6px}
+::selection{background:var(--accent);color:var(--accent-ink)}
+
+.wrap{max-width:1120px;margin:0 auto;padding:0 var(--gut)}
+.eyebrow{font-family:var(--f-mono);font-size:.7rem;font-weight:500;
+  text-transform:uppercase;letter-spacing:.16em;color:var(--ink-3);display:block;margin-bottom:20px}
+
+/* ─────────────  bara de sus  ───────────── */
+.top{position:sticky;top:0;z-index:50;
+  background:color-mix(in srgb,var(--canvas) 84%,transparent);
+  backdrop-filter:saturate(180%) blur(16px);border-bottom:1px solid var(--line)}
+.top .wrap{display:flex;align-items:center;gap:16px;height:66px}
+.brand{display:flex;align-items:center;gap:9px;font-family:var(--f-display);
+  font-weight:700;letter-spacing:-.03em;font-size:1.02rem}
+.brand i{width:9px;height:9px;border-radius:50%;background:var(--accent);flex:none}
+.top .sp{flex:1}
+.back{font-size:.87rem;color:var(--ink-2);transition:color .2s}
+.back:hover{color:var(--ink)}
+.theme{width:38px;height:38px;border-radius:12px;display:grid;place-items:center;
+  color:var(--ink-2);transition:background-color .2s,color .2s}
+.theme:hover{background:var(--accent-soft);color:var(--accent)}
+.theme .moon{display:none}
+html[data-theme="dark"] .theme .sun{display:none}
+html[data-theme="dark"] .theme .moon{display:block}
+
+/* ─────────────  hero  ───────────── */
+.hero{padding:clamp(56px,9vw,100px) 0 clamp(44px,6vw,72px)}
+.hero h1{font-size:clamp(2.5rem,5.4vw,3.85rem);max-width:15ch;text-wrap:balance}
+.hero .lede{color:var(--ink-2);font-size:clamp(1.04rem,1.6vw,1.19rem);
+  max-width:46ch;margin-top:22px}
+.hero-grid{display:grid;gap:40px}
+@media(min-width:960px){
+  .hero-grid{grid-template-columns:1fr .82fr;gap:60px;align-items:center}
+}
+
+/* semnatura paginii: termenii, ca niste clauze */
+.terms{border:1px solid var(--line);border-radius:var(--r-sm);
+  background:var(--surface);box-shadow:var(--shadow-lg);overflow:hidden}
+.terms-h{font-family:var(--f-mono);font-size:.655rem;font-weight:600;
+  text-transform:uppercase;letter-spacing:.15em;color:var(--ink-2);
+  padding:15px 24px;border-bottom:1px solid var(--line);background:var(--surface-2)}
+.terms ul{list-style:none}
+.terms li{display:flex;gap:14px;align-items:baseline;padding:16px 24px;
+  font-family:var(--f-mono);font-size:.815rem;line-height:1.62;
+  border-bottom:1px solid var(--line)}
+.terms li:last-child{border-bottom:0}
+.terms li b{color:var(--accent);font-weight:700;flex:none;width:14px}
+.terms li span{color:var(--ink-3)}
+.terms li strong{color:var(--ink);font-weight:700;letter-spacing:-.005em}
+
+.cta-row{display:flex;flex-wrap:wrap;gap:12px;margin-top:32px}
+.btn{display:inline-flex;align-items:center;gap:9px;padding:14px 26px;border-radius:99px;
+  font-size:.94rem;font-weight:600;transition:transform .25s cubic-bezier(.16,1,.3,1),box-shadow .25s,border-color .25s}
+.btn-accent{background:var(--accent);color:var(--accent-ink)}
+.btn-accent:hover{transform:translateY(-2px);box-shadow:0 14px 34px -10px color-mix(in srgb,var(--accent) 60%,transparent)}
+.btn-ghost{border:1px solid var(--line);background:var(--surface);color:var(--ink)}
+.btn-ghost:hover{border-color:var(--ink);transform:translateY(-2px)}
+
+/* ─────────────  sectiuni  ───────────── */
+.sec{padding:clamp(52px,7.5vw,86px) 0;border-top:1px solid var(--line)}
+.sec h2{font-size:clamp(1.65rem,3.4vw,2.3rem);margin-bottom:10px}
+.sec .sub{color:var(--ink-2);max-width:56ch;margin-bottom:34px}
+
+.grid{display:grid;gap:14px;grid-template-columns:repeat(auto-fit,minmax(232px,1fr))}
+.cap{background:var(--surface);border:1px solid var(--line);border-radius:var(--r-sm);
+  padding:22px 24px;transition:border-color .25s,transform .25s cubic-bezier(.16,1,.3,1)}
+.cap:hover{border-color:color-mix(in srgb,var(--accent) 40%,var(--line));transform:translateY(-3px)}
+.cap h3{font-size:1.02rem;font-weight:700;letter-spacing:-.02em;margin-bottom:6px}
+.cap p{color:var(--ink-2);font-size:.9rem;line-height:1.55}
+
+/* lucrari */
+.works{display:grid;gap:18px;grid-template-columns:repeat(auto-fit,minmax(300px,1fr))}
+.work{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);
+  overflow:hidden;display:flex;flex-direction:column;
+  transition:transform .3s cubic-bezier(.16,1,.3,1),box-shadow .3s}
+.work:hover{transform:translateY(-4px);box-shadow:var(--shadow-lg)}
+.work .shot{aspect-ratio:16/10;overflow:hidden;background:var(--surface-2);border-bottom:1px solid var(--line)}
+.work .shot img{width:100%;height:100%;object-fit:cover;object-position:top center;
+  transition:transform .55s cubic-bezier(.16,1,.3,1)}
+.work:hover .shot img{transform:scale(1.035)}
+.work .body{padding:20px 22px 22px;display:flex;flex-direction:column;flex:1}
+.work h3{font-size:1.16rem;margin-bottom:9px}
+.work .facts{list-style:none;margin-bottom:16px;flex:1}
+.work .facts li{font-family:var(--f-mono);font-size:.79rem;color:var(--ink-2);
+  padding:3px 0;padding-left:15px;position:relative}
+.work .facts li::before{content:'';position:absolute;left:0;top:.72em;
+  width:5px;height:1px;background:var(--ink-3)}
+.live{display:inline-flex;align-items:center;gap:8px;align-self:flex-start;
+  font-family:var(--f-mono);font-size:.75rem;font-weight:500;letter-spacing:.05em;
+  text-transform:uppercase;color:var(--ink-2);border:1px solid var(--line);
+  padding:8px 15px;border-radius:99px;transition:border-color .2s,color .2s}
+.live:hover{border-color:var(--accent);color:var(--accent)}
+.live i{width:6px;height:6px;border-radius:50%;background:var(--live);flex:none}
+
+/* pasi — ordinea chiar conteaza aici, deci numerele isi merita locul */
+.steps{display:grid;gap:2px;background:var(--line);border:1px solid var(--line);
+  border-radius:var(--r-sm);overflow:hidden}
+.step{background:var(--surface);padding:20px 24px;display:flex;gap:20px;align-items:baseline}
+.step b{font-family:var(--f-mono);font-size:.78rem;font-weight:500;color:var(--accent);
+  flex:none;width:26px}
+.step h3{font-size:.99rem;font-weight:700;letter-spacing:-.015em;margin-bottom:3px}
+.step p{color:var(--ink-2);font-size:.895rem;line-height:1.5}
+
+/* stack */
+.chips{display:flex;flex-wrap:wrap;gap:9px}
+.chip{font-family:var(--f-mono);font-size:.815rem;padding:9px 17px;border-radius:99px;
+  border:1px solid var(--line);background:var(--surface);color:var(--ink-2)}
+
+/* tarif */
+.price-grid{display:grid;gap:18px}
+@media(min-width:800px){.price-grid{grid-template-columns:.85fr 1fr;gap:26px;align-items:stretch}}
+.price{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);
+  padding:clamp(26px,3.6vw,38px);box-shadow:var(--shadow);
+  display:flex;flex-direction:column;justify-content:center}
+.price .n{font-family:var(--f-display);font-weight:800;letter-spacing:-.04em;
+  font-size:clamp(2.1rem,5vw,3.1rem);line-height:1;margin:0 0 12px}
+.price .n em{font-style:normal;color:var(--ink-3);font-size:.42em;font-weight:700;letter-spacing:-.02em}
+.price p{color:var(--ink-2);font-size:.95rem}
+.incl{list-style:none;border:1px solid var(--line);border-radius:var(--r);
+  background:var(--surface-2);padding:8px 4px}
+.incl li{display:flex;gap:13px;align-items:baseline;padding:13px 22px;
+  font-size:.925rem;line-height:1.55;color:var(--ink-2)}
+.incl li b{color:var(--accent);font-family:var(--f-mono);font-weight:700;flex:none;width:12px}
+.incl li strong{color:var(--ink);font-weight:600}
+
+/* contact */
+.contact{display:grid;gap:28px;grid-template-columns:1fr}
+@media(min-width:860px){.contact{grid-template-columns:1fr 1.05fr;gap:52px;align-items:start}}
+.form{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);
+  padding:clamp(24px,3.4vw,34px);box-shadow:var(--shadow)}
+.field{margin-bottom:15px}
+.field label{display:block;font-family:var(--f-mono);font-size:.68rem;font-weight:500;
+  text-transform:uppercase;letter-spacing:.11em;color:var(--ink-3);margin-bottom:7px}
+.field input,.field textarea{width:100%;padding:12px 15px;border-radius:13px;
+  border:1px solid var(--line);background:var(--surface-2);color:var(--ink);
+  font-family:var(--f-text);font-size:.95rem;transition:border-color .2s,background-color .2s}
+.field input:focus,.field textarea:focus{outline:none;border-color:var(--accent);background:var(--surface)}
+.field textarea{resize:vertical;min-height:104px;line-height:1.55}
+.form .btn{width:100%;justify-content:center;margin-top:6px}
+.direct{font-family:var(--f-mono);font-size:.87rem;line-height:2}
+.direct a{color:var(--ink);border-bottom:1px solid var(--line);transition:border-color .2s,color .2s}
+.direct a:hover{color:var(--accent);border-color:var(--accent)}
+.direct .k{color:var(--ink-3);display:inline-block;min-width:74px}
+
+footer{border-top:1px solid var(--line);padding:34px 0 46px;
+  color:var(--ink-3);font-size:.855rem}
+footer .wrap{display:flex;flex-wrap:wrap;gap:14px;justify-content:space-between;align-items:center}
+
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation-duration:.01ms!important;transition-duration:.01ms!important;
+    scroll-behavior:auto!important}
+}
+@media(max-width:560px){
+  .terms li{flex-wrap:wrap;gap:8px}
+  .step{flex-direction:column;gap:6px}
+  .step b{width:auto}
+}
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="wrap">
+    <a class="brand" href="index.html"><i></i>alex.web</a>
+    <div class="sp"></div>
+    <a class="back" href="index.html">← Portofoliu</a>
+    <button class="theme" id="theme" aria-label="Schimbă tema">
+      <svg class="sun" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4.5"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M19.1 4.9l-1.4 1.4M6.3 17.7l-1.4 1.4"/></svg>
+      <svg class="moon" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 14.5A8.5 8.5 0 1 1 9.5 4a6.6 6.6 0 0 0 10.5 10.5z"/></svg>
+    </button>
+  </div>
+</header>
+
+<main>
+
+<section class="hero">
+  <div class="wrap hero-grid">
+    <div class="hero-copy">
+      <span class="eyebrow">Pentru agenții</span>
+      <h1>Capacitate frontend, fără angajare.</h1>
+      <p class="lede">Preiau partea de cod pe proiectele voastre — React, Next.js, TypeScript.
+        Voi păstrați clientul, contractul și brandul. Eu livrez și dispar.</p>
+      <div class="cta-row">
+        <a class="btn btn-accent" href="#contact">Trimite un proiect</a>
+        <a class="btn btn-ghost" href="#lucrari">Vezi ce am livrat</a>
+      </div>
+    </div>
+
+    <div class="terms">
+      <div class="terms-h">Condiții de colaborare</div>
+      <ul>
+        <li><b>✓</b><span><strong>Lucrez sub brandul vostru.</strong> Proiectul se predă ca al vostru.</span></li>
+        <li><b>✓</b><span><strong>Zero contact cu clientul final.</strong> Nu scriu, nu sun, nu apar în discuții.</span></li>
+        <li><b>✓</b><span><strong>Intru și pe proiecte începute.</strong> Nu trebuie să fie de la zero.</span></li>
+        <li><b>✓</b><span><strong>Pe proiect sau la oră.</strong> Cum vă e mai simplu de facturat.</span></li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section class="sec">
+  <div class="wrap">
+    <span class="eyebrow">Cu ce intru</span>
+    <h2>Ce pot prelua de la voi</h2>
+    <p class="sub">Bucăți de lucru, nu contracte întregi. Dacă e frontend și e blocat, îl pot duce eu mai departe.</p>
+    <div class="grid">
+      <div class="cap"><h3>Site-uri corporate</h3><p>Prezentare, multi-pagină, multilingv, optimizat pentru viteză și indexare.</p></div>
+      <div class="cap"><h3>Landing pages</h3><p>Pagini de campanie construite pentru conversie, nu pentru galerie.</p></div>
+      <div class="cap"><h3>Dashboard-uri</h3><p>Interfețe cu date, tabele, filtre, grafice. Stare gestionată curat.</p></div>
+      <div class="cap"><h3>Panouri de administrare</h3><p>CRUD, roluri, autentificare, încărcare de fișiere.</p></div>
+      <div class="cap"><h3>Implementare din Figma</h3><p>Design-ul vostru, tradus în cod fidel — inclusiv stările și breakpoint-urile.</p></div>
+      <div class="cap"><h3>Integrare Supabase</h3><p>Bază de date, autentificare, storage, politici de acces.</p></div>
+      <div class="cap"><h3>Responsive &amp; performanță</h3><p>Mobil ca prioritate, Core Web Vitals verzi, imagini optimizate.</p></div>
+      <div class="cap"><h3>Reparat bug-uri</h3><p>Intru pe cod scris de altcineva, găsesc cauza, repar fără să stric restul.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="sec" id="lucrari">
+  <div class="wrap">
+    <span class="eyebrow">Lucrări</span>
+    <h2>Livrate și online</h2>
+    <p class="sub">Se deschid toate. Deschideți-le și verificați viteza, mobilul, ce vreți.</p>
+    <div class="works">
+
+      <article class="work">
+        <div class="shot"><img src="assets/alvea.jpeg" alt="ALVEA — site de clinică dentară cu programări online" loading="lazy"></div>
+        <div class="body">
+          <h3>ALVEA</h3>
+          <ul class="facts">
+            <li>clinică dentară · 12 pagini</li>
+            <li>programare online cu bază de date</li>
+            <li>panou de administrare</li>
+            <li>Next.js · Supabase · PostgreSQL</li>
+          </ul>
+          <a class="live" href="https://alvea-taupe.vercel.app" target="_blank" rel="noopener"><i></i>Deschide</a>
+        </div>
+      </article>
+
+      <article class="work">
+        <div class="shot"><img src="assets/terralux.jpeg" alt="TerraLux — site corporativ în trei limbi" loading="lazy"></div>
+        <div class="body">
+          <h3>TerraLux</h3>
+          <ul class="facts">
+            <li>site corporativ · 5 pagini</li>
+            <li>trei limbi: RO / RU / EN</li>
+            <li>formular de contact funcțional</li>
+            <li>Next.js · deploy pe Vercel</li>
+          </ul>
+          <a class="live" href="https://terralux.md" target="_blank" rel="noopener"><i></i>Deschide</a>
+        </div>
+      </article>
+
+      <article class="work">
+        <div class="shot"><img src="assets/wasd.jpeg" alt="WASD — magazin online de tastaturi" loading="lazy"></div>
+        <div class="body">
+          <h3>WASD</h3>
+          <ul class="facts">
+            <li>magazin online · catalog cu filtre</li>
+            <li>coș și flux de comandă</li>
+            <li>Next.js 16 · TypeScript</li>
+            <li>Tailwind CSS</li>
+          </ul>
+          <a class="live" href="https://wasd-dun.vercel.app" target="_blank" rel="noopener"><i></i>Deschide</a>
+        </div>
+      </article>
+
+    </div>
+  </div>
+</section>
+
+<section class="sec">
+  <div class="wrap">
+    <span class="eyebrow">Cum decurge</span>
+    <h2>Cinci pași, fără surprize</h2>
+    <p class="sub">Ordinea contează, așa că e fixă. Știți în orice moment unde e proiectul.</p>
+    <div class="steps">
+      <div class="step"><b>01</b><div><h3>Îmi trimiteți sarcina</h3><p>Design, cerințe, acces la repo dacă există. Pun întrebările dintr-o dată, nu pe parcurs.</p></div></div>
+      <div class="step"><b>02</b><div><h3>Estimez</h3><p>Ore și termen, înainte să încep. Dacă pe parcurs se schimbă ceva, aflați atunci, nu la final.</p></div></div>
+      <div class="step"><b>03</b><div><h3>Dezvolt</h3><p>Lucrez în branch separat. Puteți urmări progresul zilnic, fără să mă întrebați.</p></div></div>
+      <div class="step"><b>04</b><div><h3>Predau pentru verificare</h3><p>Link funcțional plus commit-uri curate. Testați pe viu, nu pe capturi de ecran.</p></div></div>
+      <div class="step"><b>05</b><div><h3>Corectez și închid</h3><p>Corecturile din prima rundă intră în preț. Apoi predau tot, cod și acces.</p></div></div>
+    </div>
+  </div>
+</section>
+
+<section class="sec">
+  <div class="wrap">
+    <span class="eyebrow">Stack</span>
+    <h2>Cu ce lucrez</h2>
+    <p class="sub">Ce folosesc zilnic. Nu am pus lista lungă — doar ce pot livra fără să învăț pe banii voștri.</p>
+    <div class="chips">
+      <span class="chip">React</span><span class="chip">Next.js</span><span class="chip">TypeScript</span>
+      <span class="chip">Tailwind CSS</span><span class="chip">CSS Modules</span><span class="chip">Supabase</span>
+      <span class="chip">PostgreSQL</span><span class="chip">Node.js</span><span class="chip">REST APIs</span>
+      <span class="chip">Git</span><span class="chip">Vercel</span>
+    </div>
+  </div>
+</section>
+
+<section class="sec">
+  <div class="wrap">
+    <span class="eyebrow">Tarif</span>
+    <h2>Transparent, de la început</h2>
+    <div class="price-grid">
+      <div class="price">
+        <div class="n">15 €<em> / oră</em></div>
+        <p>Sau preț fix pe proiect, dacă vă e mai simplu de bugetat.</p>
+      </div>
+      <ul class="incl">
+        <li><b>+</b><span>Estimarea vine <strong>înainte</strong> de start, în ore și zile.</span></li>
+        <li><b>+</b><span>Dacă depășesc estimarea din vina mea, <strong>diferența nu se facturează</strong>.</span></li>
+        <li><b>+</b><span>Prima rundă de corecturi <strong>intră în preț</strong>.</span></li>
+        <li><b>+</b><span>Factură de la antreprenor independent înregistrat.</span></li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section class="sec">
+  <div class="wrap">
+    <span class="eyebrow">Pe ce puteți conta</span>
+    <h2>Ce se întâmplă în practică</h2>
+    <p class="sub">Partea care contează când aveți un termen la client peste patru zile.</p>
+    <div class="grid">
+      <div class="cap"><h3>Răspund în aceeași zi</h3><p>În timpul săptămânii, de obicei în câteva ore. Nu dispar la mijlocul proiectului.</p></div>
+      <div class="cap"><h3>Dacă întârzii, aflați devreme</h3><p>Anunț în ziua în care văd problema, nu în ziua predării.</p></div>
+      <div class="cap"><h3>Disponibil imediat</h3><p>Pot începe în 24 de ore. Lucrez și în weekend când termenul o cere.</p></div>
+      <div class="cap"><h3>Română și rusă</h3><p>Comunicare directă, fără traduceri și fără neînțelegeri pe cerințe.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="sec" id="contact">
+  <div class="wrap">
+    <span class="eyebrow">Contact</span>
+    <h2>Trimiteți-mi un proiect</h2>
+    <p class="sub">Sau, dacă preferați să testați întâi: dați-mi o sarcină mică. Așa vedeți cum lucrez, fără să riscați un proiect întreg.</p>
+
+    <div class="contact">
+      <form class="form" action="https://formsubmit.co/alex.shido.it@gmail.com" method="POST">
+        <input type="hidden" name="_subject" value="Cerere de la o agenție — pagina /agentii">
+        <input type="hidden" name="_captcha" value="false">
+        <input type="hidden" name="_template" value="table">
+        <div class="field"><label for="f-nume">Nume</label>
+          <input id="f-nume" name="Nume" type="text" required autocomplete="name"></div>
+        <div class="field"><label for="f-firma">Agenție</label>
+          <input id="f-firma" name="Agentie" type="text" autocomplete="organization"></div>
+        <div class="field"><label for="f-mail">Email</label>
+          <input id="f-mail" name="Email" type="email" required autocomplete="email"></div>
+        <div class="field"><label for="f-msg">Despre ce e vorba</label>
+          <textarea id="f-msg" name="Mesaj" required placeholder="Ce trebuie făcut, până când, și pe ce stack e proiectul acum."></textarea></div>
+        <button class="btn btn-accent" type="submit">Trimite</button>
+      </form>
+
+      <div>
+        <p class="direct">
+          <span class="k">Nume</span> Alexandru Macovetchi<br>
+          <span class="k">Email</span> <a href="mailto:alex.shido.it@gmail.com">alex.shido.it@gmail.com</a><br>
+          <span class="k">Telegram</span> <a href="https://t.me/a1ex_23" target="_blank" rel="noopener">@a1ex_23</a><br>
+          <span class="k">Locație</span> Chișinău, Moldova
+        </p>
+        <p style="color:var(--ink-2);font-size:.93rem;margin-top:22px;max-width:44ch">
+          Răspund în aceeași zi în timpul săptămânii. Dacă proiectul e urgent,
+          scrieți-mi pe Telegram — acolo văd mesajul cel mai repede.
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  <div class="wrap">
+    <span>Alexandru Macovetchi — frontend pentru agenții</span>
+    <a href="index.html" style="color:var(--ink-2)">alex.web →</a>
+  </div>
+</footer>
+
+<script>
+(function(){
+  var K='aw-theme', r=document.documentElement;
+  var saved=null; try{saved=localStorage.getItem(K)}catch(e){}
+  if(saved){ r.setAttribute('data-theme',saved); }
+  else if(window.matchMedia && matchMedia('(prefers-color-scheme: dark)').matches){
+    r.setAttribute('data-theme','dark');
+  }
+  document.getElementById('theme').addEventListener('click',function(){
+    var next = r.getAttribute('data-theme')==='dark' ? 'light' : 'dark';
+    r.setAttribute('data-theme',next);
+    try{localStorage.setItem(K,next)}catch(e){}
+  });
+})();
+</script>
+
+</body>
+</html>
