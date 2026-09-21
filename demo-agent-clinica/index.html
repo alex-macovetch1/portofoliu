@@ -1,0 +1,602 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Asistent AI pentru clinică — demonstrație</title>
+<style>
+:root{
+  --bg:#f4f5f7; --card:#ffffff; --line:#e4e6ea; --line2:#eff1f4;
+  --tx:#0d1117; --dim:#656d76; --dim2:#8b949e;
+  --accent:#2563eb; --accent2:#7c3aed;
+  --ok:#16a34a; --warn:#ea580c;
+  --bubble-in:#f0f0f0; --bubble-out:linear-gradient(135deg,#a033ff,#5271ff);
+  --shadow:0 1px 2px rgba(16,24,40,.04),0 8px 24px rgba(16,24,40,.06);
+  --shadow-lg:0 24px 60px rgba(16,24,40,.14);
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;padding:0}
+body{
+  background:var(--bg);color:var(--tx);
+  font:15px/1.55 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+  -webkit-font-smoothing:antialiased;
+}
+.wrap{max-width:1240px;margin:0 auto;padding:28px 16px 64px}
+
+/* ---------- antet ---------- */
+.ribbon{
+  display:inline-flex;align-items:center;gap:7px;
+  background:#fff7ed;border:1px solid #fed7aa;color:#9a3412;
+  font-size:12px;font-weight:600;padding:5px 11px;border-radius:999px;margin-bottom:16px;
+}
+.ribbon i{width:6px;height:6px;border-radius:50%;background:var(--warn);display:block}
+h1{font-size:clamp(23px,3.4vw,33px);line-height:1.2;margin:0 0 8px;letter-spacing:-.02em}
+.lead{color:var(--dim);font-size:16px;max-width:680px;margin:0 0 6px}
+.lead b{color:var(--tx);font-weight:600}
+
+/* ---------- flux ---------- */
+.flow{display:flex;flex-wrap:wrap;gap:6px;align-items:center;margin:22px 0 26px}
+.flow span{
+  background:var(--card);border:1px solid var(--line);border-radius:8px;
+  padding:7px 12px;font-size:12.5px;font-weight:600;letter-spacing:.01em;box-shadow:var(--shadow);
+}
+.flow span:last-child{border-color:#bbf7d0;background:#f0fdf4;color:#15803d}
+.flow em{color:var(--dim2);font-style:normal;font-size:13px}
+
+/* ---------- grilă ---------- */
+.grid{display:grid;grid-template-columns:minmax(0,1fr) 400px minmax(0,1fr);gap:22px;align-items:start}
+@media(max-width:1080px){.grid{grid-template-columns:1fr;max-width:560px;margin:0 auto}}
+
+.card{background:var(--card);border:1px solid var(--line);border-radius:14px;box-shadow:var(--shadow);overflow:hidden}
+.card+.card{margin-top:18px}
+.card h3{
+  margin:0;padding:14px 18px;font-size:12px;font-weight:700;color:var(--dim);
+  text-transform:uppercase;letter-spacing:.07em;border-bottom:1px solid var(--line2);
+}
+.card .body{padding:16px 18px}
+
+/* ---------- profil clinică ---------- */
+.prof{display:flex;gap:13px;align-items:center;padding:18px}
+.ava{
+  width:56px;height:56px;border-radius:50%;flex:0 0 56px;
+  display:grid;place-items:center;color:#fff;font-weight:700;font-size:21px;letter-spacing:-.02em;
+}
+.prof .nm{font-weight:650;font-size:16.5px;display:flex;align-items:center;gap:5px}
+.prof .hd{color:var(--dim);font-size:13.5px}
+.prof .st{color:var(--ok);font-size:12.5px;font-weight:600;margin-top:3px;display:flex;align-items:center;gap:5px}
+.prof .st i{width:7px;height:7px;border-radius:50%;background:var(--ok);display:block}
+.tick{width:15px;height:15px;flex:0 0 15px}
+
+/* ---------- liste de date ---------- */
+.rowlist{font-size:14px}
+.rowlist div{display:flex;justify-content:space-between;gap:14px;padding:8px 0;border-bottom:1px solid var(--line2)}
+.rowlist div:last-child{border-bottom:0}
+.rowlist .k{color:var(--tx)}
+.rowlist .k small{display:block;color:var(--dim2);font-size:12px;margin-top:1px}
+.rowlist .v{color:var(--tx);font-weight:650;white-space:nowrap;font-variant-numeric:tabular-nums}
+.meta{font-size:14px;color:var(--dim)}
+.meta p{margin:0 0 9px}
+.meta p:last-child{margin:0}
+.meta b{color:var(--tx);font-weight:600;display:block;font-size:12px;text-transform:uppercase;letter-spacing:.05em;color:var(--dim2);margin-bottom:2px}
+details{border-bottom:1px solid var(--line2);padding:9px 0}
+details:last-child{border-bottom:0}
+summary{cursor:pointer;font-size:14px;font-weight:550;list-style:none;display:flex;justify-content:space-between;gap:10px}
+summary::-webkit-details-marker{display:none}
+summary::after{content:"+";color:var(--dim2);font-weight:400}
+details[open] summary::after{content:"–"}
+details p{margin:8px 0 2px;font-size:13.5px;color:var(--dim);line-height:1.6}
+
+/* ---------- telefon ---------- */
+.phonecol{position:sticky;top:20px}
+@media(max-width:1080px){.phonecol{position:static}}
+.chips{display:flex;flex-wrap:wrap;gap:7px;margin-bottom:14px}
+.chip{
+  border:1px solid var(--line);background:var(--card);color:var(--tx);
+  font:inherit;font-size:12.5px;font-weight:600;padding:7px 12px;border-radius:999px;cursor:pointer;
+  box-shadow:var(--shadow);transition:.13s;
+}
+.chip:hover{border-color:#c3c9d2;transform:translateY(-1px)}
+.chip.on{background:var(--tx);color:#fff;border-color:var(--tx)}
+.chip.try{border-color:#bfdbfe;background:#eff6ff;color:#1d4ed8}
+.chip.try.on{background:var(--accent);color:#fff;border-color:var(--accent)}
+
+.phone{
+  background:#0b0d10;border-radius:38px;padding:9px;box-shadow:var(--shadow-lg);
+  border:1px solid #1c2026;
+}
+.screen{background:#fff;border-radius:30px;overflow:hidden;display:flex;flex-direction:column;height:604px}
+.status{
+  display:flex;justify-content:space-between;align-items:center;
+  padding:9px 20px 3px;font-size:12.5px;font-weight:650;color:#0d1117;
+}
+.status .icons{display:flex;gap:4px;align-items:center;opacity:.85}
+.ighead{
+  display:flex;align-items:center;gap:10px;padding:7px 13px 11px;border-bottom:1px solid #efefef;
+}
+.ighead .ava{width:33px;height:33px;flex:0 0 33px;font-size:13px}
+.ighead .t{flex:1;min-width:0}
+.ighead .t b{display:block;font-size:14.5px;font-weight:650;line-height:1.25}
+.ighead .t span{font-size:11.5px;color:#8e8e8e}
+.ighead svg{flex:0 0 auto;opacity:.82}
+
+.chat{flex:1;overflow-y:auto;padding:14px 12px 8px;background:#fff;scroll-behavior:smooth}
+.chat::-webkit-scrollbar{width:0}
+.daystamp{text-align:center;color:#a8a8a8;font-size:11.5px;font-weight:600;margin:4px 0 14px}
+.msg{display:flex;margin-bottom:3px;align-items:flex-end;gap:7px}
+.msg.p{justify-content:flex-end}
+.msg .mava{width:23px;height:23px;border-radius:50%;flex:0 0 23px;display:grid;place-items:center;color:#fff;font-size:9.5px;font-weight:700}
+.msg .mava.hide{visibility:hidden}
+.bub{
+  max-width:74%;padding:9px 13px;border-radius:19px;font-size:14.3px;line-height:1.42;
+  word-wrap:break-word;white-space:pre-wrap;
+}
+.msg.c .bub{background:var(--bubble-in);color:#0d1117;border-bottom-left-radius:5px}
+.msg.p .bub{background:var(--bubble-out);color:#fff;border-bottom-right-radius:5px}
+.msg.tail{margin-bottom:11px}
+.msg .bub{animation:pop .22s ease-out}
+@keyframes pop{from{opacity:0;transform:translateY(7px) scale(.97)}to{opacity:1;transform:none}}
+.stamp{text-align:center;color:#b0b0b0;font-size:11px;margin:9px 0 13px}
+.sysnote{
+  margin:10px 6px 14px;padding:9px 12px;border-radius:10px;background:#fff7ed;border:1px solid #fed7aa;
+  color:#9a3412;font-size:12.3px;line-height:1.45;animation:pop .22s ease-out;
+}
+.typing{display:flex;align-items:flex-end;gap:7px;margin-bottom:11px}
+.typing .dots{background:var(--bubble-in);border-radius:19px;border-bottom-left-radius:5px;padding:13px 15px;display:flex;gap:4px}
+.typing .dots i{width:7px;height:7px;border-radius:50%;background:#b4b4b4;display:block;animation:bl 1.25s infinite}
+.typing .dots i:nth-child(2){animation-delay:.18s}
+.typing .dots i:nth-child(3){animation-delay:.36s}
+@keyframes bl{0%,60%,100%{opacity:.35;transform:translateY(0)}30%{opacity:1;transform:translateY(-3px)}}
+
+.igbar{display:flex;align-items:center;gap:9px;padding:9px 12px 13px;border-top:1px solid #efefef;background:#fff}
+.igbar .inp{
+  flex:1;display:flex;align-items:center;gap:8px;border:1px solid #dbdbdb;border-radius:999px;padding:7px 8px 7px 15px;
+}
+.igbar input{
+  flex:1;border:0;outline:0;font:inherit;font-size:14px;background:transparent;color:var(--tx);min-width:0;
+}
+.igbar input::placeholder{color:#a8a8a8}
+.igbar input:disabled{cursor:not-allowed}
+.send{
+  border:0;background:transparent;color:var(--accent);font:inherit;font-weight:700;font-size:14px;
+  cursor:pointer;padding:0 6px;
+}
+.send:disabled{color:#c7c7c7;cursor:default}
+.hintbar{text-align:center;font-size:12.3px;color:var(--dim);margin-top:11px;min-height:18px}
+.hintbar b{color:var(--tx)}
+
+/* ---------- fișa de lead ---------- */
+.lead-card .body{padding:0}
+.lf{display:flex;justify-content:space-between;gap:12px;padding:11px 18px;border-bottom:1px solid var(--line2);font-size:14px}
+.lf:last-child{border-bottom:0}
+.lf .k{color:var(--dim)}
+.lf .v{font-weight:650;text-align:right}
+.lf .v.empty{color:#c7ccd4;font-weight:400}
+.lf .v.fresh{animation:hl 1.1s ease-out}
+@keyframes hl{0%{background:#fef08a;box-shadow:0 0 0 4px #fef08a}100%{background:transparent;box-shadow:none}}
+.badge{display:inline-block;font-size:11px;font-weight:700;padding:2px 8px;border-radius:5px;letter-spacing:.03em}
+.b-urg{background:#fef2f2;color:#b91c1c}
+.b-norm{background:#f0fdf4;color:#15803d}
+.b-wait{background:#f3f4f6;color:#6b7280}
+
+.stats{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--line2)}
+.stats div{background:var(--card);padding:14px 16px}
+.stats b{display:block;font-size:20px;font-weight:700;letter-spacing:-.02em}
+.stats span{font-size:11.5px;color:var(--dim)}
+
+/* ---------- beneficii ---------- */
+.benefits{margin-top:44px}
+.benefits h2{font-size:21px;margin:0 0 4px;letter-spacing:-.01em}
+.benefits .sub{color:var(--dim);margin:0 0 20px;font-size:15px}
+.bgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:14px}
+.ben{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:18px;box-shadow:var(--shadow)}
+.ben .ic{width:34px;height:34px;border-radius:9px;display:grid;place-items:center;margin-bottom:11px;font-size:16px}
+.ben b{display:block;font-size:14.5px;margin-bottom:4px}
+.ben p{margin:0;font-size:13.5px;color:var(--dim);line-height:1.55}
+
+.foot{
+  margin-top:34px;padding:18px 20px;border-radius:12px;background:#0d1117;color:#c9d1d9;
+  font-size:14px;line-height:1.6;
+}
+.foot b{color:#fff}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="ribbon"><i></i> Demonstrație · clinica de mai jos este fictivă</div>
+  <h1 id="h1">Asistentul care răspunde pacienților când recepția nu poate</h1>
+  <p class="lead">Un pacient scrie în DM la <b>21:47</b>, sâmbătă seara. Recepția e închisă. În loc să aștepte până luni — sau să scrie la altă clinică — primește răspuns în <b>sub un minut</b>, cu prețurile și programul clinicii, și pleacă de acolo cu o programare.</p>
+
+  <div class="flow">
+    <span>Pacientul scrie</span><em>→</em>
+    <span>Răspuns în &lt;1 min</span><em>→</em>
+    <span>Întrebări de calificare</span><em>→</em>
+    <span>Nume și telefon</span><em>→</em>
+    <span>Programare sau preluare</span>
+  </div>
+
+  <div class="grid">
+
+    <!-- STÂNGA: datele clinicii -->
+    <div>
+      <div class="card">
+        <div class="prof">
+          <div class="ava" id="pAva"></div>
+          <div>
+            <div class="nm"><span id="pNume"></span>
+              <svg class="tick" viewBox="0 0 24 24" fill="#3897f0"><path d="M23 12l-2.4-2.8.3-3.7-3.6-.8-1.9-3.2L12 3 8.6 1.5 6.7 4.7l-3.6.8.3 3.7L1 12l2.4 2.8-.3 3.7 3.6.8 1.9 3.2L12 21l3.4 1.5 1.9-3.2 3.6-.8-.3-3.7L23 12zm-13 5l-4-4 1.4-1.4L10 14.2l6.6-6.6L18 9l-8 8z"/></svg>
+            </div>
+            <div class="hd" id="pHandle"></div>
+            <div class="st"><i></i> Răspunde de obicei imediat</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <h3>Servicii și prețuri</h3>
+        <div class="body rowlist" id="pServicii"></div>
+      </div>
+
+      <div class="card">
+        <h3>Program și contact</h3>
+        <div class="body">
+          <div class="rowlist" id="pProgram" style="margin-bottom:14px"></div>
+          <div class="meta">
+            <p><b>Adresa</b><span id="pAdresa"></span></p>
+            <p><b>Telefon recepție</b><span id="pTelefon"></span></p>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <h3>Întrebări frecvente — din care răspunde asistentul</h3>
+        <div class="body" id="pFaq"></div>
+      </div>
+    </div>
+
+    <!-- CENTRU: telefonul -->
+    <div class="phonecol">
+      <div class="chips" id="chips"></div>
+
+      <div class="phone">
+        <div class="screen">
+          <div class="status">
+            <span id="sTime">21:47</span>
+            <span class="icons">
+              <svg width="17" height="11" viewBox="0 0 17 11" fill="currentColor"><rect x="0" y="7" width="3" height="4" rx=".7"/><rect x="4.4" y="5" width="3" height="6" rx=".7"/><rect x="8.8" y="2.6" width="3" height="8.4" rx=".7"/><rect x="13.2" y="0" width="3" height="11" rx=".7" opacity=".3"/></svg>
+              <svg width="25" height="12" viewBox="0 0 25 12" fill="none"><rect x=".5" y=".5" width="20" height="11" rx="3" stroke="currentColor" opacity=".4"/><rect x="2" y="2" width="15" height="8" rx="1.6" fill="currentColor"/><path d="M22 4v4a2.4 2.4 0 000-4z" fill="currentColor" opacity=".4"/></svg>
+            </span>
+          </div>
+
+          <div class="ighead">
+            <svg width="11" height="18" viewBox="0 0 11 18" fill="none" stroke="#0d1117" stroke-width="2"><path d="M9.5 1L1.5 9l8 8"/></svg>
+            <div class="ava" id="hAva"></div>
+            <div class="t"><b id="hNume"></b><span id="hSub">Activ acum</span></div>
+            <svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="#0d1117" stroke-width="1.8"><path d="M15.05 5A5 5 0 0119 8.95M15.05 1A9 9 0 0123 8.94m-1 7.98v3a2 2 0 01-2.18 2 19.8 19.8 0 01-8.63-3.07 19.5 19.5 0 01-6-6A19.8 19.8 0 012.12 4.2 2 2 0 014.11 2h3a2 2 0 012 1.72c.13.96.36 1.9.7 2.81a2 2 0 01-.45 2.11L8.1 9.9a16 16 0 006 6l1.26-1.27a2 2 0 012.11-.45c.9.34 1.85.57 2.81.7A2 2 0 0122 16.92z"/></svg>
+          </div>
+
+          <div class="chat" id="chat"></div>
+
+          <div class="igbar">
+            <div class="inp">
+              <input id="inp" placeholder="Apasă un scenariu de mai sus…" disabled autocomplete="off">
+            </div>
+            <button class="send" id="send" disabled>Trimite</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="hintbar" id="hint"></div>
+    </div>
+
+    <!-- DREAPTA: ce primește clinica -->
+    <div>
+      <div class="card lead-card">
+        <h3>Ce primește clinica</h3>
+        <div class="body" id="leadBox"></div>
+      </div>
+
+      <div class="card">
+        <h3>Ce s-a întâmplat fără recepție</h3>
+        <div class="stats">
+          <div><b id="kTimp">—</b><span>Timp până la primul răspuns</span></div>
+          <div><b id="kMsg">0</b><span>Mesaje gestionate</span></div>
+          <div><b id="kOra">—</b><span>Ora conversației</span></div>
+          <div><b id="kCost">0,04 $</b><span>Cost estimat / conversație</span></div>
+        </div>
+      </div>
+
+      <div class="card">
+        <h3>Ce NU face asistentul</h3>
+        <div class="body meta">
+          <p>Nu dă diagnostic și nu recomandă tratament — pune întrebări și trimite omul la medic.</p>
+          <p>Nu inventează prețuri sau ore. Răspunde doar din lista clinicii; ce nu știe, predă recepției.</p>
+          <p>Nu insistă. Dacă pacientul zice că se mai gândește, lasă datele de contact și încheie.</p>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- BENEFICII -->
+  <div class="benefits">
+    <h2>Ce înseamnă asta pentru clinică</h2>
+    <p class="sub">Nu un chatbot. Un răspuns care nu lasă pacientul să plece la concurent.</p>
+    <div class="bgrid">
+      <div class="ben"><div class="ic" style="background:#eff6ff;color:#1d4ed8">🕐</div><b>Răspuns 24/7</b><p>Seara, în weekend, de sărbători. Ora la care scriu cei mai mulți pacienți e exact ora la care recepția nu e acolo.</p></div>
+      <div class="ben"><div class="ic" style="background:#f0fdf4;color:#15803d">⚡</div><b>Sub un minut</b><p>Pacientul scrie de obicei la trei clinici deodată. Merge la prima care răspunde, nu la cea mai bună.</p></div>
+      <div class="ben"><div class="ic" style="background:#fef2f2;color:#b91c1c">📉</div><b>Mai puține cereri pierdute</b><p>Fiecare mesaj fără răspuns e o programare care s-a făcut în altă parte. Aici niciunul nu rămâne necitit.</p></div>
+      <div class="ben"><div class="ic" style="background:#fdf4ff;color:#a21caf">📋</div><b>Datele se strâng singure</b><p>Nume, telefon, motivul vizitei și cât de urgent e — gata scrise, fără să le mai ceară cineva a doua oară.</p></div>
+      <div class="ben"><div class="ic" style="background:#fffbeb;color:#b45309">📅</div><b>Programare sau preluare</b><p>Când ora e liberă, o rezervă. Când nu e sigur, lasă pacientul pregătit și anunță recepția să sune.</p></div>
+      <div class="ben"><div class="ic" style="background:#f8fafc;color:#475569">🧑‍💼</div><b>Recepția respiră</b><p>Întrebările care se repetă de zece ori pe zi — preț, program, adresă, parcare — nu mai ajung la om.</p></div>
+    </div>
+  </div>
+
+  <div class="foot">
+    <b>Cum se citește demonstrația:</b> conversațiile de mai sus sunt exemple reale de flux, cu datele acestei clinici fictive. Pentru o clinică adevărată se folosesc serviciile, prețurile, programul și întrebările ei — asistentul nu răspunde nimic în afara lor.
+  </div>
+
+</div>
+
+<script src="clinica.js"></script>
+<script>
+(function(){
+  var C = window.CLINICA;
+  var chat = document.getElementById('chat');
+  var inp  = document.getElementById('inp');
+  var send = document.getElementById('send');
+  var hint = document.getElementById('hint');
+  var run  = 0;              // token de rulare: orice schimbare de scenariu îl incrementează
+  var free = false;
+  var msgCount = 0, startedAt = null;
+  var lead = {};
+
+  /* ---------- utilitare ---------- */
+  function el(tag, cls, txt){ var e=document.createElement(tag); if(cls)e.className=cls; if(txt!=null)e.textContent=txt; return e; }
+  function sleep(ms){ return new Promise(function(r){ setTimeout(r, ms); }); }
+  function scroll(){ chat.scrollTop = chat.scrollHeight; }
+  function fara(s){ return s.toLowerCase()
+      .replace(/[ăâ]/g,'a').replace(/î/g,'i').replace(/[șş]/g,'s').replace(/[țţ]/g,'t')
+      .replace(/\s+/g,' ').trim(); }
+  function avaHTML(target, initiale, size){
+    target.textContent = initiale;
+    target.style.background = 'linear-gradient(135deg,'+C.culoare1+','+C.culoare2+')';
+  }
+
+  /* ---------- randare date clinică ---------- */
+  document.title = 'Asistent AI · ' + C.nume;
+  document.getElementById('pNume').textContent = C.nume;
+  document.getElementById('hNume').textContent = C.nume;
+  document.getElementById('pHandle').textContent = '@' + C.handle + ' · ' + C.tagline;
+  document.getElementById('pAdresa').textContent = C.adresa;
+  document.getElementById('pTelefon').textContent = C.telefon;
+  document.getElementById('h1').textContent = C.titlu || document.getElementById('h1').textContent;
+  avaHTML(document.getElementById('pAva'), C.initiale);
+  avaHTML(document.getElementById('hAva'), C.initiale);
+
+  var ps = document.getElementById('pServicii');
+  C.servicii.forEach(function(s){
+    var d = el('div');
+    var k = el('div','k'); k.appendChild(document.createTextNode(s.nume));
+    if(s.durata) k.appendChild(el('small', null, s.durata));
+    d.appendChild(k); d.appendChild(el('div','v', s.pret));
+    ps.appendChild(d);
+  });
+
+  var pp = document.getElementById('pProgram');
+  C.program.forEach(function(p){
+    var d = el('div');
+    d.appendChild(el('div','k', p[0]));
+    d.appendChild(el('div','v', p[1]));
+    pp.appendChild(d);
+  });
+
+  var pf = document.getElementById('pFaq');
+  C.faq.forEach(function(f){
+    var dt = el('details');
+    dt.appendChild(el('summary', null, f.q));
+    dt.appendChild(el('p', null, f.a));
+    pf.appendChild(dt);
+  });
+
+  /* ---------- fișa de lead ---------- */
+  var CAMPURI = [
+    ['nume','Nume'], ['telefon','Telefon'], ['motiv','Motivul vizitei'],
+    ['cand','Programat pentru'], ['urgenta','Urgență'], ['sursa','Sursa']
+  ];
+  function renderLead(nou){
+    var box = document.getElementById('leadBox');
+    box.innerHTML = '';
+    CAMPURI.forEach(function(c){
+      var r = el('div','lf');
+      r.appendChild(el('div','k', c[1]));
+      var v = el('div','v');
+      var val = lead[c[0]];
+      if(!val){ v.className='v empty'; v.textContent='—'; }
+      else if(c[0]==='urgenta'){
+        var b = el('span','badge ' + (val==='Urgent' ? 'b-urg' : val==='Normal' ? 'b-norm' : 'b-wait'));
+        b.textContent = val; v.appendChild(b);
+      } else { v.textContent = val; }
+      if(nou === c[0]) v.classList.add('fresh');
+      r.appendChild(v);
+      box.appendChild(r);
+    });
+  }
+  function setLead(obj){
+    var ultim = null;
+    for(var k in obj){ lead[k] = obj[k]; ultim = k; }
+    renderLead(ultim);
+  }
+
+  function resetStats(ora){
+    msgCount = 0; startedAt = null;
+    document.getElementById('kMsg').textContent = '0';
+    document.getElementById('kTimp').textContent = '—';
+    document.getElementById('kOra').textContent = ora || '—';
+  }
+  function bumpStats(de){
+    msgCount++;
+    document.getElementById('kMsg').textContent = msgCount;
+    // „timp până la primul răspuns" se numără la primul mesaj AL CLINICII, nu al pacientului
+    if(!startedAt && de === 'clinica'){
+      startedAt = 1;
+      document.getElementById('kTimp').textContent = '28 sec';
+    }
+  }
+
+  /* ---------- bule ---------- */
+  function addMsg(de, text, tail){
+    var m = el('div','msg ' + (de==='pacient' ? 'p' : 'c') + (tail ? ' tail' : ''));
+    if(de !== 'pacient'){
+      var a = el('div','mava' + (tail ? '' : ' hide'));
+      avaHTML(a, C.initiale);
+      m.appendChild(a);
+    }
+    m.appendChild(el('div','bub', text));
+    chat.appendChild(m); scroll();
+    bumpStats(de);
+  }
+  function addNote(text){
+    chat.appendChild(el('div','sysnote', text)); scroll();
+  }
+  function addStamp(text){
+    chat.appendChild(el('div','daystamp', text)); scroll();
+  }
+  async function typing(ms, token){
+    var t = el('div','typing');
+    var a = el('div','mava'); avaHTML(a, C.initiale); t.appendChild(a);
+    var d = el('div','dots'); d.appendChild(el('i')); d.appendChild(el('i')); d.appendChild(el('i'));
+    t.appendChild(d); chat.appendChild(t); scroll();
+    await sleep(ms);
+    if(t.parentNode) t.parentNode.removeChild(t);
+    return token === run;
+  }
+
+  /* ---------- redare scenariu ---------- */
+  async function play(sc){
+    run++; var token = run;
+    chat.innerHTML = ''; lead = {}; renderLead();
+    resetStats(sc.ora);
+    document.getElementById('sTime').textContent = sc.ora;
+    document.getElementById('hSub').textContent = sc.stare || 'Activ acum';
+    inp.disabled = true; send.disabled = true; inp.value = '';
+    inp.placeholder = 'Se redă scenariul…';
+    hint.innerHTML = sc.descriere;
+    free = false;
+
+    addStamp(sc.zi);
+    await sleep(400);
+    if(token !== run) return;
+
+    for(var i=0; i<sc.mesaje.length; i++){
+      var m = sc.mesaje[i];
+      var urm = sc.mesaje[i+1];
+      var tail = !urm || urm.de !== m.de;
+
+      if(m.de === 'clinica'){
+        var ok = await typing(m.pauza || (600 + Math.min(m.text.length * 13, 1150)), token);
+        if(!ok) return;
+      } else {
+        await sleep(m.pauza || 780);
+        if(token !== run) return;
+      }
+      addMsg(m.de, m.text, tail);
+      if(m.set) setLead(m.set);
+      if(m.nota){ await sleep(300); if(token !== run) return; addNote(m.nota); }
+    }
+
+    await sleep(500);
+    if(token !== run) return;
+    inp.placeholder = 'Scrie și tu, ca un pacient…';
+    inp.disabled = false; send.disabled = false; free = true;
+    intrebate = 0; astept = null;
+    hint.innerHTML = 'Conversația s-a terminat. <b>Poți scrie tu mai departe</b> — asistentul răspunde din datele clinicii.';
+  }
+
+  /* ---------- mod liber ---------- */
+  var intrebate = 0, astept = null;
+
+  function raspunde(text){
+    var t = fara(text);
+
+    // captură nume / telefon când au fost cerute
+    if(astept === 'nume'){
+      astept = 'telefon';
+      var nume = text.trim().replace(/^(ma numesc|numele meu e|sunt)\s+/i,'');
+      setLead({nume: nume});
+      return 'Mulțumesc, ' + nume.split(' ')[0] + '. Și un număr de telefon la care vă poate suna recepția?';
+    }
+    if(astept === 'telefon'){
+      astept = null;
+      setLead({telefon: text.trim(), urgenta: lead.urgenta || 'Normal', sursa: 'Instagram DM'});
+      return 'Gata, v-am notat. Recepția vă sună să confirme ora. Dacă între timp se schimbă ceva, scrieți-mi aici.';
+    }
+
+    // reguli din fișierul clinicii
+    for(var i=0; i<C.raspunsuri.length; i++){
+      var r = C.raspunsuri[i];
+      for(var j=0; j<r.chei.length; j++){
+        if(t.indexOf(fara(r.chei[j])) !== -1){
+          if(r.set) setLead(r.set);
+          intrebate++;
+          if(intrebate >= 2 && !lead.nume){ astept = 'nume'; return r.raspuns + '\n\nCa să vă rezerv ora, îmi spuneți numele complet?'; }
+          return r.raspuns;
+        }
+      }
+    }
+
+    // nu știe → predă
+    intrebate++;
+    if(!lead.nume){ astept = 'nume'; setLead({motiv: lead.motiv || 'Întrebare pentru recepție'}); }
+    return 'Asta o verific cu colegii de la recepție ca să nu vă spun greșit.\n\nÎmi lăsați numele și vă sunăm mâine dimineață cu răspunsul exact?';
+  }
+
+  async function trimite(){
+    var text = inp.value.trim();
+    if(!text || !free) return;
+    inp.value = ''; send.disabled = true;
+    var token = run;
+    addMsg('pacient', text, true);
+    var r = raspunde(text);
+    var ok = await typing(700 + Math.min(r.length * 12, 1100), token);
+    if(!ok) return;
+    addMsg('clinica', r, true);
+    send.disabled = false; inp.focus();
+  }
+
+  send.addEventListener('click', trimite);
+  inp.addEventListener('keydown', function(e){ if(e.key === 'Enter') trimite(); });
+
+  /* ---------- butoane ---------- */
+  var chips = document.getElementById('chips');
+  C.scenarii.forEach(function(sc, idx){
+    var b = el('button','chip', sc.titlu);
+    b.addEventListener('click', function(){
+      [].forEach.call(chips.children, function(c){ c.classList.remove('on'); });
+      b.classList.add('on');
+      play(sc);
+    });
+    chips.appendChild(b);
+    if(idx === 0) setTimeout(function(){ b.click(); }, 350);
+  });
+
+  var bt = el('button','chip try', '💬 Scrie tu');
+  bt.addEventListener('click', function(){
+    [].forEach.call(chips.children, function(c){ c.classList.remove('on'); });
+    bt.classList.add('on');
+    run++;
+    chat.innerHTML = ''; lead = {}; renderLead(); resetStats('—');
+    intrebate = 0; astept = null; free = true;
+    document.getElementById('sTime').textContent = C.oraLibera || '21:47';
+    addStamp('Acum');
+    addMsg('clinica', C.salut, true);
+    inp.disabled = false; send.disabled = false; inp.placeholder = 'Scrie ca un pacient…'; inp.focus();
+    hint.innerHTML = 'Întreabă ce vrei: <b>preț, program, adresă, o durere</b>. Răspunde doar din datele clinicii.';
+  });
+  chips.appendChild(bt);
+
+  renderLead();
+})();
+</script>
+</body>
+</html>
