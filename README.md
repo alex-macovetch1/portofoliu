@@ -1,68 +1,37 @@
-# Portfolio — Alexandru Macovetchi
+# alex.web — portfolio
 
-Personal portfolio site for a Chișinău-based web studio: shipped web apps,
-client sites and landing-page demos, in **three languages (RO / RU / EN)**.
+My portfolio site: an e-commerce demo, paid client websites and web app demos, in three languages
+(Romanian, Russian, English).
 
-**Live:** https://alex-macovetch1.github.io/portofoliu/
+**Live:** https://alex-macovetch1.github.io/portofoliu/?lang=en
 
-**Stack:** hand-written HTML · CSS · vanilla JavaScript — no framework, no build step
+Built with AI-assisted development (Claude Code).
 
-![HTML5](https://img.shields.io/badge/HTML5-E34F26?style=flat&logo=html5&logoColor=white)
-![CSS3](https://img.shields.io/badge/CSS3-1572B6?style=flat&logo=css3&logoColor=white)
-![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E?style=flat&logo=javascript&logoColor=black)
-![GitHub Pages](https://img.shields.io/badge/GitHub_Pages-222?style=flat&logo=githubpages&logoColor=white)
+## What it shows
 
----
+- **E-commerce:** AgroParts, a tractor-parts shop with 3,738 products, search by tractor model, cart,
+  orders and an admin panel — case page with screenshots in [`agroparts/`](agroparts/)
+- **Client work:** six live websites for one recurring client in Chișinău (spa, hammam, massage, concierge)
+- **Web app demos:** a real-estate agency with an admin panel and a dental clinic site with online booking
+  (both businesses are fictional and marked as demos)
+- **WordPress:** a theme and two plugins
+- **AI assistants:** customer-support and clinic chat demos in Romanian and Russian
 
-## Built without a framework
+Client projects are marked "Client"; demos are marked "Demo" or "Live".
 
-- **Runtime i18n in 3 languages** — every string is a `data-i18n` key resolved
-  from an in-page dictionary (RO / RU / EN); switching language re-renders the
-  whole page without a reload
-- **Light / dark theme** — a full token set swapped on `html[data-theme]`,
-  seeded from `prefers-color-scheme` and remembered in `localStorage`
-- **Live-showcase viewport** — a browser-chrome frame in the hero that cycles
-  through the shipped projects, pauses on hover and on tab blur, and links
-  straight to each one
-- **Self-hosted variable fonts** — three families subset to latin / latin-ext /
-  cyrillic (142 KB total), so Romanian diacritics and Russian both render
-  correctly with no third-party font request
-- **Reveal-on-scroll animations** via `IntersectionObserver`; CSS marquee for
-  the tech ticker; `prefers-reduced-motion` respected throughout
-- **Zero dependencies** — no npm, no bundler; the repo is what the browser runs,
-  deployed straight to GitHub Pages
+## How it is built
 
-## What it showcases
+- Plain HTML, CSS and JavaScript — no framework, no build step, deployed straight to GitHub Pages
+- Language switch (RO / RU / EN) without a page reload, from an in-page dictionary
+- Light and dark theme, remembered in `localStorage`
+- Self-hosted fonts, subset for Latin, Latin Extended and Cyrillic
+- Scroll animations with `IntersectionObserver`, `prefers-reduced-motion` respected
+- SEO basics: structured data, sitemap, robots.txt
 
-| Project | Type |
-|---------|------|
-| **Executive (TerraLux Group)** | Client work — two premium concierge sites |
-| **WASD** | E-commerce storefront · Next.js 16 |
-| **Playdex** | Analytics dashboard · Next.js 16 + live API |
-| **LeadBot** | Bilingual AI chat assistant · Next.js 16 + Gemini |
-| **Senkai** | Fullstack media hub · Next.js 16 + Supabase |
-| **BARON / Valea Verde** | Landing-page demos with booking flows |
+## Run locally
 
-## Structure
-
-```
-index.html          # the whole site: markup, styles, i18n dictionary, scripts
-assets/             # project imagery
-assets/fonts/       # self-hosted woff2 subsets (latin, latin-ext, cyrillic)
-cv/                 # downloadable CV
-demo-barbershop/    # standalone landing-page demo
-demo-pensiune/      # standalone landing-page demo
-social/             # social-media design work
-```
-
-## Run it locally
-
-No build step — open `index.html` in a browser, or serve the folder:
+Open `index.html` in a browser, or serve the folder:
 
 ```bash
 npx serve .
 ```
-
----
-
-Built by [Alexandru Macovetchi](https://github.com/alex-macovetch1)

@@ -1,0 +1,160 @@
+<!doctype html>
+<html lang="ro">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AgroParts — magazin online de piese pentru tractoare · alex.web</title>
+<meta name="description" content="AgroParts: magazin online de piese pentru tractoare, cu 3.738 de produse, căutare după modelul tractorului, variante, coș, comenzi și panou de administrare. Demo construit de Alexandru Macovetchi.">
+<meta property="og:image" content="https://alex-macovetch1.github.io/portofoliu/assets/agroparts.jpeg">
+<meta name="theme-color" content="#EDEDE9">
+<style>
+@font-face{font-family:'AWDisplay';font-weight:400 900;font-display:swap;src:url('../assets/fonts/display-latin.woff2') format('woff2');unicode-range:U+0000-00FF,U+2000-206F,U+20AC}
+@font-face{font-family:'AWDisplay';font-weight:400 900;font-display:swap;src:url('../assets/fonts/display-latin-ext.woff2') format('woff2');unicode-range:U+0100-02BA,U+02BD-02C5,U+02C7-02CC,U+0218-021B}
+@font-face{font-family:'AWText';font-weight:400 800;font-display:swap;src:url('../assets/fonts/text-latin.woff2') format('woff2');unicode-range:U+0000-00FF,U+2000-206F,U+20AC}
+@font-face{font-family:'AWText';font-weight:400 800;font-display:swap;src:url('../assets/fonts/text-latin-ext.woff2') format('woff2');unicode-range:U+0100-02BA,U+02BD-02C5,U+02C7-02CC,U+0218-021B}
+@font-face{font-family:'AWMono';font-weight:400 800;font-display:swap;src:url('../assets/fonts/mono-latin.woff2') format('woff2');unicode-range:U+0000-00FF,U+2000-206F}
+@font-face{font-family:'AWMono';font-weight:400 800;font-display:swap;src:url('../assets/fonts/mono-latin-ext.woff2') format('woff2');unicode-range:U+0100-02BA,U+0218-021B}
+:root{--canvas:#EDEDE9;--surface:#fff;--ink:#0B0B0C;--ink-2:#5D5D63;--ink-3:#8A8A90;--line:#E1E1DB;--accent:#1B36FF;--accent-soft:rgba(27,54,255,.09);
+  --shadow:0 1px 2px rgba(11,11,12,.04),0 12px 34px -12px rgba(11,11,12,.14);--r:26px;
+  --f-display:'AWDisplay','Segoe UI',system-ui,sans-serif;--f-text:'AWText','Segoe UI',system-ui,sans-serif;--f-mono:'AWMono',ui-monospace,Consolas,monospace;--gut:clamp(16px,4.4vw,52px)}
+html[data-theme="dark"]{--canvas:#09090A;--surface:#131315;--ink:#F3F3EF;--ink-2:#9A9AA1;--ink-3:#78787F;--line:#26262B;--accent:#7B8FFF;--accent-soft:rgba(123,143,255,.14);
+  --shadow:0 1px 2px rgba(0,0,0,.5),0 12px 34px -12px rgba(0,0,0,.7)}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:var(--f-text);background:var(--canvas);color:var(--ink);font-size:17px;line-height:1.6;-webkit-font-smoothing:antialiased}
+a{color:inherit}
+.wrap{max-width:1180px;margin:0 auto;padding:0 var(--gut)}
+.top{display:flex;justify-content:space-between;align-items:center;padding:22px 0}
+.logo{font-family:var(--f-display);font-weight:800;font-size:20px;text-decoration:none;letter-spacing:-.02em}
+.logo b{color:var(--accent)}
+.back{font-family:var(--f-mono);font-size:13px;text-decoration:none;color:var(--ink-2);border:1px solid var(--line);border-radius:99px;padding:8px 16px;background:var(--surface)}
+.back:hover{color:var(--ink)}
+.eyebrow{font-family:var(--f-mono);font-size:12.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-3)}
+h1{font-family:var(--f-display);font-weight:800;font-size:clamp(46px,8vw,104px);line-height:.95;letter-spacing:-.04em;margin:18px 0 22px}
+h2{font-family:var(--f-display);font-weight:800;font-size:clamp(28px,4vw,44px);letter-spacing:-.03em;line-height:1.05;margin-bottom:18px}
+.lead{font-size:clamp(18px,2vw,21px);color:var(--ink-2);max-width:760px}
+.lead b{color:var(--ink);font-weight:600}
+.hero{padding:40px 0 30px}
+.pill{display:inline-block;font-family:var(--f-mono);font-size:12px;border:1px solid var(--line);border-radius:99px;padding:5px 12px;margin:22px 8px 0 0;color:var(--ink-2);background:var(--surface)}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);background:var(--surface);border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--shadow);margin:34px 0 10px}
+.stats div{padding:24px 26px;border-right:1px solid var(--line)}
+.stats div:last-child{border-right:0}
+.stats b{display:block;font-family:var(--f-display);font-size:clamp(30px,4vw,44px);letter-spacing:-.03em;line-height:1}
+.stats span{font-size:14px;color:var(--ink-2)}
+section{padding:54px 0}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:clamp(20px,4vw,56px)}
+ul.list{list-style:none}
+ul.list li{padding:14px 0;border-top:1px solid var(--line)}
+ul.list li:last-child{border-bottom:1px solid var(--line)}
+ul.list b{font-weight:600}
+.shots{display:grid;grid-template-columns:repeat(2,1fr);gap:22px}
+figure{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);overflow:hidden;box-shadow:var(--shadow)}
+figure.wide{grid-column:span 2}
+figure img{display:block;width:100%;height:auto;border-bottom:1px solid var(--line)}
+figcaption{padding:16px 20px 18px;font-size:15.5px;color:var(--ink-2)}
+figcaption b{color:var(--ink);font-weight:600;display:block;margin-bottom:2px}
+.stack{display:flex;flex-wrap:wrap;gap:8px;margin-top:6px}
+.stack span{font-family:var(--f-mono);font-size:13px;border:1px solid var(--line);background:var(--surface);border-radius:99px;padding:6px 12px}
+.note{background:var(--accent-soft);border-radius:18px;padding:18px 22px;font-size:15.5px;color:var(--ink-2)}
+.note b{color:var(--ink)}
+.cta{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:34px;display:flex;justify-content:space-between;align-items:center;gap:20px;flex-wrap:wrap;box-shadow:var(--shadow)}
+.btn{display:inline-block;background:var(--accent);color:#fff;text-decoration:none;border-radius:99px;padding:13px 22px;font-weight:600}
+.btn.o{background:transparent;color:var(--ink);border:1px solid var(--line);margin-left:8px}
+footer{padding:40px 0 60px;font-family:var(--f-mono);font-size:12.5px;color:var(--ink-3)}
+@media (max-width:760px){.stats{grid-template-columns:repeat(2,1fr)}.stats div:nth-child(2){border-right:0}.stats div:nth-child(-n+2){border-bottom:1px solid var(--line)}
+  .two,.shots{grid-template-columns:1fr}figure.wide{grid-column:auto}.btn.o{margin:10px 0 0}}
+</style>
+<script>
+  (function(){var t=null;try{t=localStorage.getItem('aw-theme')}catch(e){}
+  document.documentElement.dataset.theme=t||(matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light');})();
+</script>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="top">
+    <a class="logo" href="../">alex<b>.</b>web</a>
+    <a class="back" href="../#lucrari">← Toate lucrările</a>
+  </div>
+
+  <div class="hero">
+    <span class="eyebrow">Magazin online · piese pentru tractoare · demo</span>
+    <h1>AgroParts</h1>
+    <p class="lead">Magazin online de piese de schimb pentru tractoare japoneze, construit ca demo pentru o firmă
+    de piese agricole din Moldova. <b>Clientul își caută piesa după tractorul lui</b>, vede ce variante există,
+    pune în coș și trimite comanda. Magazinul își administrează produsele, prețurile și comenzile dintr-un panou propriu.</p>
+    <span class="pill">2026</span><span class="pill">Next.js · Fastify · PostgreSQL</span><span class="pill">dezvoltare asistată de AI (Claude Code)</span>
+
+    <div class="stats">
+      <div><b>3.738</b><span>produse în catalog</span></div>
+      <div><b>2.599</b><span>modele de tractor</span></div>
+      <div><b>4.694</b><span>variante cu preț și stoc</span></div>
+      <div><b>20.733</b><span>legături piesă ↔ tractor</span></div>
+    </div>
+  </div>
+
+  <section class="two">
+    <div>
+      <span class="eyebrow">Ce face</span>
+      <h2>Tot drumul unei comenzi</h2>
+    </div>
+    <ul class="list">
+      <li><b>Căutare după tractor.</b> Alegi marca și modelul și vezi doar piesele care se potrivesc. Merge și căutarea după codul piesei.</li>
+      <li><b>Variante pe aceeași piesă.</b> Nouă sau second-hand, fiecare cu prețul și stocul ei, plus lista modelelor pe care se montează.</li>
+      <li><b>Coș, comandă, cont de client.</b> Comanda primește număr, iar clientul își vede istoricul comenzilor.</li>
+      <li><b>Panou de administrare.</b> Produse (adăugare, editare, prețuri, stoc), comenzi pe stări (în așteptare, aprobate, expediate) și un sumar cu vânzările.</li>
+    </ul>
+  </section>
+
+  <section>
+    <span class="eyebrow">Capturi</span>
+    <h2>Cum arată</h2>
+    <div class="shots">
+      <figure class="wide"><img src="01-acasa.jpg" alt="Prima pagină AgroParts: căutarea piesei după marca și modelul tractorului" loading="lazy" width="1440" height="900">
+        <figcaption><b>Prima pagină</b>Căutarea pornește de la tractor: marcă → model → ansamblu.</figcaption></figure>
+      <figure><img src="02-catalog-tractor.jpg" alt="Catalog filtrat pentru un model de tractor" loading="lazy" width="1440" height="900">
+        <figcaption><b>Catalog filtrat</b>414 piese pentru un singur model de tractor, cu filtre după ansamblu, preț și stoc.</figcaption></figure>
+      <figure><img src="03-produs.jpg" alt="Pagina unei piese cu variantele nouă și second-hand" loading="lazy" width="1440" height="900">
+        <figcaption><b>Pagina piesei</b>Două variante cu prețuri diferite și modelele pe care se montează.</figcaption></figure>
+      <figure><img src="04-cos.jpg" alt="Coșul de cumpărături" loading="lazy" width="1440" height="900">
+        <figcaption><b>Coș</b>Cantități, sumar și livrare.</figcaption></figure>
+      <figure><img src="05-finalizare.jpg" alt="Formularul de finalizare a comenzii" loading="lazy" width="1440" height="900">
+        <figcaption><b>Finalizare comandă</b>Date de contact, livrare prin curier, observații.</figcaption></figure>
+      <figure><img src="06-comanda-trimisa.jpg" alt="Confirmarea comenzii înregistrate" loading="lazy" width="1440" height="900">
+        <figcaption><b>Comanda înregistrată</b>Număr de comandă, sumar și TVA.</figcaption></figure>
+      <figure><img src="07-admin-comenzi.jpg" alt="Panoul de administrare: lista de comenzi" loading="lazy" width="1440" height="900">
+        <figcaption><b>Panou: comenzi</b>Comenzile pe stări, gata de aprobat.</figcaption></figure>
+      <figure><img src="08-admin-produse.jpg" alt="Panoul de administrare: lista de produse" loading="lazy" width="1440" height="900">
+        <figcaption><b>Panou: produse</b>Căutare, preț, stoc, editare și produs nou.</figcaption></figure>
+      <figure><img src="09-admin.jpg" alt="Panoul de administrare: sumar" loading="lazy" width="1440" height="900">
+        <figcaption><b>Panou: sumar</b>Produse, comenzi în așteptare și vânzările din ultimele 30 de zile.</figcaption></figure>
+    </div>
+  </section>
+
+  <section class="two">
+    <div>
+      <span class="eyebrow">Cum e făcut</span>
+      <h2>Tehnic, pe scurt</h2>
+      <div class="stack"><span>Next.js 16</span><span>React 19</span><span>Tailwind CSS</span><span>Zustand</span><span>React Query</span><span>Fastify</span><span>Drizzle ORM</span><span>PostgreSQL</span><span>JWT</span><span>Swagger</span><span>Claude Code</span></div>
+    </div>
+    <ul class="list">
+      <li><b>Partea grea: compatibilitatea.</b> Fiecare piesă e legată de modelele de tractor pe care se montează (20.733 de legături), iar catalogul furnizorului repeta mărcile și ca modele. Fără filtrarea asta, clientul ar vedea „Kubota" ca model de tractor.</li>
+      <li><b>Catalogul, importat automat.</b> Produsele, variantele și compatibilitățile au intrat în baza de date printr-un import din datele furnizorului, nu de mână.</li>
+      <li><b>Cum am lucrat.</b> Am stabilit ce trebuie să facă magazinul și am verificat fiecare flux, de la căutare la comandă și panou. Codul l-am scris cu Claude Code.</li>
+      <li><b>Ce ar urma într-un magazin real.</b> Sincronizare cu 1C pentru stocuri și prețuri, plata cu cardul și trimiterea automată a comenzii la curier.</li>
+    </ul>
+  </section>
+
+  <div class="note"><b>De ce pozele sunt gri:</b> pozele produselor aparțin furnizorului, așa că în capturi le-am înlocuit
+  cu o imagine neutră. Datele de produs vin din catalogul lui și sunt folosite doar pentru demonstrație. Magazinul nu vinde nimic.</div>
+
+  <section>
+    <div class="cta">
+      <div><span class="eyebrow">Următorul pas</span><h2 style="margin:8px 0 0">Ai nevoie de un magazin ca ăsta?</h2></div>
+      <div><a class="btn" href="https://wa.me/37369859888" target="_blank" rel="noopener">Scrie-mi pe WhatsApp</a><a class="btn o" href="../#lucrari">Alte lucrări</a></div>
+    </div>
+  </section>
+
+  <footer>© 2026 alex.web — Alexandru Macovetchi</footer>
+</div>
+</body>
+</html>
