@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>AgroParts — magazin online de piese pentru tractoare · alex.web</title>
-<meta name="description" content="AgroParts: magazin online de piese pentru tractoare, cu 3.738 de produse, căutare după modelul tractorului, variante, coș, comenzi și panou de administrare. Demo construit de Alexandru Macovetchi.">
+<meta name="description" content="AgroParts: magazin online de piese pentru tractoare, cu căutare după modelul tractorului, variante, coș, comenzi și panou de administrare. Demo live construit de Alexandru Macovetchi.">
 <meta property="og:image" content="https://alex-macovetch1.github.io/portofoliu/assets/agroparts.jpeg">
 <meta name="theme-color" content="#EDEDE9">
 <style>
@@ -62,6 +62,9 @@ figcaption b{color:var(--ink);font-weight:600;display:block;margin-bottom:2px}
 footer{padding:40px 0 60px;font-family:var(--f-mono);font-size:12.5px;color:var(--ink-3)}
 @media (max-width:760px){.stats{grid-template-columns:repeat(2,1fr)}.stats div:nth-child(2){border-right:0}.stats div:nth-child(-n+2){border-bottom:1px solid var(--line)}
   .two,.shots{grid-template-columns:1fr}figure.wide{grid-column:auto}.btn.o{margin:10px 0 0}}
+.live{margin-top:26px;display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+.live p{flex-basis:100%;margin:6px 0 0;font-size:14px;color:var(--ink-2)}
+.live code{font-family:ui-monospace,Consolas,monospace;font-size:13px}
 </style>
 <script>
   (function(){var t=null;try{t=localStorage.getItem('aw-theme')}catch(e){}
@@ -84,11 +87,18 @@ footer{padding:40px 0 60px;font-family:var(--f-mono);font-size:12.5px;color:var(
     pune în coș și trimite comanda. Magazinul își administrează produsele, prețurile și comenzile dintr-un panou propriu.</p>
     <span class="pill">2026</span><span class="pill">Next.js · Fastify · PostgreSQL</span><span class="pill">dezvoltare asistată de AI (Claude Code)</span>
 
+    <div class="live">
+      <a class="btn" href="https://agroparts-demo.vercel.app" target="_blank" rel="noopener">Deschide magazinul live →</a>
+      <a class="btn o" href="https://github.com/alex-macovetch1/agroparts" target="_blank" rel="noopener">Codul pe GitHub</a>
+      <p>Cont de test pentru panoul de administrare: <code>admin@agroparts.md</code> · parola <code>parola123</code>.
+      Prima deschidere poate dura câteva secunde: serverul pornește la cerere.</p>
+    </div>
+
     <div class="stats">
-      <div><b>3.738</b><span>produse în catalog</span></div>
-      <div><b>2.599</b><span>modele de tractor</span></div>
-      <div><b>4.694</b><span>variante cu preț și stoc</span></div>
-      <div><b>20.733</b><span>legături piesă ↔ tractor</span></div>
+      <div><b>364</b><span>piese în demo-ul live</span></div>
+      <div><b>51</b><span>modele de tractor, 6 mărci</span></div>
+      <div><b>3</b><span>stări: nouă, second-hand, recondiționată</span></div>
+      <div><b>3.738</b><span>produse, la testul cu un catalog real</span></div>
     </div>
   </div>
 
@@ -112,9 +122,9 @@ footer{padding:40px 0 60px;font-family:var(--f-mono);font-size:12.5px;color:var(
       <figure class="wide"><img src="01-acasa.jpg" alt="Prima pagină AgroParts: căutarea piesei după marca și modelul tractorului" loading="lazy" width="1440" height="900">
         <figcaption><b>Prima pagină</b>Căutarea pornește de la tractor: marcă → model → ansamblu.</figcaption></figure>
       <figure><img src="02-catalog-tractor.jpg" alt="Catalog filtrat pentru un model de tractor" loading="lazy" width="1440" height="900">
-        <figcaption><b>Catalog filtrat</b>414 piese pentru un singur model de tractor, cu filtre după ansamblu, preț și stoc.</figcaption></figure>
+        <figcaption><b>Catalog filtrat</b>Piesele pentru un singur model de tractor, cu filtre după ansamblu, preț și stoc.</figcaption></figure>
       <figure><img src="03-produs.jpg" alt="Pagina unei piese cu variantele nouă și second-hand" loading="lazy" width="1440" height="900">
-        <figcaption><b>Pagina piesei</b>Două variante cu prețuri diferite și modelele pe care se montează.</figcaption></figure>
+        <figcaption><b>Pagina piesei</b>Variante cu prețuri și stoc diferite și modelele pe care se montează.</figcaption></figure>
       <figure><img src="04-cos.jpg" alt="Coșul de cumpărături" loading="lazy" width="1440" height="900">
         <figcaption><b>Coș</b>Cantități, sumar și livrare.</figcaption></figure>
       <figure><img src="05-finalizare.jpg" alt="Formularul de finalizare a comenzii" loading="lazy" width="1440" height="900">
@@ -137,15 +147,15 @@ footer{padding:40px 0 60px;font-family:var(--f-mono);font-size:12.5px;color:var(
       <div class="stack"><span>Next.js 16</span><span>React 19</span><span>Tailwind CSS</span><span>Zustand</span><span>React Query</span><span>Fastify</span><span>Drizzle ORM</span><span>PostgreSQL</span><span>JWT</span><span>Swagger</span><span>Claude Code</span></div>
     </div>
     <ul class="list">
-      <li><b>Partea grea: compatibilitatea.</b> Fiecare piesă e legată de modelele de tractor pe care se montează (20.733 de legături), iar catalogul furnizorului repeta mărcile și ca modele. Fără filtrarea asta, clientul ar vedea „Kubota" ca model de tractor.</li>
-      <li><b>Catalogul, importat automat.</b> Produsele, variantele și compatibilitățile au intrat în baza de date printr-un import din datele furnizorului, nu de mână.</li>
+      <li><b>Partea grea: compatibilitatea.</b> Fiecare piesă e legată de modelele de tractor pe care se montează (la testul cu catalogul real: 20.733 de legături), iar catalogul furnizorului repeta mărcile și ca modele. Fără filtrarea asta, clientul ar vedea „Kubota" ca model de tractor.</li>
+      <li><b>Catalogul, importat automat.</b> Produsele, variantele și compatibilitățile intră în baza de date printr-un import dintr-un fișier de la furnizor, nu de mână.</li>
+      <li><b>Demo live fără server de baze de date.</b> Pe Vercel, PostgreSQL rulează în memorie (PGlite), cu aceeași schemă și aceleași interogări. La fiecare pornire magazinul demo se reface de la zero.</li>
       <li><b>Cum am lucrat.</b> Am stabilit ce trebuie să facă magazinul și am verificat fiecare flux, de la căutare la comandă și panou. Codul l-am scris cu Claude Code.</li>
       <li><b>Ce ar urma într-un magazin real.</b> Sincronizare cu 1C pentru stocuri și prețuri, plata cu cardul și trimiterea automată a comenzii la curier.</li>
     </ul>
   </section>
 
-  <div class="note"><b>De ce pozele sunt gri:</b> pozele produselor aparțin furnizorului, așa că în capturi le-am înlocuit
-  cu o imagine neutră. Datele de produs vin din catalogul lui și sunt folosite doar pentru demonstrație. Magazinul nu vinde nimic.</div>
+  <div class="note"><b>Despre date:</b> în demo-ul live, produsele, codurile, prețurile și imaginile sunt inventate de mine; doar mărcile și modelele de tractor sunt reale. Magazinul a fost testat și cu catalogul real al unui furnizor, care nu e publicat. Comenzile din demo nu se livrează.</div>
 
   <section>
     <div class="cta">
